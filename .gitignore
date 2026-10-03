@@ -14,7 +14,9 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
+# NOTE: this file started as GitHub's Python template, which blanket-ignores
+# lib/. lib/ is intentionally NOT ignored: it is commonly a real source package,
+# and over-tracking a source dir is safer than silently dropping build output.
 lib64/
 parts/
 sdist/
@@ -216,3 +218,13 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Third-party material — never commit (docs/00-contexto-proyecto.md section 11).
+# Copyright of scraped content belongs to its rightsholders; the MIT license
+# covers code only.
+data/raw/
+*.pdf
+
+# Local uploads and images received from visitors (quarantine, moderation
+# artifacts, EXIF-stripping scratch space).
+data/uploads/
