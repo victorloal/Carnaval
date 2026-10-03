@@ -47,4 +47,4 @@ conflict. **Hard limit: 50 lines.** Records what happened and what is next, neve
 |---|---|
 | 2026-10-03a | Audit, `AGENTS.md`, `MEMORY.md`, brief moved, folder rename, Unlicense→MIT, `.gitignore` |
 | 2026-10-03b | Docs: 11 ADRs, acta, SRS, stories, matrix, data model, test plan, legal, sprint 00 |
-| 2026-10-03c | 9 design docs finished, SEC-73/74 added, threat↔case IDs reconciled, Mermaid validated |
+| 2026-10-03c | 9 design docs, SEC-73/74, threat↔case IDs remapped, Mermaid validated, brief reconciled, 4 commits |
