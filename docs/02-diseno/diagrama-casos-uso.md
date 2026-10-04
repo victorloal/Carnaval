@@ -10,6 +10,13 @@ Use case names are given in **Spanish and English** because both are legitimatel
 `es` is the source locale for the site (ADR 0010) while this repository and its design
 documents are in English (AGENTS.md, *Language*).
 
+> **This is a stand-in, not a UML use case diagram (ADR 0014).** Mermaid has no use case
+> notation: no stick-figure actors, and no `<<include>>` or `<<extend>>`. The `graph TB`
+> below uses subgraphs for actors and use case groups, so it reads like the real thing while
+> carrying none of UML's semantics. **The authoritative artefact is the 26-row register in
+> §2** — every use case appears there and in the diagram exactly once. Where one use case
+> implies another, that belongs in the register's text, because it cannot be drawn here.
+
 ## 1. Diagram
 
 ```mermaid

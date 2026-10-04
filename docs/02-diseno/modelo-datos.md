@@ -49,6 +49,35 @@ Invariants enforced by application code and by a `CHECK` constraint where possib
 - Nothing transitions out of `published` automatically. Downgrading to `pending` is an
   explicit human action.
 
+Because these four tables share the same seven fields and the same invariants, the shape is
+drawn once. `clean()` stands for the invariant checks listed above; the dashed line is
+*inclusion*, not inheritance — these are database tables, not subclasses.
+
+```mermaid
+classDiagram
+    class ModerationMixin {
+        <<mixin>>
+        +ModerationStatus status
+        +ModerationOrigin origin
+        +User reviewed_by
+        +DateTime reviewed_at
+        +Text rejection_reason
+        +IngestionRun ingestion_run
+        +User created_by
+        +clean() void
+    }
+
+    class events
+    class news_items
+    class media_assets
+    class submissions
+
+    ModerationMixin <|.. events : includes
+    ModerationMixin <|.. news_items : includes
+    ModerationMixin <|.. media_assets : includes
+    ModerationMixin <|.. submissions : includes
+```
+
 ## 3. Programme and pipeline
 
 ### 3.1 `editions` — one row per year of the parade
@@ -367,6 +396,8 @@ response.
 
 ## 7. Entity relationships
 
+### 7.1 The whole model on one screen
+
 ```
 editions ──< days ──< events >── venues
     │                 │
@@ -384,6 +415,154 @@ submissions ──< submission_files
 site_settings        audit_logs        takedown_requests
 auth_user ──< moderation mixin (reviewed_by, created_by)
 ```
+
+### 7.2 Programme and pipeline
+
+Every line below corresponds to a real foreign key listed in §3. There are no inferred
+relationships.
+
+```mermaid
+erDiagram
+    editions ||--o{ days : "edition"
+    days ||--o{ events : "day"
+    events }o--o| venues : "venue, nullable"
+    scrape_sources ||--o{ raw_documents : "scrape_source"
+    scrape_sources }o--o| ingestion_runs : "scrape_source, null for a manual run"
+    ingestion_runs ||--o{ events : "ingestion_run via moderation mixin"
+    ingestion_runs ||--o{ news_items : "ingestion_run via moderation mixin"
+    editions ||--o{ media_assets : "edition, nullable"
+
+    editions {
+        int id PK
+        string slug
+    }
+    days {
+        int id PK
+        int edition FK
+    }
+    events {
+        int id PK
+        int day FK
+        int venue FK
+    }
+    scrape_sources {
+        int id PK
+    }
+    ingestion_runs {
+        int id PK
+        int scrape_source FK
+    }
+```
+
+### 7.3 Editorial content
+
+```mermaid
+erDiagram
+    sources ||--o{ news_items : "source, nullable"
+    site_settings }o--o| auth_user : "updated_by"
+
+    sources {
+        int id PK
+        string name
+        boolean is_official
+    }
+    news_items {
+        int id PK
+        int source FK
+        string headline
+        string url
+        date published_on
+        string status
+    }
+    media_assets {
+        int id PK
+        int edition FK
+        string rights_status
+        string license
+    }
+    site_settings {
+        string key PK
+        int updated_by FK
+    }
+    auth_user {
+        int id PK
+        string username
+    }
+```
+
+`media_assets` and `site_settings` are declared as entities here so their columns appear,
+but only `site_settings.updated_by` is drawn as a relationship — `media_assets.edition`
+belongs to §7.2's picture and is drawn there instead.
+
+### 7.4 Security, administration, and audit
+
+```mermaid
+erDiagram
+    auth_user ||--o{ audit_logs : "actor, null for pipeline actions"
+    auth_user ||--o{ moderation_actions : "actor, null for automated actions"
+
+    audit_logs {
+        int id PK
+        int actor FK
+        string action
+        string object_repr
+    }
+    moderation_actions {
+        int id PK
+        int actor FK
+        string action
+    }
+```
+
+### 7.5 Public submissions
+
+```mermaid
+erDiagram
+    submissions ||--o{ submission_files : "submission"
+    submissions ||--o{ consent_records : "submission"
+    legal_documents ||--o{ consent_records : "legal_document, the exact version accepted"
+
+    submissions {
+        uuid id PK
+        string status
+        string public_token
+        string contact_email
+    }
+    submission_files {
+        uuid id PK
+        uuid submission FK
+        uuid duplicate_of FK
+    }
+    consent_records {
+        int id PK
+        uuid submission FK
+        int legal_document FK
+    }
+    legal_documents {
+        int id PK
+        string doc_type
+        string locale
+        boolean is_current
+    }
+```
+
+`submission_files.duplicate_of` is a self-referencing foreign key: it points at another row
+of the same table when the same bytes were submitted before.
+
+**Two relationships cannot be drawn.** `moderation_actions` and `takedown_requests` both
+name their target with `subject_type` + `subject_id` — a **polymorphic** reference with no
+foreign key, so the database enforces nothing across it.
+
+- `moderation_actions` therefore appears in the diagrams only through its real `actor` FK
+  (§7.4). Its line to the content it approved is not drawn: it would imply a constraint that
+  does not exist, and it would also be wrong in *both* directions — one row can point at a
+  `submissions` row or an `events` row.
+- `takedown_requests` appears in no ER diagram at all, for the same reason.
+
+This is also why §9 has no constraint rows for either: an ER diagram is a picture of
+enforced relations, and these two are conventions. They are enforced in application code,
+which is a weaker guarantee and the reason `§2`'s invariants are described as relying on
+`clean()` plus a `CHECK` **where possible**.
 
 ## 8. Privacy notes
 

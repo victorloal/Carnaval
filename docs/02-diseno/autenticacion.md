@@ -331,6 +331,49 @@ and it never falls back to password alone.
 `SEC-11` asserts central revocation; the step-up gate is asserted by `SEC-04` and by the
 publish-permission test in `roles-permisos.md` matrix row 4.
 
+#### The publish path, end to end
+
+This is the exchange FR-D-16 requires. Note the order: **RBAC is checked first**, on the
+original request, and step-up runs after it. Step-up proves *who* is operating the session;
+the permission check decides *whether they may act*. One does not substitute for the other:
+a `viewer` fails at the RBAC check and never reaches the reauth form at all, whatever they
+would have entered there.
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor ED as Editor
+    participant BW as Browser
+    participant DJ as Django admin
+    participant AU as Argon2id and TOTP
+    participant PG as PostgreSQL
+
+    ED->>BW: opens the record's change form
+    BW->>DJ: GET change form, httpOnly Secure session cookie
+    DJ->>DJ: RBAC checked server-side, change permission present
+    DJ-->>BW: 200, form rendered
+    ED->>BW: presses Approve
+    BW->>DJ: POST status=published
+    DJ->>DJ: step-up gate, FR-D-16, publish needs fresh proof
+    DJ-->>BW: reauth form, password plus TOTP
+    ED->>BW: password and TOTP code
+    BW->>DJ: POST reauth_nonce and credentials
+    DJ->>AU: verify Argon2id hash, then verify TOTP
+    alt verification fails
+        AU-->>DJ: rejected
+        DJ-->>BW: 401, and an audit_logs row for the failure
+    else verification passes
+        AU-->>DJ: step-up granted
+        DJ->>PG: BEGIN
+        DJ->>PG: UPDATE status, reviewed_by, reviewed_at
+        DJ->>PG: INSERT moderation_actions, action approve
+        DJ->>PG: INSERT audit_logs
+        DJ->>PG: COMMIT
+        DJ-->>BW: 302 back to the change list
+    end
+    Note over DJ,PG: Three writes in one transaction, estados.md R4.<br/>Nothing here runs without the session AND the re-proof.
+```
+
 ### 7.5 Concurrent sessions — **undecided**
 
 **Proposed default: one active session per user.** A new login deletes the account's other

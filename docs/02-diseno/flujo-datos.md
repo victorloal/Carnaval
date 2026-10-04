@@ -90,6 +90,56 @@ never enters `raw_documents` and never carries an `ingestion_run`, but they arri
 the same `pending` gate and are moderated by exactly the same rules
 (`docs/02-diseno/estados.md`).
 
+### 2.1 One scheduled run, as an interaction
+
+The diagram above shows **what** happens; this shows **who talks to whom, and in what
+order** — the view the flowchart cannot express. The last note is the point of the whole
+diagram: reaching the end of a successful run still leaves nothing publicly readable.
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor GH as GitHub Actions cron
+    participant DJ as Django app (manage.py ingest)
+    participant SS as scrape_sources
+    participant SRC as Source host
+    participant ST as Object storage
+    participant PG as PostgreSQL
+    actor OP as Operator (editor or admin)
+
+    GH->>DJ: cron fires, or workflow_dispatch for a manual run
+    DJ->>PG: INSERT ingestion_runs, status running
+    DJ->>SS: read rows where is_active and due by schedule_cron
+    alt source disabled, breaker open, or not due
+        SS-->>DJ: nothing to do
+        DJ->>PG: UPDATE ingestion_runs status skipped
+        DJ-->>GH: exit without a network call
+    else due and active
+        DJ->>SRC: GET robots.txt, cached and honoured
+        DJ->>SRC: GET content, rate limited, identified User-Agent
+        alt request fails
+            SRC-->>DJ: error
+            DJ->>SS: consecutive_failures incremented, last_error set
+            Note over DJ,SS: exponential backoff between attempts,<br/>then the circuit breaker disables the source
+        else HTTP 2xx
+            SRC-->>DJ: payload
+            DJ->>DJ: SHA-256 over the response bytes
+            alt content_hash already present
+                DJ-->>DJ: no-op, no transform, nothing to review
+            else new content
+                DJ->>ST: PUT payload to the raw tier, never to git
+                DJ->>PG: INSERT raw_documents
+                DJ->>DJ: transform, validate, rights gate, sanity gate
+                DJ->>PG: INSERT rows, status pending, origin scraped
+            end
+        end
+    end
+    Note over PG,OP: Every surviving record is pending.<br/>Nothing is publicly readable at this point.
+    OP->>PG: reviews the queue in Django admin
+    OP->>PG: approves, which is the only path to published
+    Note over PG: FR-C-02, ADR 0002, AGENTS.md hard rule
+```
+
 ## 3. Stage by stage
 
 | # | Stage | Input | Processing | Output | Tables and objects touched | Failure behaviour |

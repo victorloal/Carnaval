@@ -17,14 +17,16 @@ Phase 0. No deployed version yet — see the status table in `README.md`.
 - `MEMORY.md` — session memory for coding agents, capped at 50 lines.
 - `docs/00-acta-proyecto.md` — project charter: stakeholders, constraints, success
   criteria, and recorded deviations from the brief.
-- `docs/01-requisitos/srs.md` — SRS with 168 numbered requirements, MoSCoW per version.
+- `docs/01-requisitos/srs.md` — SRS with 170 numbered requirements, MoSCoW per version.
 - `docs/01-requisitos/historias-de-usuario.md` — 32 user stories.
 - `docs/01-requisitos/matriz-trazabilidad.md` — requirement → story → design → test.
 - `docs/02-diseno/modelo-datos.md` — PostgreSQL data model.
 - `docs/02-diseno/flujo-datos.md` — the ingestion pipeline, operationally.
 - `docs/03-pruebas/plan-pruebas.md` — test plan and CI pipeline.
-- `docs/03-pruebas/casos-seguridad.md` — 49 numbered security test cases.
-- `docs/adr/0001` … `0011` — architecture decision records.
+- `docs/03-pruebas/casos-seguridad.md` — 74 numbered security test cases.
+- `docs/adr/0001` … `0014` — architecture decision records.
+- `scripts/check-diagrams.cjs` — validates every fenced diagram in the docs and fails on
+  PlantUML syntax outside a `mermaid` fence (ADR 0014).
 - `docs/legal/` — **draft** terms, privacy policy, content policy, and takedown procedure.
   Not legal advice; requires professional review before v3.
 - `docs/fuentes-y-atribucion.md` — source register, attribution policy, scraping etiquette.

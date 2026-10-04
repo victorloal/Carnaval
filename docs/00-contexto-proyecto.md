@@ -331,8 +331,8 @@ Opcional: 3 o 4 videos cortos (demo, arquitectura, pipeline en acción, retrospe
 
 ## 19. ADRs
 
-Quince en total. **0001 a 0013 ya están escritos** en `docs/adr/`; faltan 0014 (herramienta
-de diagramas) y 0015 (coste de salida de red).
+Quince en total. **0001 a 0014 ya están escritos** en `docs/adr/`; falta 0015 (coste de
+salida de red).
 
 - 0001: Metodología Scrumban — *escrito*
 - 0002: Backend de ingesta con base de datos como fuente de verdad — *escrito*
@@ -347,7 +347,7 @@ de diagramas) y 0015 (coste de salida de red).
 - 0011: OpenAPI generado con comprobación de *drift* — *escrito*
 - 0012: Traducciones como columnas `*_es`/`*_en`, sin tabla genérica — *escrito*
 - 0013: Defaults de las decisiones abiertas del SRS §9 (timeouts, retención, búsqueda) — *escrito*
-- 0014: Herramienta de diagramas (Mermaid, C4 aproximado) — *pendiente*
+- 0014: Herramienta de diagramas (Mermaid, C4 aproximado) — *escrito*
 - 0015: Coste de salida de red (R2 frente a Supabase Storage) — *pendiente*
 
 ## 20. Pendientes

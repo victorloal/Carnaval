@@ -17,7 +17,7 @@ The system is the “Carnaval de Negros y Blancos” web platform. It ingests, m
 - Administrator (maintainer role): manages users/roles, legal documents, configuration (RBAC, server-side).
 
 **External systems**
-- `carnavaldepasto.org` (official WordPress site) — ingestion source, may expose WP REST API (unverified, brief §5).
+- `carnavaldepasto.org` (official WordPress site) — ingestion source; the **WP REST API responds and was verified on 2026-10-03** (`docs/fuentes-y-atribucion.md` §9), so it is the preferred interface over HTML parsing (FR-B-15).
 - News outlets/archives — ingestion sources (headline/link/summary only; no full articles committed).
 - PostgreSQL host — managed PostgreSQL 16 instance (free tier; provider **undecided**).
 - Object storage — quarantine and public tiers as separate buckets (two-tier storage per ADR 0006; provider/domain separation; R2 has no egress fees — **decisive**, provider **undecided**).
@@ -25,41 +25,46 @@ The system is the “Carnaval de Negros y Blancos” web platform. It ingests, m
 - Email provider — for takedown responses/notifications as needed (**undecided**, zero-cost preferred).
 - GitHub Actions — scheduling (cron) and CI/CD; runs ingestion via Django management command.
 
-**Mermaid (Level 1)**
-```text
-C4Context
-title System Context — Carnaval de Negros y Blancos
+**Diagram (Level 1 — system context)**
 
-Person(visitor, "Public site visitor (reader)", "Views published programme/news/gallery; switches locale es/en")
-Person(contributor, "Community contributor", "Anonymous submits image or video link; accepts consent")
-Person(moderator, "Moderator/editor", "Reviews queue, approves/rejects with reason, manages settings/audit")
-Person(admin, "Administrator", "Manages users/roles, legal docs, configuration")
+Rendered as a Mermaid `flowchart`, **not** PlantUML C4: this repository publishes
+its diagrams on GitHub, which understands Mermaid and does not render PlantUML.
+The layout is a simplification of C4's System Context level and is labelled that
+way instead of being presented as output from a C4 tool (ADR 0014).
 
-System(system, "Carnaval platform", "Django+DRF API, Django admin, React TS SPA; database-as-truth; moderated content")
+```mermaid
+flowchart LR
+    visitor["Public site visitor<br/>Reads published content, switches locale es/en"]
+    contributor["Community contributor<br/>Submits an image or video link anonymously, accepts consent"]
+    moderator["Moderator or editor<br/>Reviews the queue, approves or rejects with a reason, settings, audit"]
+    admin["Administrator<br/>Users and roles, legal documents, configuration"]
 
-System_Ext(src_official, "carnavaldepasto.org", "Official WordPress/Elementor site; WP REST API (unverified)")
-System_Ext(src_news, "News outlets/archives", "External sources; headline, URL, outlet, date, short summary only")
-System_Ext(dbhost, "PostgreSQL 16 host", "Managed DB (free tier; provider undecided)")
-System_Ext(stor, "Object storage", "Quarantine (private) and public tiers as separate buckets; separate domain (ADR 0006)")
-System_Ext(turnstile, "Cloudflare Turnstile", "CAPTCHA for anonymous submissions")
-System_Ext(email, "Email provider", "Notifications/takedown responses (undecided; zero-cost)")
-System_Ext(actions, "GitHub Actions", "CI/CD and cron scheduler for ingestion command")
+    system["Carnaval platform<br/>Django 5 + DRF API, Django admin, React TS public site<br/>Database is the source of truth, every record moderated"]
 
-Rel(visitor, system, "HTTPS/JSON + HTML", "Reads published content; locale switching; search")
-Rel(contributor, system, "HTTPS/JSON (form submission)", "Anonymous submission with consent; CAPTCHA")
-Rel(moderator, system, "HTTPS (Django admin)", "Moderation queue, approvals/rejections, audit, settings")
-Rel(admin, system, "HTTPS (Django admin, RBAC)", "User/role mgmt, legal docs, config")
+    subgraph ext["External systems"]
+        direction TB
+        src_official["carnavaldepasto.org<br/>Official WordPress + Elementor site<br/>WP REST API verified 2026-10-03"]
+        src_news["News outlets and archives<br/>Headline, URL, outlet, date, short summary only"]
+        dbhost["PostgreSQL 16 host<br/>Managed free tier, provider undecided"]
+        stor["Object storage<br/>Quarantine and public tiers on separate domains, ADR 0006"]
+        turnstile["Cloudflare Turnstile<br/>CAPTCHA for anonymous submissions"]
+        email["Email provider<br/>Undecided, zero-cost preferred"]
+        actions["GitHub Actions<br/>CI/CD and the cron schedule"]
+    end
 
-Rel(system, src_official, "HTTPS (GET, rate-limited, UA identified)", "Ingestion fetch (prefer WP REST API if responds; idempotent by content_hash)")
-Rel(system, src_news, "HTTPS (GET, rate-limited, UA identified)", "Ingestion fetch; store minimal metadata only")
-Rel(system, dbhost, "TCP/Postgres", "Persistent state (editions, events, news, media, submissions, audit)")
-Rel(system, stor, "HTTPS/API (signed URLs)", "Quarantine writes (private) -> move to public on approval; EXIF stripped; magic-bytes validated")
-Rel(system, turnstile, "HTTPS (verify token)", "Validate CAPTCHA on anonymous submissions")
-Rel(system, email, "SMTP/HTTPS", "Outbound messages (takedown/notifications) if configured")
-Rel(actions, system, "Invoke Django mgmt command (cron)", "Scheduled ingestion run (not a resident worker)")
-Rel(system, actions, "Reports status/logs", "ingestion_runs as pipeline observability")
+    visitor -->|HTTPS and HTML, read only| system
+    contributor -->|HTTPS JSON submission with consent| system
+    moderator -->|HTTPS, Django admin, session plus TOTP| system
+    admin -->|HTTPS, Django admin, server-side RBAC| system
 
-UpdateLayoutConfig($c4ShapeInRow="3", $c4BoundaryInRow="1")
+    system -->|GET, rate limited, identified user agent| src_official
+    system -->|GET, rate limited, identified user agent| src_news
+    system <-->|TCP, Postgres| dbhost
+    system <-->|HTTPS API, signed URLs| stor
+    system -->|HTTPS, verify token| turnstile
+    system -->|SMTP or HTTPS, if configured| email
+    actions -->|cron invokes the Django management command| system
+    system -->|reads ingestion_runs for status| actions
 ```
 
 ## 2. Level 2 — Container diagram
@@ -83,47 +88,49 @@ Containers are the deployable/runnable units (per ADR 0009 and constraints). The
 - CAPTCHA verification: SPA/submission -> Turnstile (browser) + server-side verify via Django app.
 - Email: Django app -> email provider (SMTP/HTTPS) if configured.
 
-**Mermaid (Level 2)**
-```text
-C4Container
-title Container diagram — Carnaval de Negros y Blancos
+**Diagram (Level 2 — containers)**
 
-Person(visitor, "Public site visitor (reader)")
-Person(contributor, "Community contributor")
-Person(moderator, "Moderator/editor")
-Person(admin, "Administrator")
+Same conversion as above: Mermaid `flowchart` with a `subgraph` standing in for
+C4's `System_Boundary`, honestly labelled rather than presented as C4 output
+(ADR 0014).
 
-System_Boundary(sys, "Carnaval platform") {
-  Container(spa, "React TS SPA (public only)", "React + TypeScript, Vite/CRA", "Read-only + anonymous submissions; no React admin panel (ADR 0005/0009)")
-  Container(django_app, "Django app (API + admin + pipeline)", "Python 3.12, Django 5, DRF, drf-spectacular", "Public API, submission endpoints (v3), Django admin surface (same process), ingestion pipeline, RBAC, sessions+TOTP, audit; OpenAPI generated")
-  Container(ingest_cmd, "Ingestion runner (ephemeral mgmt cmd)", "Django management command", "Invoked by GitHub Actions cron — NOT a resident worker. Idempotent, retry+backoff, circuit breaker. Zero published data lost on failure.")
-  ContainerDb(pg, "PostgreSQL 16", "Relational DB", "Source of truth: editions/days/events, news, media_assets, submissions, scrape_sources, raw_documents, ingestion_runs, audit_logs, legal_documents, consent_records")
-  Container(stor, "Object storage (2-tier)", "Object storage (buckets)", "Quarantine (private, signed URLs) and public (separate buckets; separate domain; R2 no egress fees — decisive). EXIF stripped; magic-bytes validated.")
-}
+```mermaid
+flowchart TB
+    visitor["Public site visitor"]
+    contributor["Community contributor"]
+    moderator["Moderator or editor"]
+    admin["Administrator"]
 
-System_Ext(src_off, "carnavaldepasto.org", "WP/Elementor; WP REST API (unverified)")
-System_Ext(src_news, "News outlets/archives", "Minimal metadata only")
-System_Ext(turnstile, "Cloudflare Turnstile", "CAPTCHA")
-System_Ext(email, "Email provider (undecided)", "Notifications/takedown")
-System_Ext(gh, "GitHub Actions", "CI/CD + cron schedule")
+    subgraph sys["Carnaval platform"]
+        direction LR
+        spa["React TS SPA<br/>Public site only, React + TypeScript<br/>Read-only plus anonymous submissions<br/>No React admin panel, ADR 0005 and 0009"]
+        django_app["Django app<br/>API, Django admin and pipeline in one process<br/>Python 3.12, Django 5, DRF, drf-spectacular<br/>RBAC, sessions plus TOTP, audit, generated OpenAPI"]
+        ingest_cmd["Ingestion runner<br/>Ephemeral Django management command<br/>Invoked by GitHub Actions cron, never a resident worker<br/>Idempotent, retry with backoff, circuit breaker"]
+        pg[("PostgreSQL 16, source of truth<br/>editions and days, events, news, media, submissions, scrape_sources, raw_documents, ingestion_runs, audit_logs, legal_documents, consent_records")]
+        stor["Object storage, two tiers<br/>Quarantine private via signed URLs, public tier on a separate bucket and domain, ADR 0006<br/>EXIF stripped, magic bytes validated"]
+    end
 
-Rel(visitor, spa, "HTTPS", "Browse published content; locale es/en")
-Rel(contributor, spa, "HTTPS", "Anonymous submit (image/video link); consent")
-Rel(moderator, django_app, "HTTPS (Django admin)", "Review queue, approve/reject with reason, audit, settings")
-Rel(admin, django_app, "HTTPS (Django admin, RBAC)", "Users/roles, legal docs, config")
+    src_off["carnavaldepasto.org<br/>WordPress + Elementor<br/>WP REST API verified 2026-10-03"]
+    src_news["News outlets and archives<br/>Minimal metadata only"]
+    turnstile["Cloudflare Turnstile, CAPTCHA"]
+    email["Email provider, undecided"]
+    gh["GitHub Actions<br/>CI/CD and cron schedule"]
 
-Rel(spa, django_app, "HTTPS/JSON (REST)", "Public read; submissions; no tokens")
-Rel(django_app, pg, "TCP/Postgres", "ORM reads/writes; append-only audit")
-Rel(django_app, stor, "HTTPS/API (signed)", "Quarantine ops; approve -> move to public; strip EXIF; validate magic bytes")
+    visitor -->|HTTPS, browse published content and locale| spa
+    contributor -->|HTTPS, anonymous submission with consent| spa
+    moderator -->|HTTPS, Django admin, review and approve| django_app
+    admin -->|HTTPS, Django admin, server-side RBAC| django_app
 
-Rel(gh, ingest_cmd, "cron -> invoke manage.py ingest", "Scheduled run (ephemeral)")
-Rel(ingest_cmd, django_app, "Runs in same app context", "Uses models/pipeline; writes to pg; respects circuit breaker")
-Rel(ingest_cmd, src_off, "HTTPS GET (rate-limited, UA identified)", "Prefer WP REST API if responds; content_hash gate")
-Rel(ingest_cmd, src_news, "HTTPS GET (rate-limited, UA identified)", "Store headline, URL, outlet, date, short summary only")
-Rel(ingest_cmd, stor, "HTTPS/API", "Store raw payloads in object storage (never commit to git)")
+    spa -->|HTTPS JSON over REST, no tokens| django_app
+    django_app -->|TCP, ORM reads and writes, append-only audit| pg
+    django_app <-->|HTTPS API, signed| stor
 
-Rel(django_app, turnstile, "HTTPS (server-side verify)", "Validate CAPTCHA token")
-Rel(django_app, email, "SMTP/HTTPS", "Send messages if configured")
+    gh -->|cron invokes manage.py ingest| ingest_cmd
+    ingest_cmd -->|runs in the same app context, writes to the database| django_app
+    ingest_cmd -->|GET rate limited, identified user agent, content_hash gate| src_off
+    ingest_cmd -->|GET rate limited, identified user agent| src_news
+    ingest_cmd -->|stores raw payloads, never committed to git| stor
 
-UpdateLayoutConfig($c4ShapeInRow="2", $c4BoundaryInRow="1")
+    django_app -->|HTTPS, server-side token verification| turnstile
+    django_app -->|SMTP or HTTPS, if configured| email
 ```

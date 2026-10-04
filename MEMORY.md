@@ -6,7 +6,7 @@ conflict. **Hard limit: 50 lines.** Records what happened and what is next, neve
 ## Current state
 
 - Phase 0: **docs complete, no code.** `backend/`, `frontend/`, `tests/` empty; no CI yet.
-- 42 files: 13 ADRs, acta, SRS (170 reqs), 32 stories, matrix, 9 design docs, **74 cases**, legal.
+- 43 files: 14 ADRs, acta, SRS (170 reqs), 32 stories, matrix, 9 design docs, **74 cases**, legal.
 - **Stack decided** (0009): Python 3.12 + Django 5 + DRF + **PostgreSQL 16**; React for the
   public site only. Admin is **Django admin** (0005), **no JWT anywhere**.
 - Site is **bilingual es/en** (0010); OpenAPI **generated**, drift fails CI (0011). Platform **undecided**.
@@ -35,10 +35,9 @@ conflict. **Hard limit: 50 lines.** Records what happened and what is next, neve
 
 ## Next steps
 
-1. Repair the two broken C4 blocks; add ER, activity and 2 new sequence diagrams (ADR 0014).
-2. Plan Sprint 01 (skeleton + CI); then pick providers — egress cost is ADR 0015.
-3. Official site's **terms of use not found** — brief §20 half-open (its `robots.txt` half is closed).
-4. Contact Corpocarnaval (brief §20), and fill the `[PENDIENTE]` contact email FR-B-14 requires in the User-Agent.
+1. Plan Sprint 01 (skeleton + CI, and wire `scripts/check-diagrams.cjs`); then pick providers — egress cost is ADR 0015.
+2. Official site's **terms of use not found** — brief §20 half-open (its `robots.txt` half is closed).
+3. Contact Corpocarnaval (brief §20), and fill the `[PENDIENTE]` contact email FR-B-14 requires in the User-Agent.
 
 ## Session log
 
@@ -48,3 +47,4 @@ conflict. **Hard limit: 50 lines.** Records what happened and what is next, neve
 | 2026-10-03b | Docs: 11 ADRs, acta, SRS, stories, matrix, data model, test plan, legal, sprint 00 |
 | 2026-10-03c | 9 design docs, SEC-73/74, threat↔case IDs remapped, Mermaid validated, brief reconciled, 4 commits |
 | 2026-10-03d | SRS §9 closed → ADR 0012 (translations) + ADR 0013 (defaults); FR-D-15/16; corrected a backwards Django timeout claim; **source spike** — WP API live (FR-B-15), `6 de enero` is a root category (traps any "children of DIAS" query), programme data is mostly the 2020 edition, terms of use not found |
+| 2026-10-03e | Diagrams: 2 dead C4 blocks → Mermaid (**ADR 0014**), 4 `erDiagram` + 1 `classDiagram` + 2 `sequenceDiagram`, validator extended to **every** fence (the old one counted 11 of 30 and went green) |

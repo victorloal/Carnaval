@@ -132,7 +132,7 @@ each reconciled paragraph names its ADR, so it can no longer mislead a reader on
 
 ## 10. Decisions taken at initiation
 
-See `docs/adr/`. ADR 0001 through ADR 0011 exist; each records context, decision,
+See `docs/adr/`. ADR 0001 through ADR 0014 exist; each records context, decision,
 consequences, and rejected alternatives.
 
 ## 11. Definition of Done (binding)
