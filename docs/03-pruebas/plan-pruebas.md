@@ -131,7 +131,11 @@ Per ADR 0008 each version ships only when its own tests are green.
 - Audit: every state change and both login outcomes produce an `audit_logs` row; the table
   is append-only for every role.
 - Admin: queue filters, bulk approval recording each decision individually, unpublish.
-- Sessions: fixation, revocation, CSRF, TOTP enforcement, lockout.
+- Sessions: fixation, revocation, CSRF, TOTP enforcement, lockout, **idle expiry at 12 h,
+  absolute expiry at 72 h even under continuous activity, and the step-up gate (FR-D-15,
+  FR-D-16, ADR 0013)**. The two expiry tests are what prove §7.3's claim about which Django
+  setting gives which timeout — they are written because the prose in that section was wrong
+  once already.
 - Backup/restore: rehearsed at least once (NFR-20).
 
 ### v2

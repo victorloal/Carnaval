@@ -128,7 +128,8 @@ sequenceDiagram
     end
 ```
 
-The absolute and idle lifetimes in the third step are **undecided** — see §5.3.
+The absolute and idle lifetimes in the third step are decided by **ADR 0013** — see §7.3,
+and §7.4 for the step-up gate that runs alongside them.
 
 ## 4. Logout, and central revocation
 
@@ -271,22 +272,66 @@ Cookie-only: no `localStorage`, no `sessionStorage`, no JavaScript-readable copy
 touches authentication at all — it only reads the public API and posts anonymous submissions
 (ADR 0009).
 
-### 7.3 Timeouts — **undecided**
+### 7.3 Timeouts — decided by ADR 0013
 
-SRS §9.2 lists these as an open question and proposes **8 h idle, 24 h absolute**. Those are
-the defaults below; they are not decided, and they must be set deliberately rather than left
-at Django's defaults, which are longer.
+ADR 0013 sets **12 h idle, 72 h absolute**. SRS §9 proposed 8 h / 24 h; both were rejected as
+too tight for a part-time operator reviewing a queue in bursts, while being simultaneously
+too loose on their own — which is why timeouts are only half the answer (§7.4).
 
-| Limit | Proposed default (SRS §9.2) | Notes |
+They must be set deliberately rather than left at Django's defaults, which are longer.
+
+| Limit | Decided value (ADR 0013) | Notes |
 |---|---|---|
-| Idle timeout | 8 hours | **Not provided by Django.** `SESSION_SAVE_EVERY_REQUEST = true` slides `expire_date` forward on every request, which is a *sliding absolute* limit, not an idle limit. A true idle timeout needs `last_activity` in the session payload and a small middleware that expires the session once it is older than the window. |
-| Absolute timeout | 24 hours | `SESSION_COOKIE_AGE`. Irrefuseable: even a perfectly active session dies, which bounds the value of a stolen cookie. |
-| Close the browser | session ends | `SESSION_EXPIRE_AT_BROWSER_CLOSE = true`, so a forgotten tab on a shared machine is not an open session. **Undecided** — it also forces a re-entry of the TOTP code. |
+| Idle timeout | 12 hours | **Django-native.** `SESSION_SAVE_EVERY_REQUEST = True` re-saves the session on every request, which pushes `expire_date` forward by `SESSION_COOKIE_AGE` each time. So an unchanged `expire_date` means no requests for `SESSION_COOKIE_AGE` — i.e. an **idle** timeout. |
+| Absolute timeout | 72 hours | **Not provided by Django.** With `SESSION_SAVE_EVERY_REQUEST = True`, `SESSION_COOKIE_AGE` is *always* slid, so it can never cap a session that stays active. The absolute bound needs a custom middleware: store `auth_at` in the session at login and flush the session when `now - auth_at > 72 h`. |
+| Close the browser | session ends | `SESSION_EXPIRE_AT_BROWSER_CLOSE = true`, so a forgotten tab on a shared machine is not an open session. **Set to `true`** — the cost is re-entering a TOTP code on reopen, which is the cheapest of the three controls to live with. |
+
+> **Correction to an earlier draft of this table.** It had the two mechanisms backwards: it
+> claimed `SESSION_SAVE_EVERY_REQUEST = True` gave "a sliding absolute limit, not an idle
+> limit", and that a real idle timeout needed middleware while `SESSION_COOKIE_AGE` gave the
+> absolute bound. Both are inverted. With `SAVE_EVERY_REQUEST` on, the expiry *slides* and the
+> absolute bound disappears; with it off, the expiry is fixed at creation and there is no idle
+> timeout at all. The values below are correct as written, but **the mechanism must be
+> proven by a test** (`SEC-02`, plus the idle- and absolute-expiry tests listed in
+> `plan-pruebas.md` §4 under v1) rather
+> than trusted from prose — this is exactly the class of claim that shipped wrong before.
 
 Expired rows are removed by `manage.py clearsessions`, run from the same scheduled workflow
 as ingestion (`docs/02-diseno/flujo-datos.md` §8).
 
-### 7.4 Concurrent sessions — **undecided**
+### 7.4 Step-up re-authentication — the control that makes the timeouts defensible
+
+Timeouts and step-up solve different problems and neither substitutes for the other:
+
+| | Timeout | Step-up |
+|---|---|---|
+| Bounds | how long an exposed session lives | what an already-exposed session can do |
+| Fails when | nobody notices | nobody notices |
+| Cost | logs the operator out mid-task | interrupts only at the dangerous action |
+
+**ADR 0013 requires password *and* TOTP before:**
+
+- publishing content (`pending → published`),
+- changing roles or group membership,
+- editing `site_settings`,
+- acting on `legal_documents` (creating or superseding a version).
+
+**Why this matters more than a shorter window:** a stolen cookie within a 12 h window still
+cannot publish anything without re-presenting the second factor. Tightening the absolute
+timeout from 72 h to, say, 4 h would not add anything meaningful — an attacker acts in
+seconds — while forcing the real operator to re-authenticate several times a week. Step-up
+is where the security actually comes from; the timeouts bound exposure but do not defend the
+publish path on their own.
+
+Step-up is implemented here, not imported: Django ships no re-authentication framework. The
+request carries a short-lived `reauth_nonce` issued seconds before, and the check is the same
+Argon2id + TOTP verification used at login. It is **not** a second, weaker password prompt,
+and it never falls back to password alone.
+
+`SEC-11` asserts central revocation; the step-up gate is asserted by `SEC-04` and by the
+publish-permission test in `roles-permisos.md` matrix row 4.
+
+### 7.5 Concurrent sessions — **undecided**
 
 **Proposed default: one active session per user.** A new login deletes the account's other
 sessions and writes `audit_logs` `session_replaced`. Rationale: there is exactly one operator,
@@ -298,7 +343,7 @@ if a second operator is ever added.
 Django's `is_staff` also matters here: a non-staff authenticated user cannot reach `/admin/`
 at all, which is the first gate rather than the authorisation decision.
 
-### 7.5 Central revocation, and why it beats refresh rotation
+### 7.6 Central revocation, and why it beats refresh rotation
 
 | Property | This design | The brief's JWT plan |
 |---|---|---|
@@ -360,7 +405,7 @@ at all, only an opaque key that is meaningful to one server.
 
 The brief's §9 list is reproduced in full above — nothing is omitted. One item is replaced
 rather than kept or dropped: the brief's refresh-token store existed to make revocation
-possible, and §7.5 shows sessions already provide it, so the table is gone while the property
+possible, and §7.6 shows sessions already provide it, so the table is gone while the property
 stays. Brief §8's `refresh_tokens` table is removed for the same reason (§8.1).
 
 Brief §9 also names `OWASP Top 10 and ASVS` as references and requires a STRIDE threat model
@@ -468,7 +513,7 @@ requirements it maps to.
 | SEC-08 | No user enumeration in the response | §2 |
 | SEC-09 | CSRF on every mutating endpoint, including bulk actions | §11 |
 | SEC-10 | The session key rotates on login | §2 |
-| SEC-11 | Central revocation is immediate and total | §4, §7.5 |
+| SEC-11 | Central revocation is immediate and total | §4, §7.6 |
 | SEC-12 | No public signup path | §12 |
 | SEC-13 | The role matrix is enforced cell by cell | `roles-permisos.md` §3 |
 | SEC-14 | Authorization is object-level, not list-level | §5 |
@@ -517,9 +562,9 @@ mocked HTTP; no case contacts a live service (`docs/03-pruebas/plan-pruebas.md` 
 | `SESSION_COOKIE_NAME` | `sessionid` | Decided |
 | `SESSION_COOKIE_HTTPONLY` / `_SECURE` / `_SAMESITE` | `true` / `true` / `Lax` | Decided, ADR 0005 |
 | `SESSION_COOKIE_DOMAIN` | unset | Decided |
-| `SESSION_COOKIE_AGE` | 24 hours | **undecided**, SRS §9.2 item 2 |
-| `SESSION_EXPIRE_AT_BROWSER_CLOSE` | `true` | **undecided** |
-| `SESSION_SAVE_EVERY_REQUEST` | `true` | **undecided**, and the idle timeout needs the middleware in §7.3 |
+| `SESSION_COOKIE_AGE` | 12 hours | **Decided, ADR 0013** — with `SESSION_SAVE_EVERY_REQUEST` on, this is the *idle* timeout, not an absolute one |
+| `SESSION_EXPIRE_AT_BROWSER_CLOSE` | `true` | **Decided, §7.3** |
+| `SESSION_SAVE_EVERY_REQUEST` | `true` | **Decided, §7.3** — required for the idle timeout; the 72 h absolute bound still needs custom middleware |
 | `CSRF_USE_SESSIONS` | `true` | **undecided** |
 | `CSRF_COOKIE_SECURE` / `_HTTPONLY` | `true` / `true` | **undecided** |
 | `SECURE_SSL_REDIRECT`, `SECURE_HSTS_SECONDS`, `SECURE_CONTENT_TYPE_NOSNIFF` | on | **undecided** — NFR-07 and SRS SEC-15; header policy belongs to the threat model |
@@ -588,8 +633,8 @@ not a login.
 
 | # | Item | Status | Proposed default |
 |---|---|---|---|
-| 1 | Idle and absolute timeout values (§7.3) | **undecided** — SRS §9.2 item 2 | 8 h idle, 24 h absolute, session ends when the browser closes |
-| 2 | Concurrent-session policy (§7.4) | **undecided** | One active session; a new login replaces the old one and is audited |
+| 1 | Idle and absolute timeout values (§7.3) | **Resolved — ADR 0013** | 12 h idle (Django-native via `SESSION_SAVE_EVERY_REQUEST`), 72 h absolute (custom middleware), session ends when the browser closes, plus step-up re-auth before publish (§7.4) |
+| 2 | Concurrent-session policy (§7.5) | **undecided** | One active session; a new login replaces the old one and is audited |
 | 3 | Throttling values and implementation (§10.1) | **undecided** | N = 5, exponential to a 15 min cap, database-backed cache keyed by salted IP hash |
 | 4 | Recovery-code count and operator guidance (§9) | **undecided** | 10 codes, guidance in `SECURITY.md` or `CONTRIBUTING.md` |
 | 5 | Management command names (§12) | **undecided** | As listed |

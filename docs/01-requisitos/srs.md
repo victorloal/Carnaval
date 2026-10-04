@@ -178,6 +178,8 @@ Corpocarnaval.
 | FR-D-12 | The admin shall display each scrape source's active flag, consecutive failures, and last successful run. | Must | v1 |
 | FR-D-13 | There shall be no public signup path for any account. | Must | v1 |
 | FR-D-14 | The first administrator shall be created by a documented seed management command, never through the API. | Must | v1 |
+| FR-D-15 | Administrative sessions shall expire 12 hours after the last request (idle) and 72 hours after authentication regardless of activity (absolute), and shall end when the browser closes. | Must | v1 |
+| FR-D-16 | Publishing content, changing roles or group membership, editing `site_settings`, and creating or superseding a `legal_documents` version shall each require re-entering the password and TOTP code, even within an active session. | Must | v1 |
 
 ### 3.5 FR-E — Editorial content (v2)
 
@@ -344,15 +346,27 @@ native mobile applications; a React admin panel (ADR 0005).
 
 ## 9. Open questions
 
-1. **Field-level `*_es`/`*_en` columns versus a generic `content_translations` table.** The
-   data model currently mixes both. Proposed: columns for `events`, generic table for
-   `news_items` and `media_assets`. Needs a decision before FR-H-06 is implemented.
-2. **Idle and absolute session timeouts** are unspecified (SEC-02 depends on them).
-   Proposed: 8 h idle, 24 h absolute.
-3. **Raw document retention window** (FR-B-16). Proposed: last 20 payloads per source.
-4. **Search implementation** (FR-I-01): PostgreSQL full-text search versus `pg_trgm`. Both
-   are free-tier-safe; decide in v2.
-5. **Whether `site_settings` needs a typed schema** once v2 configuration lands (FR-E-10).
+**All five are now closed.** Each records its own revisit trigger, so none of them is a
+silent assumption; the trigger is the condition that would change the answer.
+
+| # | Question | Resolution | ADR |
+|---|---|---|---|
+| 1 | `*_es`/`*_en` columns versus a generic `content_translations` table | Columns. `*_es` is `NOT NULL`, `*_en` nullable with one-directional fallback to `es`. `content_translations` deleted. Supersedes the storage bullet in ADR 0010. | **0012** |
+| 2 | Idle and absolute session timeouts | 12 h idle, 72 h absolute, **plus step-up re-authentication (password + TOTP) before publish, role change, `site_settings` edit, or legal-document action** | **0013** |
+| 3 | `raw_documents` retention window | 30 days **and** a per-source byte cap, with published content exempt for as long as the record exists | **0013** |
+| 4 | Search implementation | `pg_trgm` + `unaccent`, re-evaluated above ~50k rows | **0013** |
+| 5 | Whether `site_settings` needs a typed schema | No. Validation moves to typed Python accessors; revisit above ~100 settings or per-user scope | **0013** |
+
+One further question raised by `modelo-datos.md` §10 was also closed:
+
+- **Whether `days` are seeded per edition or created by the pipeline** — **seeded by the
+  pipeline from the source**, because day names differ by year (`modelo-datos.md` §3.2).
+  That document's other three questions are the same as SRS §9 Q1, Q3 and Q5 above.
+
+**One question remains genuinely open**, and this document does not answer it:
+
+- **Deployment providers** — hosting, database and object storage. The deciding criterion is
+  network egress cost against the zero-cost constraint; see `despliegue.md` §3.
 
 ## 10. Requirement conventions
 

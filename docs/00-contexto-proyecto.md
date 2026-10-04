@@ -328,7 +328,8 @@ Opcional: 3 o 4 videos cortos (demo, arquitectura, pipeline en acción, retrospe
 
 ## 19. ADRs
 
-Los doce previstos; los once primeros ya están escritos en `docs/adr/`.
+Quince en total. **0001 a 0013 ya están escritos** en `docs/adr/`; faltan 0014 (herramienta
+de diagramas) y 0015 (coste de salida de red).
 
 - 0001: Metodología Scrumban — *escrito*
 - 0002: Backend de ingesta con base de datos como fuente de verdad — *escrito*
@@ -341,7 +342,10 @@ Los doce previstos; los once primeros ya están escritos en `docs/adr/`.
 - 0009: Pila Python/Django/DRF + PostgreSQL — *escrito*
 - 0010: Sitio público bilingüe es/en — *escrito*
 - 0011: OpenAPI generado con comprobación de *drift* — *escrito*
-- 0012: Por decidir — **ahorro de costes de salida de red** (R2 frente a Supabase Storage)
+- 0012: Traducciones como columnas `*_es`/`*_en`, sin tabla genérica — *escrito*
+- 0013: Defaults de las decisiones abiertas del SRS §9 (timeouts, retención, búsqueda) — *escrito*
+- 0014: Herramienta de diagramas (Mermaid, C4 aproximado) — *pendiente*
+- 0015: Coste de salida de red (R2 frente a Supabase Storage) — *pendiente*
 
 ## 20. Pendientes
 
@@ -355,7 +359,7 @@ externa o de una decisión aún abierta. Ver `MEMORY.md` para el estado vigente.
       oportunidad de saber de una objeción antes de que el sitio sea público.
 - [ ] Confirmar los límites vigentes de los planes gratuitos elegidos, y re-verificarlos antes
       de cada publicación (los límites cambian).
-- [ ] Elegir los proveedores concretos de hosting, base de datos y almacenamiento (ADR 0012
+- [ ] Elegir los proveedores concretos de hosting, base de datos y almacenamiento (ADR 0015
       cubriría el criterio de coste de salida).
 - [ ] Cerrar los borradores de `docs/legal/` con **revisión profesional** antes de iniciar la v3.
 - [ ] Cerrar las decisiones abiertas del SRS §9: estrategia de traducciones, tiempos de sesión,

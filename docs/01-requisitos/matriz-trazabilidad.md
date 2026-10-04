@@ -104,6 +104,8 @@ no requirement should be deleted.
 | FR-D-12 | US-12 | modelo-datos §3.5 | 0002 | T | admin: source status | Open |
 | FR-D-13 | US-10 | autenticacion (provisioning) | 0005 | T | **SEC-12** | Open |
 | FR-D-14 | US-10 | autenticacion (provisioning) | 0005 | I | inspection: seed command | Open |
+| FR-D-15 | — | autenticacion §7.3 | 0013 | T | **SEC-02**; v1 idle- and absolute-expiry tests | Open |
+| FR-D-16 | US-10 | autenticacion §7.4 | 0013 | T | **SEC-04**, **SEC-13**; step-up gate on roles-permisos matrix rows 4, 13, 14, 24, 25, 30 | Open |
 
 ## FR-E — Editorial content
 

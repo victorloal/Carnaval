@@ -715,14 +715,18 @@ which is why they sit at the end rather than being scattered.
 
 ### SEC-74 — Database translation fallback never yields an empty page
 - **Threat:** Information disclosure (mixed-language or blank rendering)
-- **Preconditions:** a record with an `es` translation and **no** `en` translation.
-- **Steps:** 1. Request it in `/en/…`. 2. Request it in `/es/…`. 3. Request a record whose
-  only translation is `en`.
-- **Expected:** `en` falls back to the `es` source locale rather than rendering empty or
+- **Preconditions:** a record with `*_es` set and `*_en` **NULL** (the normal untranslated
+  state under ADR 0012).
+- **Steps:** 1. Request it in `/en/…`. 2. Request it in `/es/…`. 3. Attempt to create a
+  record with `*_es` NULL.
+- **Expected:** `en` falls back to the `*_es` source locale rather than rendering empty or
   leaking a raw key (FR-H-06). Fallback is visible, not silent-broken. The admin remains
-  Spanish-only regardless of the site's locale.
+  Spanish-only regardless of the site's locale. **Step 3 must fail** — `*_es` is `NOT NULL`
+  (ADR 0012), so a record with no source-locale text cannot exist; assert the constraint,
+  not the application's tolerance for it. There is no `es` ← `en` path: a missing source is
+  a data bug that must surface.
 - **Verification:** Automated · **Priority:** High
-- **Protects:** `content_translations` · **Maps to:** FR-H-06, FR-H-08, ADR 0010
+- **Protects:** `*_es` / `*_en` columns on the editorial tables · **Maps to:** FR-H-06, FR-H-08, ADR 0010, **ADR 0012**
 
 ---
 
@@ -745,7 +749,7 @@ executable case, and every data-model asset has at least one case.
 | `submissions`, `submission_files` | SEC-19 … SEC-24, 36 |
 | `consent_records`, `legal_documents` | SEC-28, 29, 32, 73 |
 | `takedown_requests` | SEC-32, 33, 73 |
-| `content_translations` | SEC-48, 49, 74 |
+| Translation columns (`*_es` / `*_en`) on editorial tables | SEC-48, 49, 74 |
 | `site_settings` | SEC-46, 52 |
 | PostgreSQL (roles, schema, pool) | SEC-55, 56, 58, 59, 60 |
 | Email / notification path | SEC-67 … SEC-72 |

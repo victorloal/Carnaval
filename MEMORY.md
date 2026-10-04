@@ -6,7 +6,7 @@ conflict. **Hard limit: 50 lines.** Records what happened and what is next, neve
 ## Current state
 
 - Phase 0: **docs complete, no code.** `backend/`, `frontend/`, `tests/` empty; no CI yet.
-- 40 files: 11 ADRs, acta, SRS (168 reqs), 32 stories, matrix, 9 design docs, **74 cases**, legal.
+- 41 files: 12 ADRs, acta, SRS (170 reqs), 32 stories, matrix, 9 design docs, **74 cases**, legal.
 - **Stack decided** (0009): Python 3.12 + Django 5 + DRF + **PostgreSQL 16**; React for the
   public site only. Admin is **Django admin** (0005), **no JWT anywhere**.
 - Site is **bilingual es/en** (0010); OpenAPI **generated**, drift fails CI (0011). Platform **undecided**.
@@ -23,8 +23,7 @@ conflict. **Hard limit: 50 lines.** Records what happened and what is next, neve
 
 ## Learnings
 
-- The brief contradicted the repo, then the stack. Trust `docs/adr/`, not prose.
-- A delegated task reported two large files that **did not exist**. Verify with `ls`.
+- The brief contradicted the repo, then the stack; a delegated task also reported two files that did not exist. Trust `docs/adr/`, verify every completion report with `ls`.
 - **Three schemes share the `SEC-nn` shape**: SRS requirements, threats `T-nn`, test cases.
   The threat model assumed 1:1 and was wrong for T-01…T-49. Check cited IDs, never assume.
 - PowerShell `ReadAllLines` reads ANSI and mangles UTF-8 (`—` → `â€”`); pass `UTF8Encoding`.
@@ -37,8 +36,8 @@ conflict. **Hard limit: 50 lines.** Records what happened and what is next, neve
 ## Next steps
 
 1. Source spike: probe the WP REST API and `robots.txt`; capture fixtures (unblocks FR-B).
-2. Decide SRS §9 items: translations strategy, session timeouts, raw retention, search.
-3. Pick concrete providers; ADR 0012 would hold the egress-cost criterion.
+2. Repair the two broken C4 blocks; add ER, activity and 2 new sequence diagrams (ADR 0014).
+3. Plan Sprint 01 (skeleton + CI); then pick providers — egress cost is ADR 0015.
 4. Contact Corpocarnaval (brief §20) before any public launch.
 
 ## Session log
@@ -48,3 +47,4 @@ conflict. **Hard limit: 50 lines.** Records what happened and what is next, neve
 | 2026-10-03a | Audit, `AGENTS.md`, `MEMORY.md`, brief moved, folder rename, Unlicense→MIT, `.gitignore` |
 | 2026-10-03b | Docs: 11 ADRs, acta, SRS, stories, matrix, data model, test plan, legal, sprint 00 |
 | 2026-10-03c | 9 design docs, SEC-73/74, threat↔case IDs remapped, Mermaid validated, brief reconciled, 4 commits |
+| 2026-10-03d | SRS §9 closed → ADR 0012 (translation columns) + ADR 0013 (defaults); FR-D-15/16 added; corrected a backwards Django timeout claim |

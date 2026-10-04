@@ -11,9 +11,18 @@
 - **Primary keys:** UUIDv4 (`django.db.models.UUIDField`). Public identifiers must not be
   guessable or enumerable, and submission links are shared with strangers.
 - **Timestamps:** `created_at`, `updated_at` on every table that represents content.
-- **Slugs:** per-locale, unique within their parent, used in public URLs.
+- **Slugs:** per-locale (`slug_es`, `slug_en`), unique within their parent, used in public
+  URLs (ADR 0010).
 - **Naming:** `snake_case` tables, Django field names in English, human-facing content in
   `_es` / `_en` suffixed columns.
+- **Translations:** editorial text uses `*_es` / `*_en` **columns**, never per-locale rows.
+  `*_es` is `NOT NULL`; `*_en` is nullable and falls back to `*_es` when null or empty.
+  Fallback is one-directional — there is no `es` ← `en` path, because a missing source value
+  is a bug that must surface, not be papered over. See **ADR 0012** for why row-per-locale
+  was rejected (it would duplicate moderation state and let a translation reach `published`
+  without rights review). Legal texts are the exception: `legal_documents` keeps one row per
+  locale, because a legal version is a dated artifact, not a translation of the same one.
+  Site chrome and UI strings use Django `gettext`, not the database.
 - **Soft state, not soft delete:** nothing is hard-deleted except rejected uploads and
   expired sessions. Published content is never deleted by the pipeline (ADR 0002).
 
@@ -221,23 +230,6 @@ Separate from `scrape_sources`: this is the *citation* registry, not a fetch tar
 Every change is also written to `audit_logs`. Secrets are **never** stored here — only in
 environment variables.
 
-### 4.5 `content_translations` — database content in two locales
-
-Supports ADR 0010 for admin-authored rows. Translation keys are authored in Spanish;
-English rows are optional and fall back to Spanish when absent.
-
-| Column | Type | Notes |
-|---|---|---|
-| `id` | UUID | PK |
-| `content_type` | FK → `django_content_type` | Generic |
-| `object_id` | UUID | |
-| `field` | text | e.g. `description` |
-| `locale` | char(2) | `es` or `en` |
-| `value` | text | |
-| `source_translation` | FK → self, nullable | Links an `en` row back to its `es` original |
-
-Unique together on `(content_type, object_id, field, locale)`.
-
 ## 5. Security, administration, and audit
 
 Authentication, roles, and sessions are Django's built-in tables plus:
@@ -399,6 +391,19 @@ auth_user ──< moderation mixin (reviewed_by, created_by)
   secret** — an unsalted hash of an IPv4 address is trivially reversible by brute force
   over 2³² candidates.
 - **Raw payloads are never in git.** `data/raw/` and `*.pdf` are in `.gitignore` (ADR 0004).
+- **Raw document retention** (`ADR 0013`, Q3) — `raw_documents` is bounded three ways:
+  1. **Time window:** a raw document is pruned 30 days after `fetched_at`.
+  2. **Byte cap:** independently, the newest payloads are pruned when a source exceeds its
+     per-source byte budget. A time window alone does not bound storage — one source
+     returning 50 MB a day still overruns a free tier within two weeks.
+  3. **Published content is exempt:** a raw document that is the source of a record in
+     `status = published` is retained for as long as that record exists, regardless of age.
+
+  The exemption is the one people forget when writing a cleanup job. Pruning the source of a
+  published record would break the provenance chain the threat model relies on (T-27, T-32)
+  and would make an editorial correction unauditable. Only documents that never produced a
+  published record are eligible. `content_hash` and the fetch metadata are never dropped —
+  they are what make ingestion idempotent (FR-B-03, `SEC-37`) — only the payload bytes.
 - **PII with limited retention:** `submissions.contact_email` and
   `takedown_requests.requester_email` are stored in cleartext because a reply is legally
   required. Both carry a deletion deadline once the matter is closed, and neither is
@@ -414,19 +419,20 @@ auth_user ──< moderation mixin (reviewed_by, created_by)
 | `media_assets.content_hash` UNIQUE | Duplicate image detection |
 | `legal_documents` partial unique on `(doc_type, locale) WHERE is_current` | One current version |
 | `submissions.public_token` UNIQUE | Status lookup without enumeration |
-| `content_translations` unique on `(content_type, object_id, field, locale)` | No duplicate translations |
-| CHECK `status='rejected' → rejection_reason IS NOT NULL` | Rejections are always explained |
+| `*_es` NOT NULL on every editorial table | Spanish is the source locale (ADR 0010); a missing source value is a data bug, not a fallback case (ADR 0012) |
+| `status='rejected' → rejection_reason IS NOT NULL` (CHECK) | Rejections are always explained |
 
-## 10. Open questions for the design phase
+## 10. Questions raised in the design phase — all resolved
 
-1. **Field-level `*_es` / `*_en` columns versus a generic `content_translations` table.**
-   Columns are simple to query and type; the generic table scales to arbitrary content. The
-   current model mixes both, which is inconsistent. Recommend: keep columns for `events`
-   (fixed schema, high read volume) and use `content_translations` for `news_items` and
-   `media_assets`. Decide in design review.
-2. **Whether `days` should be seeded per edition or created by the pipeline.** Recommend
-   seeded by the pipeline from the source, since day names differ by year.
-3. **Retention window for `raw_documents`.** Recommend keeping the last N per source and
-   pruning, to bound free-tier storage.
-4. **Whether `site_settings` needs a typed schema** beyond `value_type`. Recommend yes, once
-   v2 introduces site configuration.
+These four questions were open at design time. Each is closed, and the record says *who*
+closed it so the answer is not mistaken for a guess.
+
+| # | Question | Resolution | Recorded in |
+|---|---|---|---|
+| 1 | `*_es` / `*_en` columns versus a generic `content_translations` table | **Columns.** `*_es` is `NOT NULL`, `*_en` nullable with one-directional fallback to `es`. `content_translations` table **deleted**. The earlier proposal (columns for `events`, generic table for `news_items` and `media_assets`) was rejected: it institutionalises two mechanisms to avoid a handful of columns, and every consumer must know which one a given field uses. Row-per-locale — as ADR 0010 originally worded it — was also rejected, because it duplicates moderation state and lets a translation reach `published` without rights review. | **ADR 0012** |
+| 2 | Whether `days` are seeded per edition or created by the pipeline | **Seeded by the pipeline from the source**, since day names differ by year. | `flujo-datos.md` §3 |
+| 3 | Retention window for `raw_documents` | **30 days *and* a per-source byte cap**, with published content exempt for as long as the record exists. A count-based rule ("last N per source") does not bound bytes and was rejected. | **ADR 0013**, §8 above |
+| 4 | Whether `site_settings` needs a typed schema beyond `value_type` | **No.** Validation moves to typed Python accessor functions. Revisit above ~100 settings, or if settings become user-editable with per-user scope. The earlier "recommend yes, once v2" is superseded. | **ADR 0013** |
+
+**Still open elsewhere** (not design questions, so not listed here): deployment providers
+(`despliegue.md` §3).
