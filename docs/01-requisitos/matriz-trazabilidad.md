@@ -64,7 +64,7 @@ no requirement should be deleted.
 | FR-B-12 | US-16 | modelo-datos §3.5 | 0002 | T | admin: CRUD | Open |
 | FR-B-13 | US-16 | flujo-datos (rate limit) | 0004 | T | **SEC-41** | Open |
 | FR-B-14 | US-16 | fuentes-y-atribucion | 0004 | T | **SEC-42** | Open |
-| FR-B-15 | US-14 | fuentes-y-atribucion | 0002 | I | spike: WP API probe | Open |
+| FR-B-15 | US-14 | fuentes-y-atribucion §9.2 | 0002 | I | spike: WP API probe — **ran 2026-10-03, API available** (368 routes, no auth) | Open — spike passed, pipeline not built |
 | FR-B-16 | — | modelo-datos §10 Q3 | 0002 | T | unit: retention prune | Open — no story |
 | FR-B-17 | US-14 | despliegue | 0009 | D | GH Actions cron run | Open |
 | FR-B-18 | US-17 | modelo-datos §3.7 | 0002 | T | admin: manual trigger | Open |

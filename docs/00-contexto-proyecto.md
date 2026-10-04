@@ -68,7 +68,10 @@ Se entrega de forma incremental para que siempre haya algo funcionando y despleg
 - La página oficial es **carnavaldepasto.org**, construida con WordPress y Elementor.
 - Publica la programación por día. Para el carnaval de enero, los hitos principales son: 2 de enero (Carnavalito), 3 (colectivos coreográficos), 4 (Desfile Familia Castañeda), **5 (Día de Negros)** y **6 (Día de Blancos / Desfile Magno)**.
 - Ofrece la programación completa en PDF, además de secciones de historia, participación y galería.
-- **Por verificar:** si el sitio expone la WordPress REST API (`/wp-json/wp/v2/pages` y `/posts`). Si responde, sería una fuente más estable que el scraping de HTML.
+- ~~**Por verificar:** si el sitio expone la WordPress REST API (`/wp-json/wp/v2/pages` y
+  `/posts`)~~ → **Verificado 2026-10-03:** sí responde (HTTP 200, 368 rutas, sin
+  autenticación para lectura), así que es la fuente preferida por encima del scraping de
+  HTML (FR-B-15, ADR 0002). Registro completo en `docs/fuentes-y-atribucion.md` §9.
 - La programación cambia **una vez al año**; la edición de enero de 2027 probablemente se publique cerca de diciembre de 2026. Se desarrollará primero con datos de la edición 2026.
 
 ## 6. Decisiones tomadas
@@ -352,8 +355,13 @@ de diagramas) y 0015 (coste de salida de red).
 Los puntos ya resueltos se sacaron de esta lista; quedan los que dependen de una acción
 externa o de una decisión aún abierta. Ver `MEMORY.md` para el estado vigente.
 
-- [ ] Verificar si `carnavaldepasto.org/wp-json/wp/v2/pages` responde.
-- [ ] Revisar `robots.txt` y términos de uso del sitio; registrarlo en `docs/fuentes-y-atribucion.md`.
+- [x] Verificar si `carnavaldepasto.org/wp-json/wp/v2/pages` responde. → **Sí, verificado
+      2026-10-03**: HTTP 200, 368 rutas, sin autenticación para lectura. Ver
+      `docs/fuentes-y-atribucion.md` §9.2.
+- [ ] Revisar los términos de uso del sitio y registrarlo en `docs/fuentes-y-atribucion.md`.
+      El `robots.txt` **ya se revisó** (2026-10-03: permite todo salvo `/wp-admin/`, sin
+      `Crawl-delay`), pero los términos de uso **no se encontraron** en las 19 páginas ni
+      en los 42 artículos. Ver §9.5.
 - [ ] Crear el tablero de GitHub Projects.
 - [ ] **Escribir a Corpocarnaval** para informarles del proyecto. Es cortesía y la última
       oportunidad de saber de una objeción antes de que el sitio sea público.

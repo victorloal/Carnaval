@@ -58,13 +58,14 @@ content derived from it may be published. That is the state every row below is i
 
 ## 3. Seed register
 
-**ToS status: nothing in this register has been reviewed yet.** Brief §20 still lists
-*“revisar robots.txt y términos de uso del sitio”* as an open item. Until a row reads
-`reviewed`, it may not be used to justify publishing anything.
+**ToS status: only the `official_site` row has moved, and only halfway.** Its `robots.txt`
+was read on 2026-10-03 (§9); its **terms of use were not found**, so the row is still not
+`reviewed`. Brief §20 keeps *“revisar robots.txt y términos de uso del sitio”* open for that
+reason. Until a row reads `reviewed`, it may not be used to justify publishing anything.
 
 | Name | `kind` | URL | Terms of use | Licence constraint |
 |---|---|---|---|---|
-| **carnavaldepasto.org** | `official_site` | `https://carnavaldepasto.org` | **unknown — must be reviewed** (brief §20). Also: not contacted; brief §20 *“escribir a Corpocarnaval”* still open | Facts only, cited. **Unofficial / not-affiliated disclaimer mandatory** (`is_official = true`). Page prose is never copied — descriptions are rewritten in the maintainer's own words. Its name and marks are nominative references only |
+| **carnavaldepasto.org** | `official_site` | `https://carnavaldepasto.org` | **`robots.txt` reviewed 2026-10-03** (§9): allows all, disallows `/wp-admin/`, no `Crawl-delay`. **Terms of use still not found** — no such document among all 19 pages or all 42 posts, and the site's only legal link is a privacy policy on a second host. Review not closed; brief §20 *“revisar … términos de uso”* remains open, as does *“escribir a Corpocarnaval”* | Facts only, cited. **Unofficial / not-affiliated disclaimer mandatory** (`is_official = true`). Page prose is never copied — descriptions are rewritten in the maintainer's own words. Its name and marks are nominative references only |
 | **Official programme PDF** | `pdf` | Published by the official site; canonical URL `[PENDIENTE: registrar la URL canónica y la edición]` | **unknown — must be reviewed** | **The PDF is never redistributed and never committed to git** (`*.pdf` in `.gitignore`, ADR 0004). Only extracted facts, cited to the document and edition. Stored in `raw_documents` + object storage, never in the repository |
 | **News outlets** | `news_outlet` | `[PENDIENTE: one row per outlet actually reviewed; the example name in modelo-datos §4.3 is illustrative, not a verified source]` | **unknown — must be reviewed** | Headline (verbatim fine) + canonical URL + outlet + `published_on` + **short original summary**. Never the article body, never its images (brief §11) |
 | **Community-submitted video** | `other` | YouTube / Vimeo, embedded (ADR 0007) | Governed by the **platform's** terms, not ours | We store provider + normalised video id and render the embed. We host no video file and hold no licence over it. Removal means contacting the provider and dropping our reference |
@@ -100,18 +101,24 @@ created silently.
 The collector is a guest on someone else's server. The rules are not optional.
 
 1. **Respect `robots.txt`.** Read it before any request, re-read it when the site's
-   behaviour changes. **Not yet done** (brief §20) — this is the first item of the source
-   spike.
+   behaviour changes. **Done for the official site on 2026-10-03** (§9): it allows all
+   agents, disallows `/wp-admin/`, and sets no `Crawl-delay`. Brief §20's item is only half
+   closed — the *terms of use* half is still open (§9, §3). Re-read it whenever the site's
+   behaviour changes; a `robots.txt` is a live signal, not a one-time finding.
 2. **Send an identifiable `User-Agent` with contact information.** It is a
    `scrape_sources.user_agent` field precisely so it is configured, not hard-coded. A
    browser-spoofing default is not acceptable.
 3. **Rate-limit.** `rate_limit_seconds` sets a minimum delay between requests per source.
    Requests are batched politely, and the collector stops rather than hammering.
-4. **Prefer the official machine interface.** If `carnavaldepasto.org/wp-json/wp/v2/pages`
-   and `.../wp-json/wp/v2/posts` respond, use them (`source_type = wp_api`) rather than
-   scraping HTML — the structure is more stable and the load is smaller. **Still
-   unverified** (brief §5); probing it is step 4 of the source spike. Fallback chain:
-   `wp_api` → `html` → `pdf`, in that preference order.
+4. **Prefer the official machine interface.** `carnavaldepasto.org/wp-json/wp/v2/pages` and
+   `.../wp-json/wp/v2/posts` **respond — verified 2026-10-03** (§9): HTTP 200, 368 routes,
+   no authentication required for reads, pagination and `_fields` working. Use them
+   (`source_type = wp_api`) rather than scraping HTML — the structure is more stable and the
+   load is smaller. This closes brief §5's "sin verificar" and satisfies **FR-B-15**'s
+   verification method. Fallback chain: `wp_api` → `html` → `pdf`, in that preference order.
+   Note that the HTML fallback is *unattractive* here: the site is built with Elementor and
+   JetEngine, so article body content sits in post meta as structured JSON rather than in
+   readable HTML (§9).
 5. **Be idempotent and cheap.** `raw_documents.content_hash` is unique, so an unchanged
    payload is recorded as a no-op and never re-transformed (ADR 0002). Re-running costs one
    conditional request, not a re-crawl.
@@ -194,3 +201,147 @@ prevention is the control.
   row stays `is_active = false`, permanently.
 - Terms-of-use findings should end the "unknown" state. Until then, this register documents
   a **known legal gap**, which is the honest state of the project at Phase 0.
+
+## 9. Source spike record — 2026-10-03
+
+**What this section is:** a record of a one-off, read-only observation, which closed two
+questions that had been open since the brief — does the WordPress REST API respond (brief
+§5, "sin verificar"), and what does `robots.txt` allow (brief §20). It is **not** a review of
+the source's terms and it makes **no** source publishable. Nothing here changes §1's rule
+that unknown rights block publication.
+
+### 9.1 How it was run
+
+| | |
+|---|---|
+| Method | `GET` only, sequential, no authentication, no `POST`, ~2 s between requests |
+| Requests | **13** in total, against 2 hosts (`www.carnavaldepasto.org`, `carnavaldepasto.org`) |
+| `User-Agent` | `CarnavalDocsSpike/0.1 (+https://github.com/victorloal/Carnaval; documentation spike, no scraping)` |
+| Contact | The repository URL. **No email address exists yet** — `README.md` and `CONTRIBUTING.md` still carry `[PENDIENTE: define before launch]`, and §9.5 below confirms the site exposes no public contact address either. FR-B-14 requires contact information in the UA, so that placeholder must be filled before any *pipeline* run |
+| Where the payloads went | Temporary storage **outside this repository**. Nothing was committed |
+| Preflight | `data/raw/`, `data/uploads/` and `*.pdf` confirmed in `.gitignore`; no `data/` directory existed; `git status` clean before and after |
+
+### 9.2 Results against the questions that were open
+
+| Question | Finding | Status |
+|---|---|---|
+| Does the WP REST API respond? | **Yes.** `/wp-json/` → HTTP 200, 612,602 bytes, **368 routes**, namespace `wp/v2` present. Reads need no auth; the `authentication` block only advertises `application-passwords` for writes | **Closed — available** (FR-B-15) |
+| What does `robots.txt` allow? | `User-agent: *` → `Disallow: /wp-admin/`, `Allow: /wp-admin/admin-ajax.php`, `Sitemap: https://carnavaldepasto.org/wp-sitemap.xml`. **No `Crawl-delay`** | **Closed — permissive** |
+| Do `posts`/`pages`/`terms` behave as expected? | Yes: `X-WP-Total`, the `Link` paging header and `_fields` field selection all worked | **Closed** |
+| What do the site's terms of use say? | **Not found.** See §9.5 | **Still open** (brief §20) |
+| What WordPress version is it? | **7.1.2** | Recorded as an observation. **No conflict with the brief:** §5 names no version — it only says *“construida con WordPress y Elementor”*, which the spike **confirms** (Elementor, plus JetEngine) |
+
+### 9.3 What the source's content model actually looks like
+
+- **17 registered types**, of which only **two are the site's own**:
+  `propuesta` and `artesanos`. Everything else is WordPress core or plugin plumbing
+  (`elementor_*`, `jet-engine`, `e-floating-buttons`). **There is no custom post type for
+  events, news, or the programme** — it lives in ordinary `posts`, grouped by categories
+  (§9.4). The brief describes the site's *output* ("publica la programación por día"), not
+  its storage, so this contradicts no documented assumption; it simply rules out reading a
+  dedicated endpoint that does not exist.
+- The site is built with **Elementor + JetEngine** (also present: All-in-One WP Migration,
+  Forminator). Consequence for the fallback chain: an HTML fallback would have to parse
+  Elementor's structured output rather than readable prose, which is exactly why `wp_api`
+  must stay first (§5, item 4).
+- **42 posts, 19 pages, 21 categories, 5 tags.** Verified by enumerating each collection in
+  full rather than sampling.
+
+**Currency — the finding that matters most.** The 42 posts fall into four clusters by date:
+
+| Window | Posts | What they are |
+|---|---|---|
+| 2019-12-25 → 2020-01-12 | **33** | The day-by-day programme: `carnavalito`, `dia-de-blancos-desfile-magno`, `dia-de-negritos-una-pintica-por-favor`, `llegada-de-la-familia-castaneda`, the `rumba-carnavalera` series. **The 2020 edition** |
+| 2024-10-21, 2024-10-23 | 7 | Slugs are day or phase names (`2-de-enero` … `6-de-enero`, `pre-carnaval`, `festivales`) but the dates are late October — **slug and date disagree**, so a slug must never be read as an event date |
+| 2024-11-11 | 1 | `politica-de-proteccion-de-datos` |
+| 2026-09-07 | 1 | `convocatoria-…-2027`, announcing the 2027 edition |
+
+Posting dates are **absent entirely for 2021, 2022, 2023 and 2025**. The only post dated
+after 2024 is the single `convocatoria` of 2026-09-07, which announces the 2027 edition —
+so its date says nothing about how much programme content exists for the intervening years.
+
+So a pipeline pointed at this endpoint today would return a **plausible-looking, mostly
+six-year-old programme**. That is the shape this project's top documented risk takes: not a
+zero-record failure, but a **silent success returning stale data**. `ingestion_runs` and the
+reviewer must therefore compare extracted dates against the target edition, and "the fetch
+returned 42 records" must never be accepted as evidence that the fetch was *correct*.
+
+### 9.4 Taxonomy: where days actually live — and one trap
+
+Days are **categories**, under a root category `DIAS` (id 8):
+
+| Group | Categories (count as reported) |
+|---|---|
+| Root | `SIN CATEGORIA` (4), **`DIAS` (7)**, **`6 de enero` (2)**, `EVENTOS` (1), `Participa` (1) |
+| Children of `DIAS` | `24 de diciembre` (0), `27 de diciembre` (0), `28 de diciembre` (8), `29 de diciembre` (2), `30 de diciembre` (1), `31 de diciembre` (2), `2 de enero` (5), `3 de enero` (3), `4 de enero` (3), `5 de enero` (2), `7 de enero` (1), `12 de enero` (1), `Pre-carnaval` (12), `Festivales` (2) |
+| Children of `EVENTOS` | `CONCIERTO` (1), `DESFILE` (0) |
+
+Four consequences:
+
+1. **The trap: `6 de enero` is a root category, not a child of `DIAS`** — while `5 de enero`
+   and `7 de enero` are children. Any ingestion that collects days as *"children of `DIAS`"*
+   **silently drops the Day of Whites**, the single most important day of the carnival. This
+   is precisely the kind of omission that looks like a working pipeline. Collect the day
+   categories by *name pattern* and assert the expected set is complete instead.
+2. **Day names carry no year** — `2 de enero`, not `2 de enero de 2020`. They are reused
+   every edition. This **refines** `modelo-datos.md` §10 Q2: the statement "day names differ
+   by year" is not what the source does. The *labels* are stable; the *calendar positions*
+   move. Mapping a day category to an edition must therefore derive the year from the
+   dated content, never from the category name.
+3. **`DIAS` is not purely days.** `Pre-carnaval` and `Festivales` are children of it but are
+   not days. Filtering on the hierarchy alone will misclassify them.
+4. **Term `count` values are not trustworthy and must not be used to validate a fetch.**
+   `DIAS` reports 7 while its children sum to 42; several categories report 0. Use
+   `X-WP-Total` on the collection endpoint, not term counts.
+
+Tags, for the record: `ENCUENTRO CULTURAL` (15), `CONCIERTO` (11), `DESFILE` (6), `CARRERA`
+(1), `conciento` (0) — the last is a **typo duplicate of `CONCIERTO`**, a small data-quality
+signal about how this taxonomy is maintained.
+
+### 9.5 Editions and the legal surface
+
+**Editions are page slugs containing a year**, not categories: `de-negros-y-blancos-2023`,
+`-2024`, `-2025`, `carnaval-de-negros-y-blancos-de-pasto-2025`, and the current homepage
+`carnaval-de-negros-y-blancos-de-pasto-2027`. **There is no 2026 page.** An ingestion that
+infers the current edition must not assume the year sequence is contiguous.
+
+The pages list also contains residue (`borrador`, `pronto`, `facebook`,
+`que-hacer-filter`) — another reminder that scraped records land as `pending` and are
+reviewed, never trusted.
+
+**Legal surface — what was and was not found:**
+
+- The homepage's **only** legal link is a privacy policy,
+  `politica-de-proteccion-de-datos` (post id 6965, 2024-11-11), and it points at a
+  **different host**: `negrosyblancos.carnavaldepasto.org`, not `carnavaldepasto.org`. Any
+  future fetch rule written for one host does not automatically apply to the other.
+- A search of the REST index for `terminos` returned only **three Elementor footer
+  templates**; `privacidad` and `condiciones` returned **zero**.
+- Enumerating **all 19 pages and all 42 posts** found no terms-of-use document, no
+  terms-and-conditions document, and no cookie policy.
+
+This is **not proof that no terms exist** — the search index does not cover everything, a
+footer template may hold the text, and the second host was not enumerated. It is enough to
+record that brief §20's *"revisar robots.txt y términos de uso"* is **half closed**: the
+`robots.txt` half is done, the terms half is not, and `docs/legal/terminos-y-condiciones.md`
+still requires the professional review it already says it needs.
+
+Also observed on the homepage: links to `corpocarnaval.com` (which is why the
+not-affiliated disclaimer is mandatory, FR-A-09), three `wa.me` WhatsApp links, and the
+usual social networks. **No public email address was found**, which is the gap noted in
+§9.1.
+
+### 9.6 Still unverified
+
+- **Terms of use.** Not found (§9.5); not a conclusion that none exist.
+- **`propuesta` and `artesanos`** endpoints were registered but not read.
+- **`wp-sitemap.xml`** was advertised but not fetched.
+- **Rate limits.** No `Crawl-delay` and no observed throttling across 13 requests, but a
+  single polite burst proves nothing about the site's tolerance. `rate_limit_seconds` must
+  be configured conservatively and lowered only deliberately.
+- **The `www.` host versus the bare domain.** The API declares its canonical `url` as the
+  bare `carnavaldepasto.org`; the probe used both. Pin **one** canonical host per
+  `scrape_sources` row so `content_hash` idempotency is not defeated by host variance.
+- **Nothing was ingested.** No `raw_documents`, no fixtures, no `scrape_sources` rows —
+  `backend/` is still empty, so there is nothing yet to write records into. Captured
+  payloads were discarded with the temporary directory.

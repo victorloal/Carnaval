@@ -360,8 +360,13 @@ silent assumption; the trigger is the condition that would change the answer.
 One further question raised by `modelo-datos.md` §10 was also closed:
 
 - **Whether `days` are seeded per edition or created by the pipeline** — **seeded by the
-  pipeline from the source**, because day names differ by year (`modelo-datos.md` §3.2).
-  That document's other three questions are the same as SRS §9 Q1, Q3 and Q5 above.
+  pipeline from the source** (`modelo-datos.md` §3.2). The original justification here was
+  "because day names differ by year"; **the source spike disproved that** — the source reuses
+  `2 de enero` on every edition, so labels are stable and only the calendar position moves.
+  The decision stands for a different reason: derive the year from dated content, never from
+  the label, and never carry one edition's days over to the next. See
+  `fuentes-y-atribucion.md` §9.4. That document's other three questions are the same as SRS
+  §9 Q1, Q3 and Q5 above.
 
 **One question remains genuinely open**, and this document does not answer it:
 
