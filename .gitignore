@@ -228,3 +228,16 @@ data/raw/
 # Local uploads and images received from visitors (quarantine, moderation
 # artifacts, EXIF-stripping scratch space).
 data/uploads/
+
+# Node — the diagram validator's dependencies (scripts/check-diagrams.cjs,
+# ADR 0014). package.json and package-lock.json ARE committed; the installed
+# tree is not.
+node_modules/
+
+# Editor / agent local configuration. Not project configuration.
+.cursor/
+
+# One-shot maintainer utility: it created the US-01..US-32 issues and the
+# GitHub Projects board. It is Windows-only, hardcodes the gh.exe path, and
+# re-running it would duplicate every issue, so it stays local.
+scripts/import-github-user-stories.ps1

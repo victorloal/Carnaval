@@ -1,0 +1,23 @@
+{
+  "name": "carnaval",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Documentation tooling for the Carnaval de Negros y Blancos repository. This is NOT the application: the backend is Python/Django and the public site is a separate package under frontend/.",
+  "license": "MIT",
+  "type": "commonjs",
+  "scripts": {
+    "check:diagrams": "node scripts/check-diagrams.cjs ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/victorloal/Carnaval.git"
+  },
+  "bugs": {
+    "url": "https://github.com/victorloal/Carnaval/issues"
+  },
+  "homepage": "https://github.com/victorloal/Carnaval#readme",
+  "devDependencies": {
+    "jsdom": "^29.1.1",
+    "mermaid": "^12.1.0"
+  }
+}

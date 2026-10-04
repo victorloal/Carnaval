@@ -21,6 +21,28 @@ const MERMAID_LANGS = new Set(["mermaid"]);
 // These are "plain" fences: allowed in general, but not for diagram syntax.
 const PLAIN_LANGS = new Set(["", "text", "txt", "plaintext", "plantuml", "uml"]);
 
+// Directories that are never project documentation. Without this, installing
+// dependencies is enough to make the validator fail on a third party's README:
+// node_modules/mermaid/README.md carries PlantUML C4 blocks, and mermaid is
+// installed by this very script. The walk must see the repository, not the
+// tools it uses.
+const SKIP_DIRS = new Set([
+  ".git",
+  "node_modules",
+  ".venv",
+  "venv",
+  "env",
+  "__pycache__",
+  ".pytest_cache",
+  ".ruff_cache",
+  ".mypy_cache",
+  "dist",
+  "build",
+  "coverage",
+  "htmlcov",
+  ".next",
+]);
+
 function detectMermaidType(src) {
   const line = src
     .split(/\r?\n/)
@@ -28,7 +50,7 @@ function detectMermaidType(src) {
     .find((l) => l && !l.startsWith("%%"));
   if (!line) return "(empty)";
   const m = line.match(
-    /^(flowchart|graph|sequenceDiagram|stateDiagram(?:-v2)?|erDiagram|classDiagram(?:-v2)?|journey|gantt|pie|requirementDiagram|gitGraph|mindmap|timeline|quadrantChart|sankey-beta|block-beta|packet-beta|kanban|architecture-beta|xychart-beta|razzle dazzle)/
+    /^(flowchart|graph|sequenceDiagram|stateDiagram(?:-v2)?|erDiagram|classDiagram(?:-v2)?|journey|gantt|pie|requirementDiagram|gitGraph|mindmap|timeline|quadrantChart|sankey-beta|block-beta|packet-beta|kanban|architecture-beta|xychart-beta|razzle dazzle|C4Context|C4Container|C4Component|C4Dynamic|C4Deployment)/
   );
   if (m) return m[1];
   return "(unknown: " + line.slice(0, 24) + ")";
@@ -42,9 +64,12 @@ function detectMermaidType(src) {
   const files = [];
   (function walk(d) {
     for (const e of fs.readdirSync(d, { withFileTypes: true })) {
-      const p = path.join(d, e.name);
-      if (e.isDirectory()) walk(p);
-      else if (e.name.endsWith(".md")) files.push(p);
+      if (e.isDirectory()) {
+        if (SKIP_DIRS.has(e.name)) continue;
+        walk(path.join(d, e.name));
+      } else if (e.name.endsWith(".md")) {
+        files.push(path.join(d, e.name));
+      }
     }
   })(root);
 

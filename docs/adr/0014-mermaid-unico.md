@@ -126,12 +126,48 @@ existed and the old check looked at 11.**
 4. **Keep checking only `mermaid` fences.** Rejected — that *is* the current behaviour, and
    it returned a green result for a document with two broken diagrams.
 
+## Amendment — 2026-10-04
+
+Recorded once the validator became runnable, which is what made these claims checkable. The
+decision stands. **Two of its stated reasons did not survive checking.**
+
+**Falsified — §2's "Mermaid ships no C4 notation".** Against the version this repository now
+pins, `mermaid@12.1.0`, `mermaid.parse()` **accepts** a valid `C4Context` block. Mermaid gained
+native C4 support after this ADR was written, so §2's premise is no longer true of the tool we
+use. §4's breakdown was also blind to it: `C4Context` was reported as `(unknown: C4Context)`
+while parsing successfully, because the diagram-type regex had not been taught C4.
+
+**Still true — §1's "Mermaid 11 has no UML activity diagram".** Re-verified against the same
+version: `mermaid.parse("activityDiagram…")` fails with *"No diagram type detected matching
+given configuration"*.
+
+**Why the C4 approximation is kept anyway.** The reader is GitHub, not us. GitHub renders
+Mermaid with **its own pinned version**, which this repository neither controls nor has
+verified. If that renderer predates C4 support, a `C4Context` fence renders as a syntax error
+rather than a diagram — the exact failure this ADR exists to prevent, reintroduced by its own
+fix. A `flowchart` approximation renders on every Mermaid version the project will outlive, and
+the diagrams are written and reviewed that way already.
+
+So §2's **decision** stands and only its **reason** was wrong. Verifying the open question is
+cheap: put one `C4Context` block on a scratch branch, open the rendered page on GitHub, and
+look. Until somebody does, the conservative approximation stays and nobody should read this
+amendment as "C4 is available, switch over".
+
 ## Verification
 
-- `node scripts/check-diagrams.cjs <repo-root>` prints both breakdowns and exits non-zero on
-  any failure. Run from a checkout where `mermaid` and `jsdom` are installed; **neither is
-  vendored in this repository**, which still has no `package.json`.
-- The dependencies and the CI job land with Sprint 01, alongside the first real CI. Shipping
-  the script now and wiring it later was chosen over wiring it immediately, because a check
-  that lives outside the repository cannot be run — or reviewed — by anyone else, and that is
-  how the first false green survived as long as it did.
+- `npm ci && npm run check:diagrams` runs the validator from a clean checkout. It prints both
+  breakdowns and exits non-zero on any failure.
+- Dependencies are pinned in `package.json` and `package-lock.json` (`mermaid@12.1.0`,
+  `jsdom@29.1.1` as of 2026-10-04). `node_modules/` is gitignored; the lockfile is committed.
+  **That `package.json` is documentation tooling only** — the backend is Python and the public
+  site becomes a separate package under `frontend/`. It must not grow into an application
+  manifest.
+- The validator skips dependency and build directories, and that was a real defect rather than
+  a precaution. The first run with `node_modules` present walked into `mermaid`'s own
+  `README.md`, found PlantUML C4 blocks there, and failed on a third party's documentation. A
+  check has to see the repository, not the tools it installs.
+- Current result: **37 fenced blocks, 20 Mermaid diagrams, 0 failures.** The 20 is
+  cross-checkable — a repository-wide search for lines that open a `mermaid` fence also
+  returns 20.
+- The CI job that runs this on every push still lands with Sprint 01, alongside the first real
+  pipeline.

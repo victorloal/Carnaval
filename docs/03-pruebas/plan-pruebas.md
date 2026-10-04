@@ -210,12 +210,17 @@ Stage 8 is the mechanical enforcement of ADR 0011: the schema is regenerated and
 fails if the working tree differs from the committed `docs/02-diseno/openapi.yaml`.
 
 **A docs check runs with stage 1** and is not numbered above, because it gates documentation
-rather than the build: `node scripts/check-diagrams.cjs .` validates every fenced diagram in
-`docs/` and **fails on diagram syntax found outside a `mermaid` fence** (ADR 0014). It is part
-of this pipeline because ADR 0014 deferred exactly this wiring, and until it runs in CI the
-check only exists for whoever installs `mermaid` and `jsdom` and remembers to run it — which
+rather than the build: `npm ci && npm run check:diagrams` validates every fenced diagram in
+the repository and **fails on diagram syntax found outside a `mermaid` fence** (ADR 0014). Its
+dependencies are now pinned in the repository's `package.json` and `package-lock.json`, so the
+check is runnable by anyone from a clean checkout rather than only by whoever happens to have
+`mermaid` and `jsdom` installed. It is part of this pipeline because ADR 0014 deferred exactly
+this wiring, and until it runs in CI the check depends on someone remembering to run it — which
 is how two unrendered diagrams sat in `arquitectura-c4.md` while a hand-run version of the
 same check reported everything green.
+
+That `package.json` covers documentation tooling only. It is not the frontend manifest and must
+not become one; the public site keeps its own package under `frontend/`.
 
 E2E and Lighthouse run only on branches and on `main`, not on every push, to stay inside
 free-tier minutes.
