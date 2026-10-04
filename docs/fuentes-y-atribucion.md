@@ -6,8 +6,9 @@
 >
 > It does, however, feed the legal texts in `docs/legal/`, and **those texts are
 > machine-drafted and unreviewed** — see `docs/legal/README.md`. Nothing here overrides
-> them, and nothing here is a substitute for the outstanding professional review
-> (brief §11, §20).
+> them. The professional review that brief §11 and §20 kept open **is no longer outstanding:
+> it was declined on 2026-10-04** (ADR 0016), and the DRAFT notice on each legal page is what
+> stands in its place. Nothing in this register substitutes for it either.
 
 - **Status:** Working register. Phase 0 closed 2026-10-04 — §9 is the source spike record
 - **Date:** 2026-10-03 (register), 2026-10-03 (§9 spike)
@@ -331,8 +332,10 @@ reviewed, never trusted.
 This is **not proof that no terms exist** — the search index does not cover everything, a
 footer template may hold the text, and the second host was not enumerated. It is enough to
 record that brief §20's *"revisar robots.txt y términos de uso"* is **half closed**: the
-`robots.txt` half is done, the terms half is not, and `docs/legal/terminos-y-condiciones.md`
-still requires the professional review it already says it needs.
+`robots.txt` half is done, the terms half is not. The professional review that
+`docs/legal/terminos-y-condiciones.md` required was then **declined** (ADR 0016), so no
+reviewed text was ever going to clear this. The two gaps are independent, and neither closes
+the other.
 
 **What the maintainer decided on 2026-10-04.** The second half is closed as an **accepted
 risk**, not as an answer. The reasoning is recorded so it can be argued with later:
@@ -374,3 +377,26 @@ usual social networks. **No public email address was found**, which is the gap n
 - **Nothing was ingested.** No `raw_documents`, no fixtures, no `scrape_sources` rows —
   `backend/` is still empty, so there is nothing yet to write records into. Captured
   payloads were discarded with the temporary directory.
+
+### 9.7 The permission request — sent 2026-10-04, unanswered
+
+The mitigation for §9.5 was put into action: the letter in
+`docs/comunicacion-corpocarnaval.md` was **sent by email on 2026-10-04**. It states what
+will be collected, what will never be collected, and how the collector will behave, and asks
+for written permission.
+
+**No reply has arrived. Nothing about the project's position changed as a result.**
+
+This is worth stating precisely, because a sent request is easy to mistake for a cleared
+one:
+
+- The §9.5 decision stands exactly as recorded: no terms were found, so none are treated as
+  stated, and the risk is accepted, unresolved and reversible.
+- **Silence is not permission.** Per `docs/comunicacion-corpocarnaval.md` §7, the contingency
+  if the answer is no was decided in advance: `scrape_sources.is_active` goes to `false`,
+  published items derived from the source return to `pending`, and the change is recorded in
+  `audit_logs` with a reason.
+- **The recipient address was not recorded** when the message went out. Add it to
+  `docs/comunicacion-corpocarnaval.md` §6, so a bounce or a misdirected reply is traceable.
+- **Do not cite this file as permission.** If asked "did you ask?", the true answer is yes;
+  if asked "did they agree?", the answer is that nobody has answered yet.

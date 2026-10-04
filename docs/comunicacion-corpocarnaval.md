@@ -1,15 +1,21 @@
 # Contact with Corpocarnaval — the permission request
 
-- **Status:** **Drafted, not sent.** 2026-10-04
+- **Status:** **Sent by email, 2026-10-04. No reply yet.**
 - **Required by:** brief §11 and §20; `docs/00-acta-proyecto.md` §6 (C6), §12.2 item 2;
   `docs/fuentes-y-atribucion.md` §9.5; `docs/02-diseno/despliegue.md` §10
 - **Why it matters:** it is the mitigation for the missing terms of use (§9.5 of the source
   register) **and** the last chance to hear an objection before the site is public. It is
   the only protection of its kind that is actually within reach.
 
-> **Sending this is a human act.** It is drafted here so that what will be said is reviewable
-> before it is said, and so the answer can be recorded in the repository afterwards. Nothing
-> in this file has been sent to anyone.
+> **Sent 2026-10-04 by email. No reply has arrived.** The letter was drafted here first so
+> that what was said is reviewable, and §6 records what actually happened rather than what
+> was hoped for.
+>
+> **Sending it changed nothing about the project's legal position.** Before the reply exists,
+> the state is exactly what §7 says: the request is outstanding, silence is not permission,
+> and the risk recorded in `docs/fuentes-y-atribucion.md` §9.5 stays accepted, unresolved
+> and reversible. A pending request is not consent, and this file must never be cited as if
+> it were.
 
 ## 1. The recipient is still an open gap
 
@@ -132,34 +138,37 @@ Pasto, Nariño, Colombia
 victorloal513@gmail.com
 ```
 
-## 5. Before sending
+## 5. Sending checklist
 
-- [ ] **Choose the channel** (§1) — email if at all possible.
-- [ ] **Add the address of the site itself.** The letter deliberately cites only the code
-      repository, because the public site does not exist yet. Once there is an address, add
-      it to the last paragraph; sending a request that cites a URL nobody can open wastes the
-      one good first impression this contact gets.
-- [ ] **Re-read §2 and §3 against the letter.** If the implementation later starts
-      collecting something not listed in §2, this letter becomes inaccurate and must be
-      corrected — the letter's value depends entirely on it being true.
-- [ ] **Record the outcome** in §6 on the day it arrives.
+- [x] **Channel chosen** (§1) — email.
+- [ ] **Add the address of the site itself, in any follow-up.** The letter deliberately cited
+      only the code repository, because the public site does not exist yet. Once there is an
+      address, it belongs in the next message.
+- [ ] **Keep §2 and §3 true.** If the implementation later starts collecting something not
+      listed in §2, the letter becomes inaccurate and a correction must be sent — its value
+      depends entirely on it being true.
+- [ ] **Record the reply** in §6 on the day it arrives.
+- [ ] **Add the recipient address to §6.** It is not recorded here because it was not
+      recorded when the message went out. A future reader needs it to trace where the request
+      went and whether a bounce or reply is being missed.
 
 ## 6. Outcome register
 
-Empty until the letter is sent. Fill it in with what actually happened, not with what was
-hoped for — including if there is no answer.
-
 | Field | Value |
 |---|---|
-| Date sent | — |
-| Channel used | — |
-| Recipient (name, role) | — |
-| Exact reply received | — |
+| Date sent | **2026-10-04** |
+| Channel used | **Email** |
+| Recipient (name, role) | Corpocarnaval — **specific address not recorded here**; add it (see §5) |
+| Exact reply received | **None as of 2026-10-04** |
 | Date of reply | — |
-| Permission granted? | — |
+| Permission granted? | **Not yet. No answer is not permission** (§7) |
 | Conditions or restrictions imposed | — |
-| Changes made as a result | — |
-| Recorded in `fuentes-y-atribucion.md` §9 | — |
+| Changes made as a result | **None.** Nothing about the project's legal or publishing state moved |
+| Recorded in `fuentes-y-atribucion.md` §9 | Yes — §9.7 |
+
+**If a reply never arrives.** Say so here explicitly rather than leaving the table blank,
+because a blank reads as "still pending" indefinitely. The state to record is: *request sent,
+no reply, position unchanged*, and the review date to try again.
 
 ## 7. If the answer is no
 

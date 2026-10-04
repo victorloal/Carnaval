@@ -243,7 +243,7 @@ no requirement should be deleted.
 | PRV-03 | US-30 | legal/privacidad | 0008 | T | **SEC-33** | Open |
 | PRV-04 | US-22 | modelo-datos §8 | 0006 | T | **SEC-21** | Open |
 | PRV-05 | US-23 | modelo-datos §6.3 | 0006 | T | **SEC-28** | Open |
-| PRV-06 | US-27 | legal/privacidad | 0008 | I | inspection | Open |
+| PRV-06 | US-27 | legal/privacidad | 0008 | I | inspection | **Blocked — ADR 0016.** Retention periods need legal judgement that will not be obtained. The requirement is left intact rather than weakened; do not fill it with a plausible value |
 | PRV-07 | US-30 | legal/privacidad | 0008 | A | inspection: procedure | Open |
 | PRV-08 | US-27 | legal/privacidad | 0007 | T | E2E: consent gate | Open |
 | PRV-09 | US-22 | plan-pruebas | 0005 | T | **SEC-49** | Open |

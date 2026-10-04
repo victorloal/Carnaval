@@ -38,8 +38,9 @@ Phase 0 (documentation) is **closed**. No deployed version yet — see the statu
 - `package.json` / `package-lock.json` — pins `mermaid` and `jsdom` so the validator is
   runnable from a clean checkout with `npm ci && npm run check:diagrams`. **Documentation
   tooling only**; the public site's package belongs under `frontend/`.
-- `docs/legal/` — **draft** terms, privacy policy, content policy, and takedown procedure.
-  Not legal advice; requires professional review before v3.
+- `docs/legal/` — terms, privacy policy, content policy, and takedown procedure. Published
+  as **permanently labelled drafts**; never professionally reviewed (ADR 0016). Not legal
+  advice.
 - `docs/fuentes-y-atribucion.md` — source register, attribution policy, scraping etiquette,
   and the §9 source spike record against `carnavaldepasto.org`.
 - `docs/sprints/` — Sprint 00 plan and retrospective (Phase 0) and the Sprint 01 plan.
@@ -89,9 +90,12 @@ contradiction.
 
 None of these block Sprint 01. All of them block a public launch.
 
-- **Corpocarnaval has not been contacted.** The permission request is drafted in
-  `docs/comunicacion-corpocarnaval.md` but not sent, and its recipient is unresolved: the
-  official site publishes no email address. Required before publishing (brief §11, §20).
+- **Corpocarnaval has not replied.** The written permission request was **sent by email on
+  2026-10-04** (`docs/comunicacion-corpocarnaval.md`, recorded in
+  `docs/fuentes-y-atribucion.md` §9.7). No answer has arrived, and **nothing about the
+  project's position moved** — silence is not permission, and §7 of that document fixes in
+  advance what happens if the answer is no. Two loose ends: the recipient address was never
+  recorded, and no review date was set. Required before publishing (brief §11, §20).
 - **The official site's terms of use were not found.** `robots.txt` is permissive and the
   WordPress REST API is live, but enumerating all 19 pages and 42 posts found no terms,
   conditions, or cookie policy. **Accepted as a documented risk on 2026-10-04** — no terms
@@ -106,6 +110,9 @@ None of these block Sprint 01. All of them block a public launch.
 - **ADR 0008's gate on v3 is unsatisfied.** Public submissions were gated behind reviewed
   legal documents; review has been declined. Deliberately left undecided — it must be settled
   before the upload form is built, not while.
+- **PRV-06 is blocked.** It requires the privacy policy to name retention periods, which need
+  legal judgement that will not be obtained. The requirement is left intact and marked
+  blocked rather than weakened to look satisfiable.
 
 Resolved during Phase 0's close: the project contact is **victorloal513@gmail.com**, written
 into `README.md`, `CONTRIBUTING.md`, and the `docs/legal/` placeholders that depended on it

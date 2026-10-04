@@ -357,7 +357,12 @@ marks an explicit non-goal, so scope creep is visible at the point of writing.
     versioned, one current version per type and locale.
   - A published document is never edited in place.
   - The privacy policy names the data categories, purposes, and retention deadlines.
-- Not: publishing final legal text without professional review (drafts only, brief §11).
+    **Retention deadlines cannot be met.** They require legal judgement that will not be
+    obtained (ADR 0016), so this criterion stays unsatisfiable and no implementer may invent
+    a value to close it. Tracked as **blocked** in `matriz-trazabilidad.md` (PRV-06).
+- Not: publishing any of these texts without the DRAFT notice above the content (ADR 0016).
+  Brief §11's "no final legal text without professional review" was **removed, not
+  satisfied** — ADR 0016 declined the review and replaced it with the notice.
 
 ### US-28 — Have my content removed
 > As a photographer or subject I want to request removal of my image, and have it actually

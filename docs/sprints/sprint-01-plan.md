@@ -88,7 +88,7 @@ ADR 0001's four conditions, applied per backlog item:
 | Django admin screens | Nothing exists to review until content tables land |
 | Public submissions (v3) | ADR 0008 deliberately places submissions last |
 | The React public site | The API contract (item 5) must exist before a client can be built against it |
-| `docs/legal/` work | Unrelated to the build; and those texts need professional review regardless |
+| `docs/legal/` work | Unrelated to the build, and ADR 0016 settled its status: permanent drafts with a DRAFT notice, never reviewed |
 | **ADR 0015** (egress cost) | Decides the storage provider, which is a deployment question — after the schema exists |
 
 ## Risks
