@@ -331,8 +331,8 @@ Opcional: 3 o 4 videos cortos (demo, arquitectura, pipeline en acción, retrospe
 
 ## 19. ADRs
 
-Quince en total. **0001 a 0014 ya están escritos** en `docs/adr/`; falta 0015 (coste de
-salida de red).
+Dieciséis en total. **0001 a 0014 y 0016 ya están escritos** en `docs/adr/`; falta 0015
+(coste de salida de red).
 
 - 0001: Metodología Scrumban — *escrito*
 - 0002: Backend de ingesta con base de datos como fuente de verdad — *escrito*
@@ -347,8 +347,10 @@ salida de red).
 - 0011: OpenAPI generado con comprobación de *drift* — *escrito*
 - 0012: Traducciones como columnas `*_es`/`*_en`, sin tabla genérica — *escrito*
 - 0013: Defaults de las decisiones abiertas del SRS §9 (timeouts, retención, búsqueda) — *escrito*
-- 0014: Herramienta de diagramas (Mermaid, C4 aproximado) — *escrito*
+- 0014: Herramienta de diagramas (Mermaid, C4 aproximado) — *escrito* (enmendado 2026-10-04)
 - 0015: Coste de salida de red (R2 frente a Supabase Storage) — *pendiente*
+- 0016: Textos legales publicados como borrador permanente, sin revisión profesional —
+  *escrito* (contradice el ítem de revisión de esta sección 20; ver §20)
 
 ## 20. Pendientes
 
@@ -358,21 +360,31 @@ externa o de una decisión aún abierta. Ver `MEMORY.md` para el estado vigente.
 - [x] Verificar si `carnavaldepasto.org/wp-json/wp/v2/pages` responde. → **Sí, verificado
       2026-10-03**: HTTP 200, 368 rutas, sin autenticación para lectura. Ver
       `docs/fuentes-y-atribucion.md` §9.2.
-- [ ] Revisar los términos de uso del sitio y registrarlo en `docs/fuentes-y-atribucion.md`.
+- [x] Revisar los términos de uso del sitio y registrarlo en `docs/fuentes-y-atribucion.md`.
       El `robots.txt` **ya se revisó** (2026-10-03: permite todo salvo `/wp-admin/`, sin
       `Crawl-delay`), pero los términos de uso **no se encontraron** en las 19 páginas ni
-      en los 42 artículos. Ver §9.5.
-- [ ] Crear el tablero de GitHub Projects.
+      en los 42 artículos. Ver §9.5. → **Cerrado como riesgo aceptado 2026-10-04**: no se
+      encontraron términos, así que no se tratan como publicados; la mitigación es la
+      solicitud escrita de `docs/comunicacion-corpocarnaval.md`, no una inferencia de permiso.
+- [x] Crear el tablero de GitHub Projects. → **Hecho** (issues US-01..US-32).
 - [ ] **Escribir a Corpocarnaval** para informarles del proyecto. Es cortesía y la última
-      oportunidad de saber de una objeción antes de que el sitio sea público.
+      oportunidad de saber de una objeción antes de que el sitio sea público. → **Carta
+      redactada** 2026-10-04 en `docs/comunicacion-corpocarnaval.md`; falta enviarla y
+      registrar la respuesta. El destinatario sigue sin resolverse: el sitio oficial no
+      publica correo electrónico.
 - [ ] Confirmar los límites vigentes de los planes gratuitos elegidos, y re-verificarlos antes
       de cada publicación (los límites cambian).
 - [ ] Elegir los proveedores concretos de hosting, base de datos y almacenamiento (ADR 0015
       cubriría el criterio de coste de salida).
-- [ ] Cerrar los borradores de `docs/legal/` con **revisión profesional** antes de iniciar la v3.
-- [ ] Cerrar las decisiones abiertas del SRS §9: estrategia de traducciones, tiempos de sesión,
-      retención de documentos crudos y buscador.
-- [ ] Definir y publicar una dirección de contacto para quejas y retiradas.
+- [-] Cerrar los borradores de `docs/legal/` con **revisión profesional** antes de iniciar la
+      v3. → **Decidido 2026-10-04 que NO habrá revisión profesional** (ADR 0016). Los textos
+      se publican como borrador permanente y etiquetado. **Consecuencia abierta:** la v3
+      (contribuciones públicas) queda sin la condición que el ADR 0008 puso para permitirla;
+      esa decisión sigue pendiente y no debe tomarse al empezar a construir el formulario.
+- [x] Cerrar las decisiones abiertas del SRS §9: estrategia de traducciones, tiempos de sesión,
+      retención de documentos crudos y buscador. → **Hecho 2026-10-03**, ADR 0012 y ADR 0013.
+- [x] Definir y publicar una dirección de contacto para quejas y retiradas. →
+      **victorloal513@gmail.com**, 2026-10-04.
 
 ## 21. Glosario
 

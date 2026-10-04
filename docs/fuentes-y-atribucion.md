@@ -204,6 +204,11 @@ prevention is the control.
   debt that more writing would clear, it is an unanswered question about a third party's
   site that only Corpocarnaval can answer (brief §20). Carried as
   `docs/00-acta-proyecto.md` §12.2 item 3.
+- **Resolved as a risk decision, 2026-10-04.** No terms were found, so none are treated as
+  stated: the project proceeds on the basis that no published restriction was found, **not**
+  on the basis that permission was found. The mitigation is the written request in
+  `docs/comunicacion-corpocarnaval.md`. If terms are ever published, or if Corpocarnaval
+  objects, this decision is re-opened — see §9.6.
 
 ## 9. Source spike record — 2026-10-03
 
@@ -220,7 +225,7 @@ that unknown rights block publication.
 | Method | `GET` only, sequential, no authentication, no `POST`, ~2 s between requests |
 | Requests | **13** in total, against 2 hosts (`www.carnavaldepasto.org`, `carnavaldepasto.org`) |
 | `User-Agent` | `CarnavalDocsSpike/0.1 (+https://github.com/victorloal/Carnaval; documentation spike, no scraping)` |
-| Contact | The repository URL. **No email address exists yet** — `README.md` and `CONTRIBUTING.md` still carry `[PENDIENTE: define before launch]`, and §9.5 below confirms the site exposes no public contact address either. FR-B-14 requires contact information in the UA, so that placeholder must be filled before any *pipeline* run |
+| Contact | The repository URL — **this is what the spike actually sent**, because no email address existed at the time. §9.5 below confirms the site exposes no public contact address either. **Superseded 2026-10-04:** the project contact is now `victorloal513@gmail.com` and every pipeline request must carry it (FR-B-14) |
 | Where the payloads went | Temporary storage **outside this repository**. Nothing was committed |
 | Preflight | `data/raw/`, `data/uploads/` and `*.pdf` confirmed in `.gitignore`; no `data/` directory existed; `git status` clean before and after |
 
@@ -329,6 +334,25 @@ record that brief §20's *"revisar robots.txt y términos de uso"* is **half clo
 `robots.txt` half is done, the terms half is not, and `docs/legal/terminos-y-condiciones.md`
 still requires the professional review it already says it needs.
 
+**What the maintainer decided on 2026-10-04.** The second half is closed as an **accepted
+risk**, not as an answer. The reasoning is recorded so it can be argued with later:
+
+- **No published terms were found, so none are treated as stated.** The project does not
+  behave as though permission had been granted; it behaves as though no restriction had been
+  published — the reading least favourable to itself.
+- **This is not a licence to copy content.** Rights are a separate question, governed by §1
+  and by `rights_status` per item. An image or article with `rights_status = unknown` is
+  still never published, whatever this decision says.
+- **The mitigation is a request, not an inference.** `docs/comunicacion-corpocarnaval.md`
+  asks for permission in writing and states exactly what will be collected. If the answer is
+  no, or restrictive, the source is disabled and anything derived from it is withdrawn.
+  Deciding to proceed does not pre-empt that answer.
+- **The residual risk is legal and reputational, accepted knowingly** by a maintainer with no
+  legal advice available to him (ADR 0016).
+
+What would re-open this: terms being published on the site, a `robots.txt` change, a
+complaint, or any answer from Corpocarnaval.
+
 Also observed on the homepage: links to `corpocarnaval.com` (which is why the
 not-affiliated disclaimer is mandatory, FR-A-09), three `wa.me` WhatsApp links, and the
 usual social networks. **No public email address was found**, which is the gap noted in
@@ -336,7 +360,9 @@ usual social networks. **No public email address was found**, which is the gap n
 
 ### 9.6 Still unverified
 
-- **Terms of use.** Not found (§9.5); not a conclusion that none exist.
+- **Terms of use.** Not found (§9.5); not a conclusion that none exist. **Risk accepted
+  2026-10-04** — see the decision recorded in §9.5. Still open as a *fact*; closed as a
+  *decision*.
 - **`propuesta` and `artesanos`** endpoints were registered but not read.
 - **`wp-sitemap.xml`** was advertised but not fetched.
 - **Rate limits.** No `Crawl-delay` and no observed throttling across 13 requests, but a

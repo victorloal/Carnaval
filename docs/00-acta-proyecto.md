@@ -167,15 +167,27 @@ The next unit of work is **Sprint 01**, `docs/sprints/sprint-01-plan.md` — the
 that runs. Its seven exit criteria are the gate between "documentation exists" and "the
 repository can refuse a bad change", and every later phase depends on them.
 
+**On which gate applies here.** ADR 0001's Definition of Done governs **items on the
+board** — it is written for a unit of work with code, tests, a CI run and a matrix row.
+Closing a phase is not that: no exit gate for Phase 0 was ever written down, which is why
+this section exists. Claiming Phase 0 either met or broke the DoD would be reading a rule
+past what it says. What *does* apply, and is not negotiable, is every hard rule in
+`AGENTS.md` — and none of them was broken: no third-party material was committed, nothing
+was published, the brief was reconciled rather than quietly contradicted, and the
+traceability matrix carries every requirement.
+
+The condition that cannot be met here is "CI green", because there is no CI yet. Sprint 01
+is the work that creates it.
+
 ### 12.2 Open items carried out of Phase 0
 
 These do **not** block Sprint 01. Every one of them blocks a public launch, and none of
 them can be closed by writing more documentation.
 
-| # | Item | Owner | Blocks |
-|---|---|---|---|
-| 1 | Define the project contact email — `README.md`, `CONTRIBUTING.md`, and the `docs/legal/` placeholders all depend on it | Maintainer | FR-B-14 requires contact information in the scraper's `User-Agent` |
-| 2 | Contact Corpocarnaval and record the date and the outcome (brief §11, §20) | Maintainer | C6; publishing anything |
-| 3 | Resolve the terms-of-use gap, or accept it as a permanent documented risk (`fuentes-y-atribucion.md` §9.5) | Maintainer | Source activation; `docs/legal/terminos-y-condiciones.md` |
-| 4 | Obtain professional review of `docs/legal/` and close its `[PENDIENTE]` decisions | Maintainer + a Colombian lawyer | v3 |
-| 5 | Choose the deployment platform and write **ADR 0015** (network egress cost) | Maintainer | Any deployed version; also decides the storage provider |
+| # | Item | Owner | Blocks | Status |
+|---|---|---|---|---|
+| 1 | Define the project contact email | Maintainer | FR-B-14 requires contact information in the scraper's `User-Agent` | **Done 2026-10-04** — `victorloal513@gmail.com`, written into `README.md`, `CONTRIBUTING.md`, and the `docs/legal/` placeholders |
+| 2 | Contact Corpocarnaval and record the date and the outcome (brief §11, §20) | Maintainer | C6; publishing anything | **Open.** The letter is drafted and ready to send in `docs/comunicacion-corpocarnaval.md`; sending it and recording the answer is a human act |
+| 3 | Resolve the terms-of-use gap, or accept it as a permanent documented risk (`fuentes-y-atribucion.md` §9.5) | Maintainer | Source activation | **Accepted as a documented risk, 2026-10-04.** No terms were found, so none are treated as stated; the mitigation is the written permission request in item 2, not an inference of permission |
+| 4 | Obtain professional review of `docs/legal/` and close its `[PENDIENTE]` decisions | — | v3 | **Will not happen — decided 2026-10-04**, see ADR 0016. The texts ship as permanently labelled drafts. The `[PENDIENTE]` deadlines and legal bases stay unresolved by decision, not by oversight |
+| 5 | Choose the deployment platform and write **ADR 0015** (network egress cost) | Maintainer | Any deployed version; also decides the storage provider | **Open.** Candidates and a recommendation are already in `docs/02-diseno/despliegue.md` §3; the ADR writes down the egress reasoning and the choice |

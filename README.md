@@ -50,10 +50,11 @@ not a feature.
 | v2 | News, historical gallery with citations, site settings | Not started |
 | v3 | Public submissions, moderation, legal documents | Not started |
 
-Known gaps that block a public launch, not the next sprint: the project contact email is
-undefined, the official site's terms of use were never found, Corpocarnaval has not been
-contacted, and the legal texts are unreviewed drafts. See
-`docs/00-acta-proyecto.md` §12.2.
+Known gaps that block a public launch, not the next sprint: Corpocarnaval has not been
+contacted, and the site's terms of use were never found. The contact email is now
+`victorloal513@gmail.com`. The legal texts are **permanently unreviewed drafts** — there will
+be no professional review, so every legal page carries a DRAFT notice instead (ADR 0016).
+See `docs/00-acta-proyecto.md` §12.2.
 
 ## Repository layout
 
@@ -81,7 +82,8 @@ Start with `docs/00-contexto-proyecto.md` (the project brief, in Spanish).
 | `docs/02-diseno/` | C4, data model, data flow, threat model, roles, deployment |
 | `docs/03-pruebas/` | Test plan and the security case register |
 | `docs/adr/` | Architecture decision records |
-| `docs/legal/` | Draft legal documents — **not legal advice, needs professional review** |
+| `docs/legal/` | **DRAFT** legal documents, permanently unreviewed by decision (ADR 0016) — **not legal advice** |
+| `docs/comunicacion-corpocarnaval.md` | The written permission request to the organisers — drafted, not yet sent |
 | `docs/sprints/` | Sprint plans and retrospectives |
 
 ## Technology
@@ -134,4 +136,4 @@ metadata.
 
 ## Contact
 
-Project and takedown contact: **[PENDIENTE — define before launch]**
+Project and takedown contact: **victorloal513@gmail.com**

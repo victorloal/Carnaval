@@ -63,7 +63,7 @@ legacy exception, not a precedent.
 ## Reporting a security issue
 
 **Do not open a public issue.** Email the maintainer at
-**[PENDIENTE — define before launch]** with:
+**victorloal513@gmail.com** with:
 
 - what you found,
 - how to reproduce it,

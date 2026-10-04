@@ -29,7 +29,10 @@ Phase 0 (documentation) is **closed**. No deployed version yet — see the statu
   (`despliegue.md`).
 - `docs/03-pruebas/plan-pruebas.md` — test plan and the 14-stage CI pipeline.
 - `docs/03-pruebas/casos-seguridad.md` — 74 numbered security test cases.
-- `docs/adr/0001` … `0014` — architecture decision records.
+- `docs/adr/0001` … `0014`, `0016` — architecture decision records. **ADR 0016**: the legal
+  texts ship as permanently labelled drafts; no professional review will be obtained.
+- `docs/comunicacion-corpocarnaval.md` — the written permission request to the organisers,
+  stating exactly what will and will not be collected. **Drafted, not sent.**
 - `scripts/check-diagrams.cjs` — validates **every** fenced diagram in the repository and fails
   on PlantUML syntax outside a `mermaid` fence (ADR 0014). Wired into CI in Sprint 01.
 - `package.json` / `package-lock.json` — pins `mermaid` and `jsdom` so the validator is
@@ -86,16 +89,24 @@ contradiction.
 
 None of these block Sprint 01. All of them block a public launch.
 
-- **Contact email undefined.** `README.md` and `CONTRIBUTING.md` carry
-  `[PENDIENTE — define before launch]`. FR-B-14 requires contact information in the
-  scraper's `User-Agent`, so the placeholder must be filled before any pipeline run — the
-  source spike used the repository URL instead.
+- **Corpocarnaval has not been contacted.** The permission request is drafted in
+  `docs/comunicacion-corpocarnaval.md` but not sent, and its recipient is unresolved: the
+  official site publishes no email address. Required before publishing (brief §11, §20).
 - **The official site's terms of use were not found.** `robots.txt` is permissive and the
   WordPress REST API is live, but enumerating all 19 pages and 42 posts found no terms,
-  conditions, or cookie policy. This is a recorded legal gap, not a clearance.
-  `docs/fuentes-y-atribucion.md` §9.5.
-- **Corpocarnaval has not been contacted.** Required before publishing (brief §11, §20).
-- **`docs/legal/` is unreviewed** and contains unresolved `[PENDIENTE]` decisions,
-  including every retention period and takedown deadline.
+  conditions, or cookie policy. **Accepted as a documented risk on 2026-10-04** — no terms
+  were found, so none are treated as stated. The mitigation is the written request above, not
+  an inference of permission. `docs/fuentes-y-atribucion.md` §9.5.
+- **`docs/legal/` will never be professionally reviewed** (ADR 0016). The texts ship as
+  permanently labelled drafts, and every `[PENDIENTE]` that needed legal judgement stays
+  unresolved *by decision*. One consequence is now stated rather than implied: the takedown
+  procedure has **no deadline**.
 - **ADR 0015** (network egress cost) is unwritten; it decides the storage provider and
   belongs after the schema exists.
+- **ADR 0008's gate on v3 is unsatisfied.** Public submissions were gated behind reviewed
+  legal documents; review has been declined. Deliberately left undecided — it must be settled
+  before the upload form is built, not while.
+
+Resolved during Phase 0's close: the project contact is **victorloal513@gmail.com**, written
+into `README.md`, `CONTRIBUTING.md`, and the `docs/legal/` placeholders that depended on it
+(FR-B-14 requires contact information in the scraper's `User-Agent`).
