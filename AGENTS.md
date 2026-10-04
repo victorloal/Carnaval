@@ -2,9 +2,17 @@
 
 ## Read this first
 
-This repo is in **Phase 0: documentation complete, no code yet**. `backend/`,
+This repo is at the **end of Phase 0: documentation complete, no code yet**. `backend/`,
 `frontend/`, and `tests/` are empty directories; `.github/` does not exist. There is no
-`package.json`, lockfile, linter, test runner, or CI.
+Python code, no linter, no test runner, and no CI. Phase 0 is closed; the next unit of work
+is Sprint 01 (`docs/sprints/sprint-01-plan.md`), whose seven exit criteria are the gate
+everything else waits on.
+
+The one executable artefact is `scripts/check-diagrams.cjs`, which validates every fenced
+diagram in the repository (ADR 0014). It runs today with `npm ci && npm run check:diagrams`.
+The root `package.json` exists **for that script alone** — the backend is Python and the
+public site gets its own package under `frontend/`, so do not grow the root manifest into an
+application manifest. Sprint 01 item 9 wires the check into CI.
 
 The stack is **decided** — do not re-litigate it, and do not substitute a framework:
 
@@ -37,6 +45,8 @@ file wins.
 - `docs/legal/` — **draft** legal texts, not legal advice
 - `docs/sprints/` — sprint plans and retrospectives
 - `docs/fuentes-y-atribucion.md` — source register and scraping etiquette
+- `scripts/check-diagrams.cjs` — the diagram validator; run it with `npm run check:diagrams`
+- `package.json` / `package-lock.json` — **documentation tooling only**; `node_modules/` is ignored
 - `backend/`, `frontend/`, `tests/` — reserved, currently empty
 
 Docs use an `NN-` prefix for ordering. ADRs are the exception: `000N-`, no prefix.

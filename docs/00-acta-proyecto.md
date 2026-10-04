@@ -1,7 +1,8 @@
 # Project minutes — Carnaval de Negros y Blancos
 
 - **Date:** 2026-10-03
-- **Phase:** Fase 0 — initiation and high-level requirements (brief §16)
+- **Phase:** Fase 0 — initiation and high-level requirements (brief §16). **Closed
+  2026-10-04**; see §12.1
 - **Participants:** Victor Lopez (sole maintainer, developer and product owner)
 - **Repository state at time of writing:** documentation only, single `Initial commit`
 
@@ -148,10 +149,33 @@ Anything less remains in `Revisión`.
 
 ## 12. Next actions
 
-Items 1–4 are **done**; they are kept for traceability. `MEMORY.md` holds the live list.
+Items 1–5 are **done**; they are kept for traceability. `MEMORY.md` holds the live list.
 
 1. ~~Reconcile `docs/00-contexto-proyecto.md` with the deviations in §9.~~ **Done.**
 2. ~~Author the SRS (`docs/01-requisitos/srs.md`) with numbered RF/RNF and MoSCoW per version.~~ **Done.**
 3. ~~Write user stories and the traceability matrix.~~ **Done.**
 4. ~~Complete the design set in `docs/02-diseno/`.~~ **Done.**
-5. Run the source spike: probe the WordPress REST API, then `robots.txt` and terms of use.
+5. ~~Run the source spike: probe the WordPress REST API, then `robots.txt` and terms of use.~~ **Partially done, 2026-10-03.** The WordPress REST API responds (368 routes, reads need no auth) and `robots.txt` is permissive with no `Crawl-delay`. The **terms of use were not found**, which is the one question still open. Full record in `docs/fuentes-y-atribucion.md` §9.
+
+### 12.1 Phase 0 closed — 2026-10-04
+
+Phase 0 (brief §16) is complete: the charter, the requirements, the design set, the test
+plan, the threat model, the ADRs, and the draft legal texts all exist. Nothing is
+implemented, and nothing is deployed.
+
+The next unit of work is **Sprint 01**, `docs/sprints/sprint-01-plan.md` — the repository
+that runs. Its seven exit criteria are the gate between "documentation exists" and "the
+repository can refuse a bad change", and every later phase depends on them.
+
+### 12.2 Open items carried out of Phase 0
+
+These do **not** block Sprint 01. Every one of them blocks a public launch, and none of
+them can be closed by writing more documentation.
+
+| # | Item | Owner | Blocks |
+|---|---|---|---|
+| 1 | Define the project contact email — `README.md`, `CONTRIBUTING.md`, and the `docs/legal/` placeholders all depend on it | Maintainer | FR-B-14 requires contact information in the scraper's `User-Agent` |
+| 2 | Contact Corpocarnaval and record the date and the outcome (brief §11, §20) | Maintainer | C6; publishing anything |
+| 3 | Resolve the terms-of-use gap, or accept it as a permanent documented risk (`fuentes-y-atribucion.md` §9.5) | Maintainer | Source activation; `docs/legal/terminos-y-condiciones.md` |
+| 4 | Obtain professional review of `docs/legal/` and close its `[PENDIENTE]` decisions | Maintainer + a Colombian lawyer | v3 |
+| 5 | Choose the deployment platform and write **ADR 0015** (network egress cost) | Maintainer | Any deployed version; also decides the storage provider |

@@ -5,12 +5,12 @@ conflict. **Hard limit: 50 lines.** Records what happened and what is next, neve
 
 ## Current state
 
-- Phase 0: **docs complete, no code.** `backend/`, `frontend/`, `tests/` empty; no CI yet.
-- 44 files: 14 ADRs, acta, SRS (170 reqs), 32 stories, matrix, 9 design docs, **74 cases**, legal, 2 sprints.
+- **Phase 0 closed 2026-10-04.** Docs complete, still no code: `backend/`, `frontend/`, `tests/` empty; no CI yet.
+- 47 tracked files, 44 of them Markdown: 14 ADRs, acta, SRS (170 reqs), 32 stories, matrix, 9 design docs, **74 cases**, 4 legal, 3 sprints.
 - **Stack decided** (0009): Python 3.12 + Django 5 + DRF + **PostgreSQL 16**; React for the
   public site only. Admin is **Django admin** (0005), **no JWT anywhere**.
 - Site is **bilingual es/en** (0010); OpenAPI **generated**, drift fails CI (0011). Platform **undecided**.
-- Brief `docs/00-contexto-proyecto.md` is Spanish and **reconciled**; ADRs still win. **Source spike 2026-10-03:** WP REST API live, `robots.txt` permissive, **terms of use not found** (`fuentes-y-atribucion.md` §9).
+- Brief is **reconciled**; ADRs still win. **Source spike:** WP REST API live, `robots.txt` permissive, **terms of use not found** (`fuentes-y-atribucion.md` §9).
 
 ## Decisions taken
 
@@ -30,13 +30,12 @@ conflict. **Hard limit: 50 lines.** Records what happened and what is next, neve
 
 ## Errors to avoid
 
-- Committing third-party PDFs, photos, or article text. Publishing without review.
-- Reintroducing JWT or a React admin panel; both were decided against.
+- Committing third-party PDFs, photos, or article text; publishing without review; reintroducing JWT or a React admin panel.
 
 ## Next steps
 
-1. **Execute Sprint 01** (`docs/sprints/sprint-01-plan.md`): skeleton, 14-stage CI, first migration, committed `openapi.yaml`. Then ADR 0015 (egress cost) and the storage provider.
-2. Brief §20 follow-ups: the official site's **terms of use were never found**, the `[PENDIENTE]` contact email FR-B-14 needs in the User-Agent, and contacting Corpocarnaval.
+1. **Execute Sprint 01** (`docs/sprints/sprint-01-plan.md`): skeleton, 14-stage CI, first migration, committed `openapi.yaml`.
+2. Launch blockers, none of them Sprint 01's job — all in `acta` §12.2: contact email (FR-B-14 needs it in the User-Agent), Corpocarnaval, the unfound terms of use, professional legal review, platform + ADR 0015.
 
 ## Session log
 
@@ -48,3 +47,4 @@ conflict. **Hard limit: 50 lines.** Records what happened and what is next, neve
 | 2026-10-03d | SRS §9 closed → ADR 0012 (translations) + ADR 0013 (defaults); FR-D-15/16; corrected a backwards Django timeout claim; **source spike** — WP API live (FR-B-15), `6 de enero` is a root category (traps any "children of DIAS" query), programme data is mostly the 2020 edition, terms of use not found |
 | 2026-10-03e | Diagrams: 2 dead C4 blocks → Mermaid (**ADR 0014**), 4 `erDiagram` + 1 `classDiagram` + 2 `sequenceDiagram`, validator extended to **every** fence (the old one counted 11 of 30 and went green) |
 | 2026-10-03f | **Sprint 01 planned** — `sprint-01-plan.md`: skeleton, 14-stage CI, first migration, `openapi.yaml`, no-egress guard; diagram check wired into `plan-pruebas` §7 |
+| 2026-10-04 | **Phase 0 closed** — acta §12 done/partial + §12.1–12.2, CHANGELOG, README, AGENTS, `fuentes`. Made the validator runnable (`package.json`, pinned deps): it walked into `node_modules`, and **`mermaid@12.1.0` parses `C4Context`, falsifying ADR 0014 §2** — amended, approximation kept |

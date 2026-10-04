@@ -37,8 +37,11 @@ can reach.
 
 ## Status
 
-**Phase 0 — documentation.** Nothing is deployed and there is no working code yet. The
-design and requirements are complete; implementation has not started.
+**Phase 0 — documentation — closed 2026-10-04.** The requirements, design set, test plan,
+threat model, and ADRs are complete. **Nothing is deployed and there is no working code
+yet**; `backend/`, `frontend/`, and `tests/` are still empty. Implementation starts with
+Sprint 01, whose goal is a repository that builds and whose CI can refuse a bad change —
+not a feature.
 
 | Version | Contents | State |
 |---|---|---|
@@ -46,6 +49,11 @@ design and requirements are complete; implementation has not started.
 | v1 | Django admin, roles, review queue, audit log | Not started |
 | v2 | News, historical gallery with citations, site settings | Not started |
 | v3 | Public submissions, moderation, legal documents | Not started |
+
+Known gaps that block a public launch, not the next sprint: the project contact email is
+undefined, the official site's terms of use were never found, Corpocarnaval has not been
+contacted, and the legal texts are unreviewed drafts. See
+`docs/00-acta-proyecto.md` §12.2.
 
 ## Repository layout
 

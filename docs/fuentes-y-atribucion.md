@@ -9,8 +9,8 @@
 > them, and nothing here is a substitute for the outstanding professional review
 > (brief §11, §20).
 
-- **Status:** Working register, Phase 0
-- **Date:** 2026-10-03
+- **Status:** Working register. Phase 0 closed 2026-10-04 — §9 is the source spike record
+- **Date:** 2026-10-03 (register), 2026-10-03 (§9 spike)
 - **Relates to:** brief §5 (research findings), §6 decision 5, §11 (legal and ethical
   considerations), §14 (risks), §20 (open items); `docs/00-acta-proyecto.md` §3, §4.2,
   §6 (C3, C4); ADR 0002, ADR 0004, ADR 0006, ADR 0007; `docs/02-diseno/modelo-datos.md`
@@ -200,7 +200,10 @@ prevention is the control.
 - Any source whose terms forbid or restrict collection is marked and its `scrape_sources`
   row stays `is_active = false`, permanently.
 - Terms-of-use findings should end the "unknown" state. Until then, this register documents
-  a **known legal gap**, which is the honest state of the project at Phase 0.
+  a **known legal gap**. That gap survives the close of Phase 0: it is not a documentation
+  debt that more writing would clear, it is an unanswered question about a third party's
+  site that only Corpocarnaval can answer (brief §20). Carried as
+  `docs/00-acta-proyecto.md` §12.2 item 3.
 
 ## 9. Source spike record — 2026-10-03
 
