@@ -209,6 +209,14 @@ Exact order; any failure blocks, matching NFR-11:
 Stage 8 is the mechanical enforcement of ADR 0011: the schema is regenerated and the build
 fails if the working tree differs from the committed `docs/02-diseno/openapi.yaml`.
 
+**A docs check runs with stage 1** and is not numbered above, because it gates documentation
+rather than the build: `node scripts/check-diagrams.cjs .` validates every fenced diagram in
+`docs/` and **fails on diagram syntax found outside a `mermaid` fence** (ADR 0014). It is part
+of this pipeline because ADR 0014 deferred exactly this wiring, and until it runs in CI the
+check only exists for whoever installs `mermaid` and `jsdom` and remembers to run it — which
+is how two unrendered diagrams sat in `arquitectura-c4.md` while a hand-run version of the
+same check reported everything green.
+
 E2E and Lighthouse run only on branches and on `main`, not on every push, to stay inside
 free-tier minutes.
 
