@@ -1,22 +1,25 @@
 # Terms and conditions of use — DRAFT
 
-> **DRAFT — NOT LEGAL ADVICE.**
-> Machine-drafted for engineering purposes. **Not reviewed by a qualified lawyer.** It
-> contains no Colombian legal analysis, no statute or decree references, no case law, and
-> no verified contact details. Bracketed `[PENDIENTE: …]` items are unresolved decisions.
-> **Do not publish this as-is and do not rely on it.** Brief §11 says the final legal texts
-> should be reviewed by a professional; brief §20 keeps that as an open item, to be done
-> **before v3 starts** (ADR 0008).
+> **DRAFT — NOT LEGAL ADVICE, AND NOT GOING TO BE REVIEWED.**
+> Machine-drafted for engineering purposes and **published as a draft on purpose.** It has
+> **not** been reviewed by a qualified lawyer and none will be: that was decided on
+> 2026-10-04 and is recorded in **ADR 0016**. It contains no Colombian legal analysis, no
+> statute or decree references, and no case law. Bracketed `[PENDIENTE: …]` items are
+> **unresolved by decision, not by oversight** — no implementer may fill one with a
+> plausible value.
+> **Do not rely on it.** Colombian law applies to this site whether or not anyone reviewed
+> these words.
 >
 > Written in English with Colombian legal concepts named in Spanish on first use. The
-> operative text is expected to be Spanish; the English version is provided for
-> readability, and a reviewed Spanish version must replace both drafts.
+> operative text is expected to be Spanish; the English version is provided for readability.
+> ADR 0016 keeps both drafts permanently rather than replacing them with a reviewed version.
 
-- **Status:** Draft placeholder
-- **Version in database:** `[PENDIENTE: no crear fila en legal_documents hasta que exista
-  texto revisado]`
+- **Status:** Draft, permanently unreviewed (ADR 0016)
+- **Version in database:** `legal_documents` row to be created. `is_current = true` is
+  permitted and the row records that the text was never professionally reviewed, so a future
+  reader can tell that from the database (ADR 0016 §1).
 - **Relates to:** brief §1, §4, §6 decision 5, §10, §11; `docs/00-acta-proyecto.md` §2, §5,
-  §6; ADR 0004, ADR 0008, ADR 0010; `docs/00-contexto-proyecto.md` §11
+  §6; ADR 0004, ADR 0008, ADR 0010, **ADR 0016**; `docs/00-contexto-proyecto.md` §11
 
 ## 1. Who runs this site
 
@@ -26,8 +29,9 @@ Blancos de Pasto (Nariño, Colombia). It is a portfolio and engineering exercise
 business, and it earns nothing from visitors.
 
 The project is not a company, has no employees, and is run by one person with no support
-desk. `[PENDIENTE: identificar al titular del proyecto y su domicilio para efectos de
-notificación]`
+desk. The maintainer is Victor Lopez, reachable at **victorloal513@gmail.com**.
+`[PENDIENTE: domicilio o medio de notificación verificable — el correo cubre la práctica
+diaria, pero no consta un domicilio físico]`
 
 Nothing on this site is a professional service. Nothing on it is advice.
 
@@ -180,8 +184,8 @@ there.
 ## 10. Intellectual property complaints
 
 If you believe material on this site infringes your rights, or depicts you or a minor
-without authorisation, use `procedimiento-retiro-y-takedown.md`. `[PENDIENTE: canal de
-contacto publicado para solicitudes de retiro]`
+without authorisation, use `procedimiento-retiro-y-takedown.md`, or write to
+**victorloal513@gmail.com**.
 
 ## 11. Changes to these terms
 
@@ -196,6 +200,13 @@ contacto publicado para solicitudes de retiro]`
 
 ## 12. Contact
 
-`[PENDIENTE: correo de contacto del proyecto]`
+**victorloal513@gmail.com**
 
-`[PENDIENTE: domicilio o medio de notificación válido para Colombia]`
+This address handles takedown requests, rights-holder claims, privacy requests and
+questions about the project. It is the same address published in the scraper's
+`User-Agent`, so a source that objects can reach the operator by the same route the
+request came from.
+
+`[PENDIENTE: domicilio o medio de notificación válido para Colombia — el correo
+anterior cubre la práctica, pero una notificación formal puede exigir un medio
+verificable]`

@@ -1,19 +1,20 @@
 # Content and publication policy — DRAFT
 
-> **DRAFT — NOT LEGAL ADVICE.**
-> Machine-drafted for engineering purposes. **Not reviewed by a qualified lawyer.** It
-> states no Colombian legal conclusions, cites no statute, decree, or case, and contains
-> no verified contact details. Bracketed `[PENDIENTE: …]` items are unresolved decisions.
-> **Do not publish this as-is and do not rely on it.** Brief §11 requires professional
-> review of the final texts; brief §20 keeps that open and requires it **before v3 starts**
-> (ADR 0008).
+> **DRAFT — NOT LEGAL ADVICE, AND NOT GOING TO BE REVIEWED.**
+> Machine-drafted for engineering purposes and **published as a draft on purpose.** It has
+> **not** been reviewed by a qualified lawyer and none will be: that was decided on
+> 2026-10-04 and is recorded in **ADR 0016**. It states no Colombian legal conclusions and
+> cites no statute, decree, or case. Bracketed `[PENDIENTE: …]` items are **unresolved by
+> decision, not by oversight** — no implementer may fill one with a plausible value.
+> **Do not rely on it.**
 
-- **Status:** Draft placeholder
-- **Version in database:** `[PENDIENTE: no crear fila en legal_documents hasta que exista
-  texto revisado]`
+- **Status:** Draft, permanently unreviewed (ADR 0016)
+- **Version in database:** `legal_documents` row to be created. `is_current = true` is
+  permitted and the row records that the text was never professionally reviewed (ADR 0016
+  §1).
 - **Relates to:** brief §4, §7, §10, §11, §14; `docs/00-acta-proyecto.md` §5, §6 (C4, C6),
-  §8; ADR 0002, ADR 0004, ADR 0006, ADR 0007, ADR 0008; `docs/02-diseno/modelo-datos.md`
-  §2, §4.2, §6; `docs/fuentes-y-atribucion.md`
+  §8; ADR 0002, ADR 0004, ADR 0006, ADR 0007, ADR 0008, **ADR 0016**;
+  `docs/02-diseno/modelo-datos.md` §2, §4.2, §6; `docs/fuentes-y-atribucion.md`
 
 ## 1. Purpose and scope
 
@@ -150,8 +151,7 @@ does not exist. The controls are different, and they are the honest ones:
 ## 9. Requesting removal
 
 If you are a rights holder, a depicted person, or a guardian, ask for removal here:
-`procedimiento-retiro-y-takedown.md`. `[PENDIENTE: canal de contacto publicado para
-solicitudes de retiro]`
+`procedimiento-retiro-y-takedown.md`, or write to **victorloal513@gmail.com**.
 
 ## 10. Enforcement
 

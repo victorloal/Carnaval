@@ -1,23 +1,27 @@
 # Privacy and personal data policy — DRAFT
 
-> **DRAFT — NOT LEGAL ADVICE.**
-> Machine-drafted for engineering purposes. **Not reviewed by a qualified lawyer.** It
-> describes data handling in engineering terms and reaches **no legal conclusions** about
-> Colombian law: no statute articles, no decrees, no case law, no verification of any
-> obligation, and no contact details. Bracketed `[PENDIENTE: …]` items are unresolved
-> decisions, including every retention period and the whole data-subject request
-> procedure. **Do not publish this as-is and do not rely on it.** Brief §11 states that
-> the final texts should be reviewed by a professional; brief §20 keeps that open and
-> requires it **before v3 starts** (ADR 0008).
+> **DRAFT — NOT LEGAL ADVICE, AND NOT GOING TO BE REVIEWED.**
+> Machine-drafted for engineering purposes and **published as a draft on purpose.** It has
+> **not** been reviewed by a qualified lawyer and none will be: that was decided on
+> 2026-10-04 and is recorded in **ADR 0016**. It describes data handling in engineering
+> terms and reaches **no legal conclusions** about Colombian law: no statute articles, no
+> decrees, no case law, no verification of any obligation. Bracketed `[PENDIENTE: …]` items
+> are **unresolved by decision, not by oversight** — including every retention period and the
+> entire data-subject request procedure, which is exactly what professional review would have
+> settled. No implementer may fill one with a plausible value.
+> **Do not rely on it.** Ley 1581 de 2012 applies to this site's processing whether or not
+> anyone reviewed this notice.
 >
 > Colombian legal concepts are named in Spanish on first use, per brief §10. The operative
-> notice must be in Spanish; this English draft must be replaced by a reviewed Spanish one.
+> notice is expected to be Spanish; this English draft is provided for readability. ADR 0016
+> keeps the draft rather than replacing it with a reviewed version.
 
-- **Status:** Draft placeholder
-- **Version in database:** `[PENDIENTE: no crear fila en legal_documents hasta que exista
-  texto revisado]`
+- **Status:** Draft, permanently unreviewed (ADR 0016)
+- **Version in database:** `legal_documents` row to be created. `is_current = true` is
+  permitted and the row records that the text was never professionally reviewed (ADR 0016
+  §1).
 - **Relates to:** brief §10, §11, §14; `docs/00-acta-proyecto.md` §4.2, §6; ADR 0005,
-  ADR 0006, ADR 0007; `docs/02-diseno/modelo-datos.md` §5, §6.3, §8
+  ADR 0006, ADR 0007, **ADR 0016**; `docs/02-diseno/modelo-datos.md` §5, §6.3, §8
 
 ## 1. Who handles your data
 
@@ -30,7 +34,12 @@ profesional]`
 
 There is no data protection officer, no DPO, and no privacy team.
 
-`[PENDIENTE: datos de contacto del responsable del tratamiento]`
+**Data controller:** Victor Lopez, reachable at **victorloal513@gmail.com**. The project is a
+personal, non-commercial portfolio project with no employees and no legal entity; the
+individual maintainer is therefore the data controller for everything described in this
+notice. `[PENDIENTE: confirmar si esta figura jurídica es la que aplica bajo la Ley 1581 de
+2012, y si procede algún registro ante la autoridad de protección de datos — punto que
+requeriría asesoramiento profesional y que ADR 0016 deja sin resolver de forma deliberada]`
 
 ## 2. What personal data is processed
 
@@ -218,7 +227,7 @@ tracking occurs during normal reading.
 
 ## 11. Contact, requests, and complaints
 
-- Personal data requests: `[PENDIENTE: correo de contacto para solicitudes de datos]`
+- Personal data requests: **victorloal513@gmail.com**
 - Rights or complaints about this notice: `[PENDIENTE: procedimiento y plazo de respuesta]`
 - Takedown and removal requests: `procedimiento-retiro-y-takedown.md`
 - **A complaint may be escalated to the competent Colombian data-protection authority**

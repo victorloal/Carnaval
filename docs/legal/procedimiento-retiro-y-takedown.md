@@ -1,23 +1,31 @@
 # Removal and takedown procedure — DRAFT
 
-> **DRAFT — NOT LEGAL ADVICE.**
+> **DRAFT — NOT LEGAL ADVICE, AND NOT GOING TO BE REVIEWED.**
 > Machine-drafted for engineering purposes, as an operating procedure for the sole
-> moderator. **Not reviewed by a qualified lawyer.** It states no Colombian legal
-> conclusions, no statute or decree references, no case law, and no verified contact
-> details — in particular **no authority names and no hotline numbers**, because inventing
-> or mis-transcribing one in an escalation document is worse than leaving a marked gap.
-> Bracketed `[PENDIENTE: …]` items are unresolved decisions, including every deadline.
-> **Do not publish this as-is and do not rely on it.** Brief §11 requires professional review
-> of the final texts; brief §20 requires it **before v3 starts** (ADR 0008). Brief §20 also
-> lists *“definir el procedimiento de moderación y de denuncia de contenido ilegal”* as a
-> separate open item — this file is a draft of that procedure, not its resolution.
+> moderator, and **published as a draft on purpose.** It has **not** been reviewed by a
+> qualified lawyer and none will be: that was decided on 2026-10-04 and is recorded in
+> **ADR 0016**. It states no Colombian legal conclusions, no statute or decree references,
+> and no case law — in particular **no authority names and no hotline numbers**, because
+> inventing or mis-transcribing one in an escalation document is worse than leaving a marked
+> gap. Bracketed `[PENDIENTE: …]` items are **unresolved by decision, not by oversight**,
+> including every deadline. No implementer may fill one with a plausible value.
+> **Do not rely on it.**
+>
+> **The consequence worth stating plainly: this procedure has no deadline.** Acknowledgement
+> and resolution times are `[PENDIENTE]` and will stay that way. In practice that means no
+> claim is ever refused for arriving late, and no claim is ever closed on a timer — which is
+> the safer default, but it is a default, not a designed process. Brief §20 also lists
+> *"definir el procedimiento de moderación y de denuncia de contenido ilegal"* as a separate
+> open item — this file is a draft of that procedure, not its resolution.
 
-- **Status:** Draft placeholder, operational
-- **Version in database:** `[PENDIENTE: no crear fila en legal_documents hasta que exista
-  texto revisado]`
+- **Status:** Draft, permanently unreviewed (ADR 0016)
+- **Version in database:** `legal_documents` row to be created. `is_current = true` is
+  permitted and the row records that the text was never professionally reviewed (ADR 0016
+  §1).
 - **Audience:** the moderator (the sole maintainer, `admin` + `editor` roles)
 - **Relates to:** brief §10, §11, §14; `docs/00-acta-proyecto.md` §4.2, §8; ADR 0004,
-  ADR 0006, ADR 0007, ADR 0008; `docs/02-diseno/modelo-datos.md` §2, §6.5, §6.6, §8
+  ADR 0006, ADR 0007, ADR 0008, **ADR 0016**; `docs/02-diseno/modelo-datos.md` §2, §6.5,
+  §6.6, §8
 
 ## 1. Purpose and scope
 
@@ -89,7 +97,7 @@ chosen against the reality of a single part-time operator.
 
 ## 5. Triage procedure
 
-1. **Receive.** A claim arrives at the published channel `[PENDIENTE: canal de contacto]`.
+1. **Receive.** A claim arrives at the published channel **victorloal513@gmail.com**.
    Create the `takedown_requests` row: `subject_type`, `subject_id`, `requester_email`,
    `claim_type`, `received_at`, `status = received`. `responded_at` stays null. The receipt
    is itself evidence that the claim arrived.
@@ -292,7 +300,8 @@ Per request, in order:
 
 ## 11. Contacts
 
-- Claimants: `[PENDIENTE: correo de contacto publicado para solicitudes de retiro]`
+- Claimants: **victorloal513@gmail.com** — the same address published in `README.md` and in
+  the scraper's `User-Agent`
 - Emergency/law-enforcement escalation: `[PENDIENTE: definir autoridad o línea y canal —
   brief §10 menciona "líneas como Te Protejo" sin confirmar cuál aplica]`
 - The organisers (Corpocarnaval / parade organisers): `[PENDIENTE: canal de contacto, y

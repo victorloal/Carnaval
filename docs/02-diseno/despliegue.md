@@ -240,7 +240,9 @@ Run before the first public deploy, and again before any release that changes pr
 
 - [ ] **Re-verify every free-tier limit**; record the date and the observed numbers (§1).
 - [ ] **Contact Corpocarnaval** (brief §20) — courtesy, and the last chance to learn of an
-      objection before the site is public.
+      objection before the site is public. The letter is drafted in
+      `docs/comunicacion-corpocarnaval.md`; sending it and recording the answer is a human
+      act. It is also the only mitigation for the missing terms of use.
 - [ ] The **unofficial / not-affiliated disclaimer** is visible on every page, including
       error pages (FR-A-09, LEG-08).
 - [ ] `robots.txt` and terms of use reviewed and recorded per source, even where the answer
@@ -261,5 +263,6 @@ Run before the first public deploy, and again before any release that changes pr
       (NFR-11, NFR-12, ADR 0011).
 - [ ] Backup taken and **restore rehearsed**, not merely configured (NFR-20).
 - [ ] The takedown contact address is published and monitored (FR-G-03).
-- [ ] Legal documents reviewed by a professional, or the site carries the DRAFT notice
-      (`docs/legal/`). Brief §11 and §20; required before v3.
+- [ ] **Every legal page carries the DRAFT notice** (`docs/legal/`, ADR 0016). There will be
+      **no** professional review — that was decided on 2026-10-04 — so the notice is the only
+      control there is, and it must sit above the content, not in a footer. Brief §11, §20.
