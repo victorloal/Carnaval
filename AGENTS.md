@@ -38,6 +38,7 @@ file wins.
 
 - `docs/00-acta-proyecto.md` — charter: stakeholders, constraints, success criteria, deviations
 - `docs/00-contexto-proyecto.md` — the original brief (Spanish, pending translation, partly superseded)
+- `SECURITY.md` — vulnerability reporting; the security posture as **decided, not implemented**
 - `docs/01-requisitos/` — `srs.md`, `historias-de-usuario.md`, `matriz-trazabilidad.md`
 - `docs/02-diseno/` — C4, data model, data flow, threat model, roles, states, auth, deployment
 - `docs/03-pruebas/` — `plan-pruebas.md`, `casos-seguridad.md`

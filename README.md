@@ -82,6 +82,7 @@ Start with `docs/00-contexto-proyecto.md` (the project brief, in Spanish).
 | `docs/02-diseno/` | C4, data model, data flow, threat model, roles, deployment |
 | `docs/03-pruebas/` | Test plan and the security case register |
 | `docs/adr/` | Architecture decision records |
+| `SECURITY.md` | Vulnerability reporting, and the security posture as **decided, not implemented** |
 | `docs/legal/` | **DRAFT** legal documents, permanently unreviewed by decision (ADR 0016) — **not legal advice** |
 | `docs/comunicacion-corpocarnaval.md` | The written permission request to the organisers — drafted, not yet sent |
 | `docs/sprints/` | Sprint plans and retrospectives |

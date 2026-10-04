@@ -387,6 +387,15 @@ for written permission.
 
 **No reply has arrived. Nothing about the project's position changed as a result.**
 
+**The address it went to is `comunicacion@carnavaldepasto.org`, and its existence is not
+verified.** §9.5 established that enumerating all 19 pages and 42 posts found *no* public
+email anywhere on this site, so where this address came from is unrecorded — a contact form on
+`corpocarnaval.com`, a document the spike did not read, or a convention. **A bounce would mean
+the request never arrived** and the mitigation for §9.5 never happened. That is the project's
+signature failure mode — a step that reports success while producing nothing — and it applies
+to sending mail as much as to scraping. Check the sending mailbox; if it bounced, treat the
+request as unsent and retry through `corpocarnaval.com` or a WhatsApp channel.
+
 This is worth stating precisely, because a sent request is easy to mistake for a cleared
 one:
 

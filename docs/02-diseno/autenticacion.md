@@ -486,8 +486,7 @@ in `docs/02-diseno/`; the latter is satisfied by `modelo-amenazas.md`.
   cleartext, and the row is deleted the moment the code is consumed. They are shown once and
   are stored offline by the operator. **Undecided:** how many codes (proposed 10) and their
   storage guidance for the maintainer, which belongs in `CONTRIBUTING.md` or `SECURITY.md`.
-  `SECURITY.md` **does not exist yet** — brief §20 leaves it to be written alongside the
-  code, so until then the guidance has no home and `CONTRIBUTING.md` is the fallback.
+  Both now exist; neither carries the recovery-code guidance yet, so it still has no home.
 - Verification rejects a code outside the tolerance window and refuses to accept a code from
   a step counter already used, so a shoulder-surfed code cannot be replayed inside its
   window (SEC-06 test case).
@@ -680,7 +679,7 @@ not a login.
 | 1 | Idle and absolute timeout values (§7.3) | **Resolved — ADR 0013** | 12 h idle (Django-native via `SESSION_SAVE_EVERY_REQUEST`), 72 h absolute (custom middleware), session ends when the browser closes, plus step-up re-auth before publish (§7.4) |
 | 2 | Concurrent-session policy (§7.5) | **undecided** | One active session; a new login replaces the old one and is audited |
 | 3 | Throttling values and implementation (§10.1) | **undecided** | N = 5, exponential to a 15 min cap, database-backed cache keyed by salted IP hash |
-| 4 | Recovery-code count and operator guidance (§9) | **undecided** | 10 codes, guidance in `CONTRIBUTING.md`; `SECURITY.md` does not exist yet |
+| 4 | Recovery-code count and operator guidance (§9) | **undecided** | 10 codes. Neither `CONTRIBUTING.md` nor `SECURITY.md` carries the guidance yet — one of them must |
 | 5 | Management command names (§12) | **undecided** | As listed |
 | 6 | Whether `django-axes` is adopted | **undecided** | Only if its storage keeps hashed addresses |
 | 7 | Session table naming | **Resolved** | Django's real table is `django_session`. The `auth_session` name that appeared in `modelo-datos.md` §5, the security register, and the privacy draft has been corrected in all of them |

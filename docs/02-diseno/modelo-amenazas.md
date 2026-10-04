@@ -7,7 +7,7 @@
 
 ## 1. Introduction
 
-This document is the STRIDE threat model for the system. The scope covers the public read API, public submission endpoint, Django admin, authentication/session handling, ingestion pipeline, raw document storage, quarantine storage, public storage, audit log, database, third-party fetch, and email/notification path. It references only controls that exist in the ADRs or in the authoritative data model (`docs/02-diseno/modelo-datos.md`). Where a control is not yet decided, that is stated explicitly. The test reference scheme is `SEC-01`, `SEC-02`, ..., implemented in `docs/03-pruebas/casos-seguridad.md` (49 cases).
+This document is the STRIDE threat model for the system. The scope covers the public read API, public submission endpoint, Django admin, authentication/session handling, ingestion pipeline, raw document storage, quarantine storage, public storage, audit log, database, third-party fetch, and email/notification path. It references only controls that exist in the ADRs or in the authoritative data model (`docs/02-diseno/modelo-datos.md`). Where a control is not yet decided, that is stated explicitly. The test reference scheme is `SEC-01`, `SEC-02`, ..., implemented in `docs/03-pruebas/casos-seguridad.md` (**74 cases**, `SEC-01` … `SEC-74`).
 
 ## 2. Assets and scope
 
@@ -222,7 +222,7 @@ Items that remain unacceptable to fully eliminate technically and are mitigated 
 
 ## 9. Notes
 
-- Security test references use the `SEC-01` … `SEC-49` scheme implemented in `docs/03-pruebas/casos-seguridad.md`. The coverage audit at the end of that file shows which data-model assets each case protects; threats without a matching case are recorded there as gaps.
+- Security test references use the `SEC-01` … `SEC-74` scheme implemented in `docs/03-pruebas/casos-seguridad.md` (**74 cases**). The coverage audit at the end of that file shows which data-model assets each case protects; threats without a matching case are recorded there as gaps.
 - No controls invented: every mitigation above cites ADRs or data model fields.
 - Where decisions are pending (email/notification sending details, raw document retention window), they are marked as undecided/open.
 - This document aligns with OWASP Top 10 considerations via the STRIDE mapping above and project-specific legal/ethical constraints (brief §11).

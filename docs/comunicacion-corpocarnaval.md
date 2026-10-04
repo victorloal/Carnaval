@@ -141,6 +141,14 @@ victorloal513@gmail.com
 ## 5. Sending checklist
 
 - [x] **Channel chosen** (§1) — email.
+- [ ] **Check for a bounce.** The address was **not** found by the source spike: enumerating
+      all 19 pages and 42 posts turned up no public email anywhere
+      (`docs/fuentes-y-atribucion.md` §9.5). So its provenance is unrecorded, and a
+      conventional address on a domain that publishes none is exactly the kind of thing that
+      silently does not exist. **A bounce means the request never arrived and the mitigation
+      never happened** — which is the project's top failure mode wearing a different hat.
+      Watch the sending mailbox, and if it bounces, treat the request as unsent and retry
+      through `corpocarnaval.com` or a WhatsApp channel (§1).
 - [ ] **Add the address of the site itself, in any follow-up.** The letter deliberately cited
       only the code repository, because the public site does not exist yet. Once there is an
       address, it belongs in the next message.
@@ -148,9 +156,6 @@ victorloal513@gmail.com
       listed in §2, the letter becomes inaccurate and a correction must be sent — its value
       depends entirely on it being true.
 - [ ] **Record the reply** in §6 on the day it arrives.
-- [ ] **Add the recipient address to §6.** It is not recorded here because it was not
-      recorded when the message went out. A future reader needs it to trace where the request
-      went and whether a bounce or reply is being missed.
 
 ## 6. Outcome register
 
@@ -158,12 +163,13 @@ victorloal513@gmail.com
 |---|---|
 | Date sent | **2026-10-04** |
 | Channel used | **Email** |
-| Recipient (name, role) | Corpocarnaval — **specific address not recorded here**; add it (see §5) |
+| Recipient (name, role) | **`comunicacion@carnavaldepasto.org`** — the official site's general contact address. No individual is named: the request went to an inbox, not a person |
 | Exact reply received | **None as of 2026-10-04** |
 | Date of reply | — |
 | Permission granted? | **Not yet. No answer is not permission** (§7) |
 | Conditions or restrictions imposed | — |
 | Changes made as a result | **None.** Nothing about the project's legal or publishing state moved |
+| Address verified to exist? | **Unknown.** Not found by the spike; provenance unrecorded. Watch for a bounce |
 | Recorded in `fuentes-y-atribucion.md` §9 | Yes — §9.7 |
 
 **If a reply never arrives.** Say so here explicitly rather than leaving the table blank,

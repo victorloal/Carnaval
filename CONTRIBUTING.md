@@ -62,15 +62,19 @@ legacy exception, not a precedent.
 
 ## Reporting a security issue
 
-**Do not open a public issue.** Email the maintainer at
-**victorloal513@gmail.com** with:
+**Do not open a public issue, and do not open a pull request** — a public issue is a
+disclosure, not a report. See **`SECURITY.md`** for the full policy: what to include, what
+to expect, and what is explicitly out of scope.
 
-- what you found,
-- how to reproduce it,
-- the impact you believe it has.
+In short: email the maintainer at **victorloal513@gmail.com** with what you found, how to
+reproduce it, and the impact you believe it has.
 
-You can expect an acknowledgement. Fixes for confirmed issues are documented in the
-security test register (`docs/03-pruebas/casos-seguridad.md`) so the fix is verifiable.
+Be aware of two things `SECURITY.md` states plainly: **there is no bug bounty**, and **there
+is no response-time guarantee** — this is one part-time maintainer. Both are stated there so
+nobody wastes effort expecting otherwise.
+
+Fixes for confirmed issues are documented in the security test register
+(`docs/03-pruebas/casos-seguridad.md`) so the fix is verifiable.
 
 ## Reporting a rights or takedown request
 

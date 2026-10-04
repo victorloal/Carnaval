@@ -45,6 +45,13 @@ Phase 0 (documentation) is **closed**. No deployed version yet — see the statu
   and the §9 source spike record against `carnavaldepasto.org`.
 - `docs/sprints/` — Sprint 00 plan and retrospective (Phase 0) and the Sprint 01 plan.
 - `CONTRIBUTING.md`.
+- `SECURITY.md` — vulnerability reporting. Opens by stating that **nothing is released and
+  nothing is deployed**, so the policy describes a posture that is **decided, not
+  implemented**. It records the reporting route, what is public by default, the security
+  model with an ADR for every row, and the accepted risks — including that this project
+  cannot give a user a verified legal basis (ADR 0016), that there is no bug bounty and no
+  response-time guarantee, and that a single part-time maintainer is an unmitigated
+  single point of failure.
 
 ### Changed
 
@@ -91,11 +98,12 @@ contradiction.
 None of these block Sprint 01. All of them block a public launch.
 
 - **Corpocarnaval has not replied.** The written permission request was **sent by email on
-  2026-10-04** (`docs/comunicacion-corpocarnaval.md`, recorded in
-  `docs/fuentes-y-atribucion.md` §9.7). No answer has arrived, and **nothing about the
-  project's position moved** — silence is not permission, and §7 of that document fixes in
-  advance what happens if the answer is no. Two loose ends: the recipient address was never
-  recorded, and no review date was set. Required before publishing (brief §11, §20).
+  2026-10-04** to `comunicacion@carnavaldepasto.org` (`docs/comunicacion-corpocarnaval.md`,
+  recorded in `docs/fuentes-y-atribucion.md` §9.7). No answer has arrived, and **nothing about
+  the project's position moved** — silence is not permission, and §7 of that document fixes in
+  advance what happens if the answer is no. **The address itself is unverified**: the source
+  spike found no public email anywhere on that site, so a bounce would mean the request never
+  arrived. Watch the sending mailbox. Required before publishing (brief §11, §20).
 - **The official site's terms of use were not found.** `robots.txt` is permissive and the
   WordPress REST API is live, but enumerating all 19 pages and 42 posts found no terms,
   conditions, or cookie policy. **Accepted as a documented risk on 2026-10-04** — no terms
