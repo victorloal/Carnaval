@@ -157,7 +157,7 @@ If you are a rights holder, a depicted person, or a guardian, ask for removal he
 
 - The sole maintainer is the moderator and holds the `admin` and `editor` roles; RBAC is
   enforced server-side on every request and never relies on the admin UI hiding a control
-  (brief §9; `docs/roles-permisos.md`).
+  (brief §9; `docs/02-diseno/roles-permisos.md`).
 - **Every approval, rejection, withdrawal, and configuration change is audited**
   (`audit_logs`, `django_admin_log`). `audit_logs` is append-only: no role, including
   `admin`, has update or delete permission on it.
