@@ -200,13 +200,13 @@ no requirement should be deleted.
 | NFR-07 | US-05 | despliegue | 0005 | T | **SEC-43** | Open |
 | NFR-08 | US-05 | despliegue | 0005 | T | **SEC-44** | Open |
 | NFR-09 | US-20 | despliegue (secrets) | 0005 | T | **SEC-46** | Open |
-| NFR-10 | — | plan-pruebas §2 | 0004 | I | inspection: Dependabot | Open — no story |
-| NFR-11 | — | plan-pruebas §7 | 0001 | T | CI stage order | Open — no story |
-| NFR-12 | — | ADR 0011 | 0011 | T | **schema drift check** | Open — no story |
-| NFR-13 | US-32 | despliegue (migrations) | 0009 | I | inspection: PR review | Open |
-| NFR-14 | — | plan-pruebas §2 | 0009 | T | ruff + mypy | Open — no story |
-| NFR-15 | — | plan-pruebas §3.1 | 0001 | T | coverage gate | Open — no story |
-| NFR-16 | — | plan-pruebas §1 | 0002 | T | CI: no egress | Open — no story |
+| NFR-10 | — | plan-pruebas §2 | 0004 | I | inspection: Dependabot | Done — no story |
+| NFR-11 | — | plan-pruebas §7 | 0001 | T | CI stage order | Done — no story |
+| NFR-12 | — | ADR 0011 | 0011 | T | **schema drift check** | Done — no story |
+| NFR-13 | US-32 | despliegue (migrations) | 0009 | I | inspection: PR review | Done |
+| NFR-14 | — | plan-pruebas §2 | 0009 | T | ruff + mypy | Done — no story |
+| NFR-15 | — | plan-pruebas §3.1 | 0001 | T | coverage gate | In Progress — no story |
+| NFR-16 | — | plan-pruebas §1 | 0002 | T | CI: no egress | Done — no story |
 | NFR-17 | — | despliegue | 0004 | T | **SEC-45** | Open — no story |
 | NFR-18 | US-04 | modelo-datos §6.1 | 0005 | T | **SEC-15** | Open |
 | NFR-19 | — | plan-pruebas | 0005 | T | log scan | Open — no story |

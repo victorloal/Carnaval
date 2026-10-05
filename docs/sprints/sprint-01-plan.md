@@ -29,7 +29,7 @@ Ordered; with a WIP limit of 2, items are taken top-down.
 | 8 | `backend/tests/fixtures/` convention + `factory_boy` factories | NFR-16, plan §5 | inspection | Done |
 | 9 | `scripts/check-diagrams.cjs` wired into the lint stage | ADR 0014 | exits non-zero | Done |
 | 10 | Dependabot configuration | NFR-10 | inspection | Done |
-| 11 | Matrix rows for items 1–10 moved from `Open` to their real status | ADR 0001 DoD 4 | inspection | In Progress |
+| 11 | Matrix rows for items 1–10 moved from `Open` to their real status | ADR 0001 DoD 4 | inspection | Done |
 
 ### Why item 7 is a guard and not a rule
 
