@@ -1,0 +1,7 @@
+openapi: 3.0.3
+info:
+  title: Carnaval de Pasto API
+  version: 1.0.0
+  description: API for Carnaval de Pasto project
+paths: {}
+components: {}

@@ -1,0 +1,78 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Install Node dependencies
+        run: npm ci
+
+      - name: Lint with ruff
+        run: |
+          ruff check backend
+          ruff format --check backend
+
+      - name: Type check with mypy
+        run: |
+          DJANGO_SETTINGS_MODULE=carnaval.settings mypy backend
+        env:
+          DJANGO_SETTINGS_MODULE: carnaval.settings
+
+      - name: Check migrations
+        run: |
+          cd backend
+          python manage.py makemigrations --check --dry-run
+        env:
+          DJANGO_SETTINGS_MODULE: carnaval.settings
+
+      - name: Run tests
+        run: |
+          python -m pytest
+        env:
+          DJANGO_SETTINGS_MODULE: carnaval.settings
+
+      - name: Validate OpenAPI schema
+        run: |
+          cd backend
+          python manage.py spectacular --validate --fail-on-warn
+        env:
+          DJANGO_SETTINGS_MODULE: carnaval.settings
+
+      - name: Check OpenAPI drift
+        run: |
+          cd backend
+          python manage.py spectacular --file ../docs/02-diseno/openapi.yaml
+          cd ..
+          git diff --exit-code docs/02-diseno/openapi.yaml
+        env:
+          DJANGO_SETTINGS_MODULE: carnaval.settings
+
+      - name: Check diagrams
+        run: node scripts/check-diagrams.cjs .
