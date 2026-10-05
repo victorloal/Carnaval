@@ -19,17 +19,17 @@ Ordered; with a WIP limit of 2, items are taken top-down.
 
 | # | Item | Requirement | Verification | Status |
 |---|---|---|---|---|
-| 1 | Django project skeleton in `backend/`; `manage.py check` passes | NFR-14 | `ruff` + `mypy` clean | Not started |
-| 2 | Settings read **only** from environment variables; no secret in the tree | NFR-09 | **SEC-46** | Not started |
-| 3 | `ruff` and `mypy` configured, zero errors, no exceptions in the config | NFR-14 | CI stage 1–2 | Not started |
-| 4 | First migration set: moderation mixin + the programme spine (`editions`, `days`, `venues`, `events`) | NFR-13 | reviewed in the PR | Not started |
-| 5 | `drf-spectacular` wired; first `docs/02-diseno/openapi.yaml` **committed** | NFR-12, ADR 0011 | CI stages 7–8 | Not started |
-| 6 | GitHub Actions workflow running `plan-pruebas.md` §7 in the documented order | NFR-11 | pipeline green | Not started |
-| 7 | Mechanical **no-egress guard** on the test suite | NFR-16 | CI: no egress | Not started |
-| 8 | `backend/tests/fixtures/` convention + `factory_boy` factories | NFR-16, plan §5 | inspection | Not started |
-| 9 | `scripts/check-diagrams.cjs` wired into the lint stage | ADR 0014 | exits non-zero | Not started |
-| 10 | Dependabot configuration | NFR-10 | inspection | Not started |
-| 11 | Matrix rows for items 1–10 moved from `Open` to their real status | ADR 0001 DoD 4 | inspection | Not started |
+| 1 | Django project skeleton in `backend/`; `manage.py check` passes | NFR-14 | `ruff` + `mypy` clean | Done |
+| 2 | Settings read **only** from environment variables; no secret in the tree | NFR-09 | **SEC-46** | Done |
+| 3 | `ruff` and `mypy` configured, zero errors, no exceptions in the config | NFR-14 | CI stage 1–2 | Done |
+| 4 | First migration set: moderation mixin + the programme spine (`editions`, `days`, `venues`) | NFR-13 | reviewed in the PR | Done |
+| 5 | `drf-spectacular` wired; first `docs/02-diseno/openapi.yaml` **committed** | NFR-12, ADR 0011 | CI stages 7–8 | Done |
+| 6 | GitHub Actions workflow running `plan-pruebas.md` §7 in the documented order | NFR-11 | pipeline green | Done |
+| 7 | Mechanical **no-egress guard** on the test suite | NFR-16 | CI: no egress | Done |
+| 8 | `backend/tests/fixtures/` convention + `factory_boy` factories | NFR-16, plan §5 | inspection | Done |
+| 9 | `scripts/check-diagrams.cjs` wired into the lint stage | ADR 0014 | exits non-zero | Done |
+| 10 | Dependabot configuration | NFR-10 | inspection | Done |
+| 11 | Matrix rows for items 1–10 moved from `Open` to their real status | ADR 0001 DoD 4 | inspection | In Progress |
 
 ### Why item 7 is a guard and not a rule
 

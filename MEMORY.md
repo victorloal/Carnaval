@@ -48,3 +48,4 @@ unreviewed and labelled** (0016).
 | 2026-10-03e | Diagrams: 2 dead C4 blocks → Mermaid (**ADR 0014**), validator extended to **every** fence |
 | 2026-10-03f | **Sprint 01 planned** — skeleton, 14-stage CI, first migration, `openapi.yaml`, no-egress guard |
 | 2026-10-04 | **Phase 0 closed**; validator made runnable (`package.json`) — it walked `node_modules`, and **mermaid@12.1.0 parses `C4Context`, falsifying ADR 0014 §2** (amended). Contact email fixed; **ADR 0016** (no legal review, permanent DRAFT); terms-of-use risk accepted; **Corpocarnaval letter sent, unanswered**; 0016 broke **PRV-06** — left intact and marked blocked |
+| 2026-10-05 | **Sprint 01 - Item 1–9**: Django project skeleton (`backend/`), core + programme apps, first migrations, ruff + mypy configured, OpenAPI committed and validated, CI workflow created, egress guard test added, fixtures dir prepared. `manage.py check`, migrations check, lint, typecheck all green locally. |
