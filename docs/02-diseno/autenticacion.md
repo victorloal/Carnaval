@@ -9,7 +9,7 @@
   `docs/02-diseno/modelo-datos.md` §5; `docs/02-diseno/roles-permisos.md`;
   requirements SRS §3.4 (`FR-D-*`, `SRS SEC-01 … SEC-15`), cases
   `docs/03-pruebas/casos-seguridad.md` §A–§B
-- **Implementation:** Django 5 built-in auth, `argon2-cffi`, `django-otp`, server-side
+- **Implementation:** Django 5.2 LTS built-in auth, `argon2-cffi`, `django-otp`, server-side
   sessions in PostgreSQL 16, `django-admin-log` plus `audit_logs`
 
 ## 1. Scope, and the deviation from the brief
@@ -691,7 +691,7 @@ not a login.
 - ADR 0005 — sessions with TOTP, not JWT; supersedes brief §6 decision 8 and part of §9;
   supplies the requirement-mapping table that §8.3 extends.
 - ADR 0006 — uploads are untrusted input; the submission path is not an auth path.
-- ADR 0009 — Django 5, `argon2-cffi`, `django-otp`, DRF, Cloudflare Turnstile, Python owns
+- ADR 0009 — Django 5.2 LTS, `argon2-cffi`, `django-otp`, DRF, Cloudflare Turnstile, Python owns
   every write path.
 - ADR 0010 — the admin panel is Spanish only, which is why no localisation surface is needed
   for login or error messages (FR-H-08).

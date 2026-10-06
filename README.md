@@ -108,7 +108,7 @@ Start with `docs/00-contexto-proyecto.md` (the project brief, in Spanish).
 
 | Layer | Choice |
 |---|---|
-| Backend | Python 3.12, Django 5, Django REST Framework |
+| Backend | Python 3.12, Django 5.2 LTS, Django REST Framework |
 | Database | PostgreSQL 16 |
 | Frontend | React + TypeScript, Vite |
 | Admin | Django admin, customised |

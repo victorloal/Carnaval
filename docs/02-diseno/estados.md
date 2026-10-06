@@ -23,7 +23,7 @@ Four tables carry content subject to review: `events`, `news_items`, `media_asse
 | `origin` | enum | `scraped` \| `manual` \| `community` |
 | `reviewed_by` | FK → `auth.User`, nullable | Who decided |
 | `reviewed_at` | datetime, nullable | When |
-| `rejection_reason` | text, nullable | **Required** when `status = rejected` |
+| `rejection_reason` | text, `NOT NULL DEFAULT ''` | **Required** (non-empty) when `status = rejected` |
 | `ingestion_run` | FK → `ingestion_runs`, nullable | Set when `origin = scraped` |
 | `created_by` | FK → `auth.User`, nullable | Set when `origin = manual` |
 

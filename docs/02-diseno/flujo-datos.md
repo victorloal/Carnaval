@@ -8,7 +8,7 @@
   (GitHub Actions `cron`); `docs/01-requisitos/srs.md` §3.2 (FR-B-01 … FR-B-19) and §3.3
   (FR-C-02); `docs/03-pruebas/casos-seguridad.md` §E (SEC-37 … SEC-42);
   `docs/02-diseno/modelo-datos.md`
-- **Implementation:** Django 5 management commands, `httpx`, `selectolax` / `pdfplumber`,
+- **Implementation:** Django 5.2 LTS management commands, `httpx`, `selectolax` / `pdfplumber`,
   PostgreSQL 16, object storage via `django-storages`
 
 ## 1. Purpose and the one rule that shapes everything
@@ -415,7 +415,7 @@ convenience rather than of availability.
 - ADR 0006 — two storage tiers; the quarantine bucket is where a raw payload and an
   unapproved file live.
 - ADR 0008 — MVP delivers the pipeline; the review queue arrives in v1.
-- ADR 0009 — Django 5, PostgreSQL 16, GitHub Actions `cron` invoking management commands.
+- ADR 0009 — Django 5.2 LTS, PostgreSQL 16, GitHub Actions `cron` invoking management commands.
 - `docs/01-requisitos/srs.md` §3.2 (FR-B-01 … FR-B-19), §3.3 (FR-C-02), §4 (NFR-06, NFR-16),
   §7 (LEG-05, LEG-07), §9.3 (retention).
 - `docs/03-pruebas/casos-seguridad.md` §E — SEC-37 … SEC-42; `docs/03-pruebas/plan-pruebas.md`

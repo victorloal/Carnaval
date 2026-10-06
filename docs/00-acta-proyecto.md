@@ -125,7 +125,7 @@ each reconciled paragraph names its ADR, so it can no longer mislead a reader on
 |---|---|---|---|
 | §6 decision 8, §9 | JWT access + rotating refresh tokens in `httpOnly` cookies | **No JWT.** Django sessions in an `httpOnly` cookie + TOTP. No bearer token exists in the browser | ADR 0005 |
 | §9 | Access token 10–15 min, refresh rotation | **Dropped** — sessions are revoked centrally, which is stronger | ADR 0005 |
-| §12 | Backend TypeScript/Node **or** Python | **Python + Django 5 + DRF** | ADR 0009 |
+| §12 | Backend TypeScript/Node **or** Python | **Python + Django 5.2 LTS + DRF** | ADR 0009 |
 | §12 | PostgreSQL (Supabase or Neon), *tentative* | **PostgreSQL 16**, confirmed | ADR 0009 |
 | §12 | Admin panel with JWT front end | **Django admin**, customized | ADR 0005, 0009 |
 | §12, §17 | `openapi.yaml` as a hand-written design artefact | **Generated** by drf-spectacular, drift-checked in CI | ADR 0011 |

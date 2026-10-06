@@ -4,8 +4,10 @@ import uuid
 
 from django.db import models
 
+from carnaval.core.models import ModeratedModel, rejection_reason_constraint
 
-class Edition(models.Model):
+
+class Edition(ModeratedModel):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     year = models.PositiveIntegerField(unique=True)
     slug = models.SlugField(unique=True, max_length=200)
@@ -13,7 +15,6 @@ class Edition(models.Model):
     title_en = models.CharField(max_length=200, blank=True, default="")
     starts_on = models.DateField(blank=True, null=True)
     ends_on = models.DateField(blank=True, null=True)
-    is_published = models.BooleanField(default=False)
     summary_es = models.TextField(blank=True, default="")
     summary_en = models.TextField(blank=True, default="")
     created_at = models.DateTimeField(auto_now_add=True)
@@ -21,12 +22,13 @@ class Edition(models.Model):
 
     class Meta:
         ordering = ["year"]
+        constraints = [rejection_reason_constraint()]
 
     def __str__(self) -> str:
         return f"{self.year} - {self.title_es}"
 
 
-class Day(models.Model):
+class Day(ModeratedModel):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     edition = models.ForeignKey(Edition, on_delete=models.CASCADE, related_name="days")
     date = models.DateField()
@@ -41,14 +43,15 @@ class Day(models.Model):
         constraints = [
             models.UniqueConstraint(
                 fields=["edition", "slug"], name="day_edition_slug_unique"
-            )
+            ),
+            rejection_reason_constraint(),
         ]
 
     def __str__(self) -> str:
         return f"{self.edition.year} - {self.label_es}"
 
 
-class Venue(models.Model):
+class Venue(ModeratedModel):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name_es = models.CharField(max_length=200)
     name_en = models.CharField(max_length=200, blank=True, default="")
@@ -72,6 +75,7 @@ class Venue(models.Model):
 
     class Meta:
         ordering = ["name_es"]
+        constraints = [rejection_reason_constraint()]
 
     def __str__(self) -> str:
         return self.name_es

@@ -55,7 +55,7 @@ Phase 0 (documentation) is **closed**. No deployed version yet — see the statu
 
 ### Added — Sprint 01: the repository that runs
 
-- `backend/` — Django 5 project skeleton: environment-only settings, the programme spine
+- `backend/` — Django 5.2 LTS project skeleton: environment-only settings, the programme spine
   (`editions`, `days`, `venues`) with the first migration set, DRF + `drf-spectacular`, and
   a generated `docs/02-diseno/openapi.yaml` that CI regenerates and fails on drift (ADR 0011).
 - `.github/workflows/ci.yml` — lint, typecheck, migration check, tests, schema validation
@@ -85,6 +85,34 @@ Phase 0 (documentation) is **closed**. No deployed version yet — see the statu
   `argon2-cffi`, and ADR 0005 carries the correction note. The decision is unchanged.
 - README claimed `backend/`, `frontend/` and `tests/` were empty; its status and layout
   now describe the skeleton, and a short run guide was added.
+
+### Fixed — dependency, settings and moderation review (2026-10-06)
+
+- **Django was pinned to 5.0.6, which reached end of life in April 2025, and its
+  type stubs did not support it.** Bumped to **5.2 LTS** (`Django==5.2.9`), with the
+  libraries that actually support it: `djangorestframework` 3.15.2 → **3.16.1** and
+  `drf-spectacular` 0.27.2 → **0.30.0** (both now classify Django 5.2; the old pins
+  only listed up to 5.0). `mypy` moved from 2.4.0 to **2.3.1**, inside the
+  `<2.4` range `django-stubs` 6.1.1 declares, so the toolchain is consistent again.
+- **The moderation mixin promised by Sprint 01 item 4 did not exist.** It is now
+  `carnaval.core.models.ModeratedModel` — `status`, `origin`, `reviewed_by`,
+  `reviewed_at`, `rejection_reason`, `created_by` — applied to `editions`, `days`
+  and `venues` (`modelo-datos.md` §2, `estados.md` §1). A database `CHECK` requires a
+  non-empty `rejection_reason` for `status = rejected`, and `ingestion_run` is
+  deliberately deferred until `ingestion_runs` exists.
+- **`Edition.is_published` was a stored boolean that could publish without review.**
+  It is removed; `is_published` is now a derived property of `status`. Migration
+  `programme/0003` carries the change.
+- **Production transport security was absent.** `SECURE_SSL_REDIRECT`,
+  `SECURE_HSTS_SECONDS` (one year), `SECURE_HSTS_INCLUDE_SUBDOMAINS`,
+  `SECURE_HSTS_PRELOAD`, an opt-in `SECURE_PROXY_SSL_HEADER` and
+  `CSRF_COOKIE_HTTPONLY` are set, gated on `DEBUG`. `manage.py check --deploy` is
+  clean with `DEBUG` off and now runs as a CI stage.
+- **`settings.py` inspected `sys.modules` for `pytest`** to add `testserver` to
+  `ALLOWED_HOSTS`. Removed: Django's own test setup already provides it. Tests that
+  speak plain HTTP also disable `SECURE_SSL_REDIRECT` through a conftest fixture.
+- `modelo-datos.md` §2 and `estados.md` §1 now state that `rejection_reason` is
+  `NOT NULL DEFAULT ''` (emptiness is what the `CHECK` forbids), matching the code.
 
 ### Changed
 

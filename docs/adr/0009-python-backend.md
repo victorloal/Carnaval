@@ -27,7 +27,7 @@ A mature admin framework is therefore worth more than API framework novelty.
 | Concern | Choice |
 |---|---|
 | Language | Python 3.12 |
-| Framework | Django 5.x |
+| Framework | Django 5.2 LTS (5.2.x; 5.0 reached end of life in April 2025) |
 | Database | **PostgreSQL 16** |
 | ORM / migrations | Django ORM, Django migrations |
 | DB driver | psycopg 3 |

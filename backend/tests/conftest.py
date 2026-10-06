@@ -84,3 +84,9 @@ def block_external_egress() -> Generator[None, None, None]:
     monkeypatch.setattr(socket, "gethostbyname_ex", _guarded_gethostbyname_ex)
     yield
     monkeypatch.undo()
+
+
+@pytest.fixture(autouse=True)
+def _no_https_redirect(settings: Any) -> None:
+    """Production sets SECURE_SSL_REDIRECT; the test client speaks plain HTTP."""
+    settings.SECURE_SSL_REDIRECT = False

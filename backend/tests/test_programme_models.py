@@ -2,21 +2,55 @@
 
 FR-A-01: editions are identified by year, with a slug and a publication flag.
 FR-A-02: days are rows, not a fixed enum — names vary by year.
+Also covers the shared moderation mixin (modelo-datos.md §2).
 """
 
 import pytest
+from carnaval.core.models import ModerationOrigin, ModerationStatus
 from django.db import IntegrityError, transaction
 
-from tests.factories import DayFactory, EditionFactory
+from tests.factories import DayFactory, EditionFactory, VenueFactory
 
 pytestmark = pytest.mark.django_db
 
 
-def test_edition_starts_unpublished() -> None:
-    """FR-A-01: an edition carries a publication flag, off until published."""
+def test_edition_starts_pending_and_manual() -> None:
+    """FR-A-01 / modelo-datos §2: content is born pending, with an origin."""
     edition = EditionFactory()
+    assert edition.status == ModerationStatus.PENDING  # noqa: S101
+    assert edition.origin == ModerationOrigin.MANUAL  # noqa: S101
     assert edition.is_published is False  # noqa: S101
     assert edition.pk is not None  # noqa: S101
+
+
+def test_is_published_is_derived_from_status() -> None:
+    """There is no independent publication flag to flip by accident."""
+    edition = EditionFactory()
+    edition.status = ModerationStatus.PUBLISHED
+    edition.save()
+    assert edition.is_published is True  # noqa: S101
+
+
+def test_a_rejection_requires_a_reason() -> None:
+    """modelo-datos §9: `status = rejected` demands a non-empty reason."""
+    with pytest.raises(IntegrityError):
+        with transaction.atomic():
+            EditionFactory(status=ModerationStatus.REJECTED, rejection_reason="")
+
+
+def test_a_rejection_with_a_reason_is_accepted() -> None:
+    edition = EditionFactory(
+        status=ModerationStatus.REJECTED, rejection_reason="Duplicate of 2026"
+    )
+    assert edition.pk is not None  # noqa: S101
+
+
+def test_every_spine_model_carries_the_mixin() -> None:
+    """The mixin is on editions, days and venues, not just editions."""
+    for record in (DayFactory(), VenueFactory()):
+        assert record.status == ModerationStatus.PENDING  # noqa: S101
+        assert record.origin == ModerationOrigin.MANUAL  # noqa: S101
+        assert record.is_published is False  # noqa: S101
 
 
 def test_edition_year_is_unique() -> None:

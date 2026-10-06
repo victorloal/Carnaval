@@ -77,7 +77,7 @@ still author content by hand (ADR 0002).
 
 ### 2.3 Operating environment
 
-- Python 3.12 + Django 5 + DRF on a free-tier application host; PostgreSQL 16 on a free
+- Python 3.12 + Django 5.2 LTS + DRF on a free-tier application host; PostgreSQL 16 on a free
   tier; object storage with separate quarantine and public buckets; GitHub Actions `cron`
   for scheduled ingestion. No resident worker (ADR 0009).
 - React + TypeScript SPA, static assets.

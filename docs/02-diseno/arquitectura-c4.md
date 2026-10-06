@@ -2,7 +2,7 @@
 
 - **Status:** Draft for review
 - **Date:** 2026-10-03
-- **Relates to:** ADR 0002 (scraper optional; database as source of truth), ADR 0003 (monorepo), ADR 0005 (Django admin; sessions + TOTP; no JWT), ADR 0006 (two storage tiers: quarantine and public), ADR 0009 (Python 3.12/Django 5/DRF, PostgreSQL 16, React TS public only), ADR 0010 (bilingual), ADR 0011 (generated OpenAPI, drift-checked in CI), brief §7 (architecture), §9 (security), §10 (submissions).
+- **Relates to:** ADR 0002 (scraper optional; database as source of truth), ADR 0003 (monorepo), ADR 0005 (Django admin; sessions + TOTP; no JWT), ADR 0006 (two storage tiers: quarantine and public), ADR 0009 (Python 3.12/Django 5.2 LTS/DRF, PostgreSQL 16, React TS public only), ADR 0010 (bilingual), ADR 0011 (generated OpenAPI, drift-checked in CI), brief §7 (architecture), §9 (security), §10 (submissions).
 
 > The backend language and stack are **decided** by ADR 0009. The brief §6/§9/§12 describing JWT and an undecided stack are **superseded** (see `docs/00-acta-proyecto.md` §9).
 
@@ -39,7 +39,7 @@ flowchart LR
     moderator["Moderator or editor<br/>Reviews the queue, approves or rejects with a reason, settings, audit"]
     admin["Administrator<br/>Users and roles, legal documents, configuration"]
 
-    system["Carnaval platform<br/>Django 5 + DRF API, Django admin, React TS public site<br/>Database is the source of truth, every record moderated"]
+    system["Carnaval platform<br/>Django 5.2 LTS + DRF API, Django admin, React TS public site<br/>Database is the source of truth, every record moderated"]
 
     subgraph ext["External systems"]
         direction TB
@@ -72,7 +72,7 @@ flowchart LR
 Containers are the deployable/runnable units (per ADR 0009 and constraints). The public site availability **does not depend** on any external source; the scraper is **optional** (ADR 0002).
 
 **Containers**
-- `django_app` (process): Django 5 + DRF. Serves public read API, submission endpoints (v3), Django admin surface (same process), moderation logic, ingestion pipeline (`ingestion` management command), RBAC/server-side session auth, audit logging. **Technology:** Python 3.12. **Deployment:** application host (free tier, **undecided**).
+- `django_app` (process): Django 5.2 LTS + DRF. Serves public read API, submission endpoints (v3), Django admin surface (same process), moderation logic, ingestion pipeline (`ingestion` management command), RBAC/server-side session auth, audit logging. **Technology:** Python 3.12. **Deployment:** application host (free tier, **undecided**).
 - `django_admin` (surface): Django admin UI exposed by the same `django_app` process (separate surface). RBAC enforced server-side; sessions + TOTP; **no JWT**. **Deployment:** same host.
 - `spa_public` (static assets): React + TypeScript **public site only**. Read-only plus anonymous submissions; **no React admin panel** (ADR 0005/0009). **Deployment:** static host/CDN (free tier, **undecided**; can be separate from API).
 - `postgres` (data): PostgreSQL 16. Source of truth. **Deployment:** managed DB (free tier, **undecided**: Supabase/Neon or other zero-cost; verify limits).
@@ -104,7 +104,7 @@ flowchart TB
     subgraph sys["Carnaval platform"]
         direction LR
         spa["React TS SPA<br/>Public site only, React + TypeScript<br/>Read-only plus anonymous submissions<br/>No React admin panel, ADR 0005 and 0009"]
-        django_app["Django app<br/>API, Django admin and pipeline in one process<br/>Python 3.12, Django 5, DRF, drf-spectacular<br/>RBAC, sessions plus TOTP, audit, generated OpenAPI"]
+        django_app["Django app<br/>API, Django admin and pipeline in one process<br/>Python 3.12, Django 5.2 LTS, DRF, drf-spectacular<br/>RBAC, sessions plus TOTP, audit, generated OpenAPI"]
         ingest_cmd["Ingestion runner<br/>Ephemeral Django management command<br/>Invoked by GitHub Actions cron, never a resident worker<br/>Idempotent, retry with backoff, circuit breaker"]
         pg[("PostgreSQL 16, source of truth<br/>editions and days, events, news, media, submissions, scrape_sources, raw_documents, ingestion_runs, audit_logs, legal_documents, consent_records")]
         stor["Object storage, two tiers<br/>Quarantine private via signed URLs, public tier on a separate bucket and domain, ADR 0006<br/>EXIF stripped, magic bytes validated"]

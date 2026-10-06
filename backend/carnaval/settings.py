@@ -7,7 +7,6 @@ repository root supplies development values — see `.env.example`.
 """
 
 import os
-import sys
 from pathlib import Path
 
 from django.core.exceptions import ImproperlyConfigured
@@ -37,9 +36,6 @@ if _allowed_hosts:
     ALLOWED_HOSTS = [h.strip() for h in _allowed_hosts.split(",") if h.strip()]
 else:
     ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
-if "pytest" in sys.modules:
-    # The Django test client addresses "testserver". Tests only, never prod.
-    ALLOWED_HOSTS.append("testserver")
 
 
 # Application definition
@@ -146,8 +142,21 @@ PASSWORD_HASHERS = [
 SESSION_COOKIE_HTTPONLY = True
 SESSION_COOKIE_SAMESITE = "Lax"
 SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_HTTPONLY = True
 CSRF_COOKIE_SAMESITE = "Lax"
 CSRF_COOKIE_SECURE = not DEBUG
+
+# Production transport security, gated on DEBUG so local HTTP development still
+# works. `python manage.py check --deploy` is clean with DEBUG off; CI runs it.
+SECURE_SSL_REDIRECT = not DEBUG
+SECURE_HSTS_SECONDS = 0 if DEBUG else 31_536_000  # one year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = not DEBUG
+SECURE_HSTS_PRELOAD = not DEBUG
+# Trust X-Forwarded-Proto only when a reverse proxy that strips it terminates
+# TLS. Default off: a directly exposed app must not let a client spoof "https"
+# and bypass SECURE_SSL_REDIRECT.
+if os.environ.get("TRUST_PROXY_SSL_HEADER", "").lower() in ("1", "true", "yes"):
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 
 # Internationalization
