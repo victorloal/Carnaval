@@ -104,6 +104,13 @@ Phase 0 (documentation) is **closed**. No deployed version yet — see the statu
 - README claimed `backend/`, `frontend/` and `tests/` were empty; its status and layout
   now describe the skeleton, and a short run guide was added.
 
+### Added — forward sprint plans (2026-10-06)
+
+- `docs/sprints/sprint-03-plan.md` … `sprint-17-plan.md` — the planned path from the extractor
+  to the v3 launch: one deep plan per sprint, each with its backlog, exit criteria, decisions,
+  risks and what its version's release requires. They are **forward plans**: a sprint's status
+  becomes `Done` only when its own work is delivered, CI is green and the matrix is updated.
+
 ### Fixed — dependency, settings and moderation review (2026-10-06)
 
 - **Django was pinned to 5.0.6, which reached end of life in April 2025, and its
