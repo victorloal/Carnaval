@@ -9,7 +9,7 @@ import pytest
 from carnaval.core.models import ModerationOrigin, ModerationStatus
 from django.db import IntegrityError, transaction
 
-from tests.factories import DayFactory, EditionFactory, VenueFactory
+from tests.factories import DayFactory, EditionFactory, EventFactory, VenueFactory
 
 pytestmark = pytest.mark.django_db
 
@@ -51,6 +51,15 @@ def test_every_spine_model_carries_the_mixin() -> None:
         assert record.status == ModerationStatus.PENDING  # noqa: S101
         assert record.origin == ModerationOrigin.MANUAL  # noqa: S101
         assert record.is_published is False  # noqa: S101
+
+
+def test_event_is_a_moderated_row_inside_a_day() -> None:
+    """FR-A-03: an event hangs off a day, is pending and has a sort order."""
+    event = EventFactory()
+    assert event.day_id is not None  # noqa: S101
+    assert event.status == ModerationStatus.PENDING  # noqa: S101
+    assert event.is_published is False  # noqa: S101
+    assert event.sort_order >= 0  # noqa: S101
 
 
 def test_edition_year_is_unique() -> None:

@@ -7,6 +7,8 @@
   link on the moderation mixin. No extractor, no API endpoints, no admin screens.
 - **Starts:** 2026-10-07 (planned)
 - **WIP limit:** 2 items (ADR 0001)
+- **Status:** every backlog item implemented and verified locally; the sprint closes when CI
+  is green on the branch (ADR 0001 DoD 3).
 
 > This is deliberately a **data-model** sprint. The extractor (Sprint 03) and the public API
 > (Sprint 04) both depend on these tables; building either first would mean writing against a
@@ -19,16 +21,16 @@ Ordered; with a WIP limit of 2, items are taken top-down.
 
 | # | Item | Requirement | Verification | Status |
 |---|---|---|---|---|
-| 1 | New Django app `carnaval.ingestion` (skeleton, `apps.py`, migrations package, registered in `INSTALLED_APPS`) | NFR-13 | `manage.py check` | Open |
-| 2 | `Event` in `programme`: FK `day`, nullable FK `venue`, nullable `starts_at`/`ends_at`, `title_es`/`title_en`, nullable `description_es`/`description_en` (**own words only**), `sort_order`, moderation mixin, `source_url` | FR-A-03, FR-A-04, FR-A-12 | tests + migration review | Open |
-| 3 | `ScrapeSource`: `name`, `url`, `source_type` (`wp_api`/`html`/`pdf`), `wp_object_type`/`wp_object_id`, `selectors` (JSON), `is_active`, `rate_limit_seconds`, `schedule_cron`, `consecutive_failures`, `last_success_at`/`last_failure_at`, `last_error`, `user_agent` | FR-B-12, FR-B-10 | tests + matrix | Open |
-| 4 | `RawDocument`: FK `scrape_source`, `url`, `http_status`, `content_type`, **`content_hash` unique (SHA-256)**, `byte_size`, `storage_key`, `fetched_at` | FR-B-02, FR-B-03, FR-B-19 | test: re-fetch of the same hash is a no-op | Open |
-| 5 | `IngestionRun`: nullable FK `scrape_source`, `trigger` (`cron`/`manual`/`admin`), `status` (`running`/`succeeded`/`failed`/`skipped`), `started_at`/`finished_at`, `stats` (JSON), `error_message` | FR-B-08 | tests | Open |
-| 6 | Un-defer `ingestion_run` FK on `ModeratedModel` now that `ingestion_runs` exists | FR-B-06 | migration `programme/0004` | Open |
-| 7 | `seed_demo` management command: idempotent, dev-only, creates the canonical 2026 edition, its five day rows and sample events as `published` | FR-A-04, FR-A-10 (demo) | test: running it twice creates no duplicates | Open |
-| 8 | Confirm **no new model is registered in `/admin/`** (a fresh install must not expose `pending` content) | FR-D-03 | inspection | Open |
-| 9 | Reconcile `modelo-datos.md` §2/§3.1/§3.4 and `estados.md` with the shipped mixin | ADR 0001 DoD 2 | inspection | Open |
-| 10 | Matrix rows for items 2–5 moved from `Open` to their real status | ADR 0001 DoD 4 | inspection | Open |
+| 1 | New Django app `carnaval.ingestion` (skeleton, `apps.py`, migrations package, registered in `INSTALLED_APPS`) | NFR-13 | `manage.py check` | Done |
+| 2 | `Event` in `programme`: FK `day`, nullable FK `venue`, nullable `starts_at`/`ends_at`, `title_es`/`title_en`, nullable `description_es`/`description_en` (**own words only**), `sort_order`, moderation mixin, `source_url` | FR-A-03, FR-A-04, FR-A-12 | tests + migration review | Done |
+| 3 | `ScrapeSource`: `name`, `url`, `source_type` (`wp_api`/`html`/`pdf`), `wp_object_type`/`wp_object_id`, `selectors` (JSON), `is_active`, `rate_limit_seconds`, `schedule_cron`, `consecutive_failures`, `last_success_at`/`last_failure_at`, `last_error`, `user_agent` | FR-B-12, FR-B-10 | tests + matrix | Done |
+| 4 | `RawDocument`: FK `scrape_source`, `url`, `http_status`, `content_type`, **`content_hash` unique (SHA-256)**, `byte_size`, `storage_key`, `fetched_at` | FR-B-02, FR-B-03, FR-B-19 | test: re-fetch of the same hash is a no-op | Done |
+| 5 | `IngestionRun`: nullable FK `scrape_source`, `trigger` (`cron`/`manual`/`admin`), `status` (`running`/`succeeded`/`failed`/`skipped`), `started_at`/`finished_at`, `stats` (JSON), `error_message` | FR-B-08 | tests | Done |
+| 6 | Un-defer `ingestion_run` FK on `ModeratedModel` now that `ingestion_runs` exists | FR-B-06 | migration `programme/0004` | Done |
+| 7 | `seed_demo` management command: idempotent, dev-only, creates the canonical 2026 edition, its five day rows and sample events as `published` | FR-A-04, FR-A-10 (demo) | test: running it twice creates no duplicates | Done |
+| 8 | Confirm **no new model is registered in `/admin/`** (a fresh install must not expose `pending` content) | FR-D-03 | inspection | Done |
+| 9 | Reconcile `modelo-datos.md` §2/§3.1/§3.4 and `estados.md` with the shipped mixin | ADR 0001 DoD 2 | inspection | Done |
+| 10 | Matrix rows for items 2–5 moved from `Open` to their real status | ADR 0001 DoD 4 | inspection | Done |
 
 ### Why `events` and the ingestion tables in the same sprint
 

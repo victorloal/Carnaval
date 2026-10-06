@@ -34,8 +34,8 @@ no requirement should be deleted.
 |---|---|---|---|---|---|---|
 | FR-A-01 | US-01 | modelo-datos §3.1 | 0002 | T | unit: edition model | Done |
 | FR-A-02 | US-02 | modelo-datos §3.2 | 0002 | T | unit: days are rows not enum | Done |
-| FR-A-03 | US-02, US-03 | modelo-datos §3.3–3.4 | 0002 | T | API: events, venues | Open |
-| FR-A-04 | US-02 | modelo-datos §3.2 | 0002 | T | fixture: 2–6 Jan milestones | Open |
+| FR-A-03 | US-02, US-03 | modelo-datos §3.3–3.4 | 0002 | T | unit: event model | Done |
+| FR-A-04 | US-02 | modelo-datos §3.2 | 0002 | T | seed_demo: 2–6 Jan milestones | Done |
 | FR-A-05 | US-03 | modelo-datos §3.3 | 0002 | T | API: venues | Open |
 | FR-A-06 | US-04 | modelo-datos §2 | 0002 | T | **SEC-47** | Open |
 | FR-A-07 | US-02 | arquitectura-c4 (L2) | 0009 | T | API: schema endpoints | Open |

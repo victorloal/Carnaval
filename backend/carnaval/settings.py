@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     "drf_spectacular",
     "carnaval.core",
     "carnaval.programme",
+    "carnaval.ingestion",
 ]
 
 MIDDLEWARE = [

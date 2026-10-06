@@ -23,10 +23,9 @@ class ModeratedModel(models.Model):
     ``estados.md`` §1: nothing reaches ``published`` without a human decision,
     and every record keeps its ``origin``.
 
-    Two pieces are deliberately not here yet. ``ingestion_run`` (FK to
-    ``ingestion_runs``) cannot exist before that table does, and the
-    "``scraped`` requires a run / ``manual`` requires an author" constraints
-    arrive with the moderation service rather than as a half-enforced rule now.
+    One piece is still deliberately absent: the "``scraped`` requires a run /
+    ``manual`` requires an author" constraints arrive with the moderation
+    service rather than as a half-enforced rule now.
     """
 
     status = models.CharField(
@@ -51,6 +50,15 @@ class ModeratedModel(models.Model):
     rejection_reason = models.TextField(blank=True, default="")
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
+    # Set when origin = scraped (modelo-datos.md §2, FR-B-06). String reference
+    # so core does not import the ingestion app at module load.
+    ingestion_run = models.ForeignKey(
+        "ingestion.IngestionRun",
         null=True,
         blank=True,
         on_delete=models.SET_NULL,

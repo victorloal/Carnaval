@@ -14,8 +14,9 @@
 
 ## 1. The shared model
 
-Four tables carry content subject to review: `events`, `news_items`, `media_assets`,
-`submissions`. All four carry the same moderation mixin (`modelo-datos.md` §2):
+Every table whose rows can become public carries the mixin: the programme spine
+(`editions`, `days`, `venues`), the editorial tables (`events`, `news_items`,
+`media_assets`) and `submissions` (`modelo-datos.md` §2):
 
 | Field | Type | Meaning |
 |---|---|---|

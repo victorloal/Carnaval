@@ -28,8 +28,9 @@
 
 ## 2. The moderation mixin
 
-Four tables carry content subject to review: `events`, `news_items`, `media_assets`,
-`submissions`. They all include:
+Every table whose rows can become public carries the mixin: the programme spine
+(`editions`, `days`, `venues`), the editorial tables (`events`, `news_items`, `media_assets`)
+and `submissions`. They all include:
 
 | Field | Type | Meaning |
 |---|---|---|
@@ -49,7 +50,7 @@ Invariants enforced by application code and by a `CHECK` constraint where possib
 - Nothing transitions out of `published` automatically. Downgrading to `pending` is an
   explicit human action.
 
-Because these four tables share the same seven fields and the same invariants, the shape is
+Because these tables share the same seven fields and the same invariants, the shape is
 drawn once. `clean()` stands for the invariant checks listed above; the dashed line is
 *inclusion*, not inheritance — these are database tables, not subclasses.
 
@@ -67,11 +68,17 @@ classDiagram
         +clean() void
     }
 
+    class editions
+    class days
+    class venues
     class events
     class news_items
     class media_assets
     class submissions
 
+    ModerationMixin <|.. editions : includes
+    ModerationMixin <|.. days : includes
+    ModerationMixin <|.. venues : includes
     ModerationMixin <|.. events : includes
     ModerationMixin <|.. news_items : includes
     ModerationMixin <|.. media_assets : includes
@@ -89,8 +96,8 @@ classDiagram
 | `slug` | slug, unique | URL segment |
 | `title_es`, `title_en` | text | Display name |
 | `starts_on`, `ends_on` | date | Typically 2–6 January |
-| `is_published` | bool | Default `false` |
 | `summary_es`, `summary_en` | text | Editorial introduction |
+| moderation mixin | | See §2 |
 
 A parade edition is the aggregate root: days, events, and media all hang off it, so an
 edition can be published or withheld as a unit.
@@ -132,6 +139,7 @@ choreographic collectives, 4 Jan Desfile Familia Castañeda, **5 Jan Day of Blac
 | `title_es`, `title_en` | text | |
 | `description_es`, `description_en` | text, nullable | **Own words only** — never copied prose from the source |
 | `sort_order` | int | Preserves source ordering within a day |
+| `source_url` | url, nullable | Link to the source of the entry (FR-A-12); the v2 `sources` registry replaces it |
 | moderation mixin | | See §2 |
 
 Indexes: `(day, sort_order)`, `(status)`.

@@ -79,3 +79,38 @@ class Venue(ModeratedModel):
 
     def __str__(self) -> str:
         return self.name_es
+
+
+class Event(ModeratedModel):
+    """A programme entry inside a day (FR-A-03, FR-A-04).
+
+    Descriptions are our own words only — never copied prose from the source
+    (brief §11). ``sort_order`` preserves the order the source gave.
+    """
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    day = models.ForeignKey(Day, on_delete=models.CASCADE, related_name="events")
+    venue = models.ForeignKey(
+        Venue,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="events",
+    )
+    starts_at = models.DateTimeField(null=True, blank=True)
+    ends_at = models.DateTimeField(null=True, blank=True)
+    title_es = models.CharField(max_length=200)
+    title_en = models.CharField(max_length=200, blank=True, default="")
+    description_es = models.TextField(blank=True, default="")
+    description_en = models.TextField(blank=True, default="")
+    sort_order = models.PositiveIntegerField(default=0)
+    # FR-A-12 for the MVP: a plain link. The v2 ``sources`` registry replaces it.
+    source_url = models.URLField(max_length=2000, blank=True, default="")
+
+    class Meta:
+        ordering = ["day__date", "sort_order"]
+        constraints = [rejection_reason_constraint()]
+        indexes = [models.Index(fields=["day", "sort_order"])]
+
+    def __str__(self) -> str:
+        return f"{self.day.date} - {self.title_es}"

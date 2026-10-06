@@ -64,6 +64,24 @@ Phase 0 (documentation) is **closed**. No deployed version yet — see the statu
   verifying FR-A-01 and FR-A-02, and the no-egress guard proof tests (NFR-16).
 - `.env.example` — documents every variable the settings read.
 
+### Added — Sprint 02: the schema the pipeline needs (2026-10-06)
+
+- `backend/carnaval/ingestion/` — a new app with `ScrapeSource` (FR-B-12, the
+  circuit-breaker state), `RawDocument` (FR-B-02/03, with a **unique** SHA-256
+  `content_hash` that makes re-running a source idempotent) and `IngestionRun`
+  (FR-B-08, trigger/status/stats).
+- `Event` in `programme` (FR-A-03, FR-A-04): an optional venue and times, bilingual
+  display fields, `sort_order`, a `source_url` for FR-A-12, and the moderation mixin.
+- The `ingestion_run` FK is now on the moderation mixin, where the design always had it
+  and where it was deferred until `ingestion_runs` existed (FR-B-06).
+- `manage.py seed_demo` — idempotent, development-only, creates the canonical 2026
+  programme **already published**. It exists only because the MVP ships no admin
+  (publishing waits for v1); it never creates a user and refuses to run with `DEBUG` off.
+- `modelo-datos.md` §2/§3.1/§3.4 and `estados.md` §1 are reconciled with the shipped
+  mixin: it lives on the programme spine and on `events`, and editions no longer carry a
+  stored `is_published`.
+- Migrations `ingestion/0001` and `programme/0004`.
+
 ### Fixed — review findings (2026-10-05)
 
 - **The no-egress guard was a no-op.** The fixture created a socket and returned it
