@@ -11,7 +11,7 @@ from carnaval.ingestion.models import (
 )
 
 
-def empty_stats() -> dict[str, int]:
+def empty_stats() -> dict[str, object]:
     """The per-stage statistics the run records (``modelo-datos.md`` §3.7)."""
     return {"extracted": 0, "inserted": 0, "updated": 0, "skipped": 0, "rejected": 0}
 
@@ -30,7 +30,7 @@ def close_run(
     run: IngestionRun,
     status: str,
     *,
-    stats: dict[str, int] | None = None,
+    stats: dict[str, object] | None = None,
     error: str = "",
 ) -> IngestionRun:
     run.status = status

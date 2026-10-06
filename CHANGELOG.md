@@ -123,6 +123,27 @@ Phase 0 (documentation) is **closed**. No deployed version yet — see the statu
   `backend/tests/fixtures/`, reduced with `_fields=` so no third-party article text is
   committed. No test touches the network (NFR-16). SEC-37/38/39/41/42 have executable tests.
 
+### Added — Sprint 04: the extractor, part 2 (2026-10-06)
+
+- The `wp_api` transform: a post becomes an event by taking the **day** from its day
+  **category name** (`5 de enero`) and the **year** from its post **date**, because the spike
+  found slugs and dates that disagree and day labels that carry no year. Days are collected by
+  name pattern, so the `6 de enero` root category is not dropped (FR-B-01, FR-B-15, FR-A-03,
+  FR-A-04).
+- Schema validation: a post missing a required field, or an unparseable date, is rejected and
+  counted in `stats.rejected` (FR-B-05).
+- The sanity gate: a payload that yields nothing, drops or spikes against the last five runs,
+  loses a required field, or falls outside the target edition is an **alarm**, not a silent
+  success. The target year defaults to the newest edition, so the guard is on without
+  configuration (FR-B-11, SEC-40).
+- Staging: validated candidates become `pending` rows with `origin = scraped` and their
+  `ingestion_run`. `Event.source_record_key` (migration `programme/0005`, unique per day on
+  non-empty keys) makes re-staging an upsert. Published or human-authored rows are never
+  modified — proposing a change to published content is `flujo-datos.md` §5.1, deferred to its
+  own ADR (FR-B-06, FR-B-07 partially, SEC-37/38).
+- HTTP is mocked; the `wp_posts` and `wp_posts_empty` fixtures drive the transform and the
+  zero-extraction alarm. No test touches the network (NFR-16).
+
 ### Added — forward sprint plans (2026-10-06)
 
 - `docs/sprints/sprint-03-plan.md` … `sprint-17-plan.md` — the planned path from the extractor

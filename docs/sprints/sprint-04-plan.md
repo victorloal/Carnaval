@@ -7,6 +7,7 @@
   green run.
 - **Starts:** after Sprint 03 closes; nominal 1 week.
 - **WIP limit:** 2 items (ADR 0001)
+- **Status:** implemented and verified locally; `Done` is set once CI is green (ADR 0001).
 
 > The pipeline reaches **STAGING** and stops. Nothing is published: publishing requires a
 > human, and the admin does not exist until v1.
@@ -15,13 +16,13 @@
 
 | # | Item | Requirement | Verification | Status |
 |---|---|---|---|---|
-| 1 | `Event.source_record_key` (migration `programme/0005`), unique per `(day, key)` on non-empty keys | FR-B-07 | migration review | Open |
-| 2 | `wp_api` transform handler (preferred, FR-B-15); html/pdf handlers as interfaces only | FR-B-01, FR-B-15 | unit | Open |
-| 3 | Schema validation; a failing record is counted in `stats.rejected` with a reason | FR-B-05 | unit | Open |
-| 4 | Attribution fields on each candidate (source URL; the run is the provenance) | FR-A-12, FR-B-06 | unit | Open |
-| 5 | Sanity gate: zero-yield stop, drop/spike ratios, selector hits, field completeness, **and target-edition date alignment** | FR-B-11 | SEC-40 | Open |
-| 6 | Staging: upsert `pending` rows by `source_record_key`; create missing `editions`/`days` as `pending` | FR-B-06, FR-B-07 | SEC-37 | Open |
-| 7 | `stats` end to end: extracted/inserted/updated/skipped/rejected | FR-B-08 | integration | Open |
+| 1 | `Event.source_record_key` (migration `programme/0005`), unique per `(day, key)` on non-empty keys | FR-B-07 | migration review | Implemented |
+| 2 | `wp_api` transform handler (preferred, FR-B-15); html/pdf handlers as interfaces only | FR-B-01, FR-B-15 | unit | Implemented |
+| 3 | Schema validation; a failing record is counted in `stats.rejected` with a reason | FR-B-05 | unit | Implemented |
+| 4 | Attribution fields on each candidate (source URL; the run is the provenance) | FR-A-12, FR-B-06 | unit | Implemented |
+| 5 | Sanity gate: zero-yield stop, drop/spike ratios, selector hits, field completeness, **and target-edition date alignment** | FR-B-11 | SEC-40 | Implemented |
+| 6 | Staging: upsert `pending` rows by `source_record_key`; create missing `editions`/`days` as `pending` | FR-B-06, FR-B-07 | SEC-37 | Implemented |
+| 7 | `stats` end to end: extracted/inserted/updated/skipped/rejected | FR-B-08 | integration | Implemented |
 
 ### The trap this sprint must not fall into
 

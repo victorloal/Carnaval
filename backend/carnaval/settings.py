@@ -215,6 +215,10 @@ INGESTION_RAW_RETENTION_DAYS = int(os.environ.get("INGESTION_RAW_RETENTION_DAYS"
 INGESTION_RAW_RETENTION_BYTES = int(
     os.environ.get("INGESTION_RAW_RETENTION_BYTES", str(50_000_000))
 )
+# The edition the pipeline is populating. When set, records outside that year
+# fail the sanity gate: the source currently serves a mostly six-year-old
+# programme, and "42 records" is not evidence the fetch was correct.
+INGESTION_TARGET_YEAR = os.environ.get("INGESTION_TARGET_YEAR", "")
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

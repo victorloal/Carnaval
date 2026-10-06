@@ -1,0 +1,7 @@
+{
+  "url": "https://carnavaldepasto.org/wp-json/wp/v2/posts",
+  "http_status": 200,
+  "content_type": "application/json",
+  "content_hash": "fb02945dcfe87a063b8d18aedfcb7aa0b94c38703f8f46c7f554dbfe5b833f9c",
+  "note": "Reduced with _fields=: id, date, slug, link, title, _embedded terms only. No article body is committed (LEG-05)."
+}

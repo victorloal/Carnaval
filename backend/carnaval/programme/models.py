@@ -106,10 +106,21 @@ class Event(ModeratedModel):
     sort_order = models.PositiveIntegerField(default=0)
     # FR-A-12 for the MVP: a plain link. The v2 ``sources`` registry replaces it.
     source_url = models.URLField(max_length=2000, blank=True, default="")
+    # Upstream identity, so re-staging is an upsert and not a second row.
+    source_record_key = models.CharField(
+        max_length=200, blank=True, default="", db_index=True
+    )
 
     class Meta:
         ordering = ["day__date", "sort_order"]
-        constraints = [rejection_reason_constraint()]
+        constraints = [
+            rejection_reason_constraint(),
+            models.UniqueConstraint(
+                fields=["day", "source_record_key"],
+                condition=~models.Q(source_record_key=""),
+                name="event_day_source_key_unique",
+            ),
+        ]
         indexes = [models.Index(fields=["day", "sort_order"])]
 
     def __str__(self) -> str:

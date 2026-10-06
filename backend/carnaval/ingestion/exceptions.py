@@ -25,3 +25,11 @@ class PermanentFetchError(FetchError):
 
 class RobotsDisallowed(FetchError):
     """robots.txt forbids the target; the source is disabled and flagged."""
+
+
+class TransformError(IngestionError):
+    """The payload could not be turned into records (malformed, wrong shape)."""
+
+
+class SanityError(IngestionError):
+    """The sanity gate refused the run: something looks like a markup change."""

@@ -50,21 +50,21 @@ no requirement should be deleted.
 
 | Req | Story | Design | ADR | Verif. | Test | Status |
 |---|---|---|---|---|---|---|
-| FR-B-01 | US-14 | flujo-datos | 0002 | T | integration: 4 stages | Open |
+| FR-B-01 | US-14 | flujo-datos | 0002 | T | integration: extract→staging (review/load in v1) | Open |
 | FR-B-02 | US-14 | flujo-datos §RAW | 0002 | T | unit: raw storage + hash | Done |
 | FR-B-03 | US-14 | modelo-datos §3.6 | 0002 | T | **SEC-37** (raw layer) | Done |
-| FR-B-04 | US-14 | flujo-datos (idempotency) | 0002 | T | **SEC-37** | Open |
-| FR-B-05 | US-14 | flujo-datos §TRANSFORM | 0002 | T | unit: schema validation | Open |
-| FR-B-06 | US-07 | modelo-datos §2 | 0002 | T | unit: pending on ingest | Open |
+| FR-B-04 | US-14 | flujo-datos (idempotency) | 0002 | T | **SEC-37** | Done |
+| FR-B-05 | US-14 | flujo-datos §TRANSFORM | 0002 | T | unit: schema validation | Done |
+| FR-B-06 | US-07 | modelo-datos §2 | 0002 | T | unit: pending on ingest | Done |
 | FR-B-07 | US-14 | flujo-datos §LOAD | 0002 | T | integration: upsert | Open |
 | FR-B-08 | US-14 | modelo-datos §3.7 | 0002 | T | integration: run stats | Done |
 | FR-B-09 | US-15 | flujo-datos (failure) | 0002 | T | **SEC-38** | Done |
 | FR-B-10 | US-12 | flujo-datos (breaker) | 0002 | T | **SEC-39** | Done |
-| FR-B-11 | US-12 | flujo-datos (§4) | 0002 | T | **SEC-40** | Open |
+| FR-B-11 | US-12 | flujo-datos (§4) | 0002 | T | **SEC-40** | Done |
 | FR-B-12 | US-16 | modelo-datos §3.5 | 0002 | T | admin: CRUD | Open |
 | FR-B-13 | US-16 | flujo-datos (rate limit) | 0004 | T | **SEC-41** | Done |
 | FR-B-14 | US-16 | fuentes-y-atribucion | 0004 | T | **SEC-42** | Done |
-| FR-B-15 | US-14 | fuentes-y-atribucion §9.2 | 0002 | I | spike: WP API probe — **ran 2026-10-03, API available** (368 routes, no auth) | Open — spike passed, pipeline not built |
+| FR-B-15 | US-14 | fuentes-y-atribucion §9.2 | 0002 | I | spike + unit: wp_api transform | Done |
 | FR-B-16 | — | modelo-datos §10 Q3 | 0002 | T | unit: retention prune | Done — no story |
 | FR-B-17 | US-14 | despliegue | 0009 | D | GH Actions cron run | Open |
 | FR-B-18 | US-17 | modelo-datos §3.7 | 0002 | T | admin: manual trigger | Open |
