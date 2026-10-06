@@ -35,7 +35,7 @@ A mature admin framework is therefore worth more than API framework novelty.
 | OpenAPI | drf-spectacular — **generated** from the code, committed to `docs/02-diseno/openapi.yaml` by CI |
 | Admin panel | **Django admin**, customized (see ADR 0005) |
 | AuthN | Django sessions in an `httpOnly` cookie + `django-otp` (TOTP) |
-| Password hashing | Argon2id via `django-argon2` |
+| Password hashing | Argon2id via `argon2-cffi` |
 | RBAC | Django auth groups: `admin`, `editor`, `viewer` |
 | Audit | `audit_logs` table written from Django signals |
 | HTTP client | httpx |

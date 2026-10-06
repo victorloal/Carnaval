@@ -21,3 +21,10 @@ plugins = ["mypy_django_plugin.main"]
 
 [tool.django-stubs]
 django_settings_module = "carnaval.settings"
+
+# Vetted third-party libraries that ship no py.typed marker (django-otp 1.5.4,
+# factory-boy 3.3.1): mypy cannot see inside them, so only their *imports* are
+# skipped. Every module of ours that uses them stays fully checked.
+[[tool.mypy.overrides]]
+module = ["factory", "django_otp.*"]
+ignore_missing_imports = true

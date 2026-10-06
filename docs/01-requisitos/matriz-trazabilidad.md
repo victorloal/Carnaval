@@ -32,8 +32,8 @@ no requirement should be deleted.
 
 | Req | Story | Design | ADR | Verif. | Test | Status |
 |---|---|---|---|---|---|---|
-| FR-A-01 | US-01 | modelo-datos §3.1 | 0002 | T | unit: edition model | Open |
-| FR-A-02 | US-02 | modelo-datos §3.2 | 0002 | T | unit: days are rows not enum | Open |
+| FR-A-01 | US-01 | modelo-datos §3.1 | 0002 | T | unit: edition model | Done |
+| FR-A-02 | US-02 | modelo-datos §3.2 | 0002 | T | unit: days are rows not enum | Done |
 | FR-A-03 | US-02, US-03 | modelo-datos §3.3–3.4 | 0002 | T | API: events, venues | Open |
 | FR-A-04 | US-02 | modelo-datos §3.2 | 0002 | T | fixture: 2–6 Jan milestones | Open |
 | FR-A-05 | US-03 | modelo-datos §3.3 | 0002 | T | API: venues | Open |

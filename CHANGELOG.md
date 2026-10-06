@@ -53,6 +53,39 @@ Phase 0 (documentation) is **closed**. No deployed version yet — see the statu
   response-time guarantee, and that a single part-time maintainer is an unmitigated
   single point of failure.
 
+### Added — Sprint 01: the repository that runs
+
+- `backend/` — Django 5 project skeleton: environment-only settings, the programme spine
+  (`editions`, `days`, `venues`) with the first migration set, DRF + `drf-spectacular`, and
+  a generated `docs/02-diseno/openapi.yaml` that CI regenerates and fails on drift (ADR 0011).
+- `.github/workflows/ci.yml` — lint, typecheck, migration check, tests, schema validation
+  and drift, diagram validation (the backend stages of `plan-pruebas.md` §7).
+- `backend/tests/` — pytest suite with factory_boy factories for the spine, unit tests
+  verifying FR-A-01 and FR-A-02, and the no-egress guard proof tests (NFR-16).
+- `.env.example` — documents every variable the settings read.
+
+### Fixed — review findings (2026-10-05)
+
+- **The no-egress guard was a no-op.** The fixture created a socket and returned it
+  unchanged, and its test was `assert True`. It is now a session-scoped guard blocking
+  outbound TCP, `sendto`, and DNS resolution for every destination but loopback, with tests
+  proving both the block and the loopback exception (NFR-16, sprint 01 item 7).
+- **New DRF endpoints were born public.** `REST_FRAMEWORK` declared no default permissions,
+  so DRF's `AllowAny` applied. Defaults are now fail-closed (`IsAuthenticated`, session
+  auth only) — RBAC is enforced server-side on every request (ADR 0005).
+- **`SECRET_KEY` fell back to an insecure default and `DEBUG` defaulted to `True`**, which
+  SEC-46 forbids: settings now raise `ImproperlyConfigured` when `SECRET_KEY` is absent and
+  default `DEBUG` off; session and CSRF cookies are `Secure` and `SameSite=Lax` outside
+  development (ADR 0005). CI provides an explicit non-production test value.
+- `requirements.txt` was missing `argon2-cffi`, without which Argon2id hashing cannot run,
+  and `django-otp` was installed but unregistered — its apps and middleware are now wired;
+  `PASSWORD_HASHERS` puts Argon2id first (ADR 0005).
+- The package `django-argon2`, named in ADR 0005, ADR 0009, `autenticacion.md`,
+  `SECURITY.md` and `AGENTS.md`, **does not exist on PyPI**; all five now say
+  `argon2-cffi`, and ADR 0005 carries the correction note. The decision is unchanged.
+- README claimed `backend/`, `frontend/` and `tests/` were empty; its status and layout
+  now describe the skeleton, and a short run guide was added.
+
 ### Changed
 
 - `LICENSE` — **The Unlicense replaced with MIT.** The Unlicense purported to dedicate the
@@ -76,6 +109,9 @@ Phase 0 (documentation) is **closed**. No deployed version yet — see the statu
 - `docs/00-acta-proyecto.md` §12 — the source spike is recorded as **partially** done: the WP
   API and `robots.txt` are closed, the terms of use are not. Added §12.1 (Phase 0 closed) and
   §12.2 (the five open items, none of which a document can close).
+- `docs/01-requisitos/matriz-trazabilidad.md` — **FR-A-01 and FR-A-02 moved from Open to
+  Done**: their verification (unit: edition model; unit: days are rows not enum) is now
+  performed and recorded in `backend/tests/test_programme_models.py`.
 
 ### Removed
 

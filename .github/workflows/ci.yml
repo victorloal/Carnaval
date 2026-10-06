@@ -13,6 +13,12 @@ jobs:
       matrix:
         python-version: ["3.12"]
 
+    # SEC-46 / NFR-09: Django settings fail loudly when a required secret is
+    # absent, so CI provides an explicit, non-production test value here —
+    # rather than a default ever living in the code.
+    env:
+      SECRET_KEY: ci-test-value-not-a-secret
+
     steps:
       - uses: actions/checkout@v4
 

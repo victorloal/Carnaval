@@ -38,10 +38,12 @@ can reach.
 ## Status
 
 **Phase 0 — documentation — closed 2026-10-04.** The requirements, design set, test plan,
-threat model, and ADRs are complete. **Nothing is deployed and there is no working code
-yet**; `backend/`, `frontend/`, and `tests/` are still empty. Implementation starts with
-Sprint 01, whose goal is a repository that builds and whose CI can refuse a bad change —
-not a feature.
+threat model, and ADRs are complete. **Sprint 01 is in progress**: `backend/` now holds the
+Django skeleton — programme models and migrations, a generated and CI-enforced
+`openapi.yaml`, lint and type checks, tests with a no-egress guard, and a GitHub Actions
+pipeline. `frontend/` and `tests/` are still empty, and nothing is deployed. The sprint's
+goal is a repository that builds and whose CI can refuse a bad change — not a feature
+(`docs/sprints/sprint-01-plan.md`).
 
 | Version | Contents | State |
 |---|---|---|
@@ -60,13 +62,28 @@ See `docs/00-acta-proyecto.md` §12.2.
 
 ```
 ├── docs/            requirements, design, tests, ADRs, legal, sprint notes
-├── backend/         Django project (API, admin, ingestion) — reserved
+├── backend/         Django project (API, admin, ingestion) — skeleton in place
 ├── frontend/        React + TypeScript public site — reserved
 ├── tests/           cross-cutting E2E and security suites — reserved
 ├── AGENTS.md        rules for coding agents
 ├── MEMORY.md        session memory for coding agents
 └── LICENSE          MIT — covers code only, not content
 ```
+
+## Running the backend
+
+```bash
+python -m venv venv
+venv/bin/pip install -r requirements.txt
+cp .env.example .env        # gitignored; set SECRET_KEY — see .env.example
+venv/bin/python backend/manage.py check
+venv/bin/python -m pytest
+```
+
+Settings read **only** from environment variables and fail loudly when `SECRET_KEY`
+is absent (SEC-46); a gitignored `.env` supplies development values. With no `DB_*`
+variables set, development falls back to SQLite — `DB_*` is what enables PostgreSQL 16
+(ADR 0009), the deployment database.
 
 ## Documentation
 

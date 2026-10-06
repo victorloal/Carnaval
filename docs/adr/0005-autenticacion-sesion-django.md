@@ -25,7 +25,8 @@ exfiltrate it.
 
 The admin panel **is Django admin**. Authentication is:
 
-1. **Password**, hashed with **Argon2id** (`django-argon2`).
+1. **Password**, hashed with **Argon2id** (`argon2-cffi` behind Django's
+   `Argon2PasswordHasher`).
 2. **Server-side session** in an `httpOnly`, `Secure`, `SameSite=Lax` cookie. Django stores
    only a session key client-side; session contents live in the database.
 3. **TOTP** as a second factor for every account with the `admin` group
@@ -35,11 +36,15 @@ The admin panel **is Django admin**. Authentication is:
 6. **No public admin sign-up.** The first administrator is created by a Django management
    command (`createsuperuser` wrapped as a documented seed command), never over the API.
 
+> **Correction (2026-10-05):** the package originally named in this ADR, `django-argon2`,
+> does not exist on PyPI. The implementation uses **`argon2-cffi`**, the library Django's
+> `Argon2PasswordHasher` binds to. The decision — Argon2id — is unchanged.
+
 **Consequences for the brief's requirements:**
 
 | Brief §9 requirement | Resolution |
 |---|---|
-| Argon2id passwords | Kept — `django-argon2` |
+| Argon2id passwords | Kept — `argon2-cffi` |
 | TOTP MFA for administrators | Kept — `django-otp` |
 | Tokens in `httpOnly` cookies, never `localStorage` | Kept and strengthened — a session cookie holds no bearer token at all |
 | Short access token + rotating refresh token | **Dropped.** No token is issued, so none can leak. Sessions are revoked centrally, which is strictly better than rotation |

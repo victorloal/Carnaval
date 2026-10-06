@@ -127,7 +127,7 @@ are not negotiable.
   brief; do not reintroduce tokens.
 - Sessions are server-side with a CSRF-protected, `httpOnly`, `Secure`, `SameSite` cookie.
   Central revocation is a feature — do not replace it with token rotation.
-- Use vetted libraries (Argon2id via `django-argon2`, `django-otp`). Never write custom
+- Use vetted libraries (Argon2id via `argon2-cffi`, `django-otp`). Never write custom
   cryptography.
 - Enforce RBAC server-side on every request; never rely on the interface hiding a control.
   Django admin ships with full permissions by default — a fresh install must not expose

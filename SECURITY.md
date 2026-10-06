@@ -100,7 +100,7 @@ All of this is **decided and not yet implemented**. Each row names the source of
 | Authentication | **Server-side sessions. No JWT, no bearer token, nothing in `localStorage`** | ADR 0005 |
 | Session cookie | `httpOnly`, `Secure`, `SameSite`, CSRF-protected. Central revocation is the point | ADR 0005 |
 | Second factor | TOTP (`django-otp`), plus single-use hashed recovery codes | ADR 0005 |
-| Password hashing | **Argon2id** via `django-argon2`. No custom cryptography | ADR 0005 |
+| Password hashing | **Argon2id** via `argon2-cffi`. No custom cryptography | ADR 0005 |
 | Authorisation | RBAC enforced **server-side on every request**. Never the interface hiding a control | `docs/02-diseno/roles-permisos.md` |
 | Admin exposure | A fresh install must not expose unreviewed `pending` content — Django admin ships with full permissions by default, so this needs deliberate work | FR-D-03 |
 | Audit | `audit_logs` is **append-only**, for every role including `admin` | SRS |
