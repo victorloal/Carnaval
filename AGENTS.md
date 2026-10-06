@@ -2,23 +2,31 @@
 
 ## Read this first
 
-This repo is at the **end of Phase 0: documentation complete, no code yet**. `backend/`,
-`frontend/`, and `tests/` are empty directories; `.github/` does not exist. There is no
-Python code, no linter, no test runner, and no CI. Phase 0 is closed; the next unit of work
-is Sprint 01 (`docs/sprints/sprint-01-plan.md`), whose seven exit criteria are the gate
-everything else waits on.
+**Phase 0 is closed and Sprint 01 is delivered.** `backend/` holds a Django 5.2 LTS skeleton:
+environment-only settings, the programme spine (`editions`, `days`, `venues`) with its first
+migrations, DRF + `drf-spectacular`, and a pytest suite whose no-egress guard is real. The
+backend/docs stages of `plan-pruebas.md` §7 run in `.github/workflows/ci.yml`, and
+`docs/02-diseno/openapi.yaml` is committed and CI-enforced (ADR 0011). `frontend/` and the
+root `tests/` are still **empty** directories; the public site and the remaining data model
+are the next units of work (`docs/sprints/sprint-01-plan.md`, "Carried into the next sprint").
 
-The one executable artefact is `scripts/check-diagrams.cjs`, which validates every fenced
-diagram in the repository (ADR 0014). It runs today with `npm ci && npm run check:diagrams`.
-The root `package.json` exists **for that script alone** — the backend is Python and the
-public site gets its own package under `frontend/`, so do not grow the root manifest into an
-application manifest. Sprint 01 item 9 wires the check into CI.
+Sprint 01's exit criteria cover only the stages that can run without a frontend. Stages 3–5
+and 10–14 of `plan-pruebas.md` §7 (frontend `tsc`/eslint/vitest/build, docker-compose E2E,
+Lighthouse, axe, dependency audit) are **not wired** and wait on those components. Do not
+claim them green.
+
+The executable artefacts are `scripts/check-diagrams.cjs`, which validates every fenced
+diagram in the repository (ADR 0014), and the `backend/` Python project. The diagram check
+runs with `npm ci && npm run check:diagrams` and is wired into CI (Sprint 01 item 9). The root
+`package.json` exists **for that script alone** — the backend is Python and the public site
+gets its own package under `frontend/`, so do not grow the root manifest into an application
+manifest.
 
 The stack is **decided** — do not re-litigate it, and do not substitute a framework:
 
 | Layer | Choice | ADR |
 |---|---|---|
-| Backend | Python 3.12, Django 5, Django REST Framework | 0009 |
+| Backend | Python 3.12, Django 5.2 LTS, Django REST Framework | 0009 |
 | Database | PostgreSQL 16 | 0009 |
 | Frontend | React + TypeScript (public site **only**) | 0009, 0005 |
 | Admin | **Django admin** — there is no React admin panel | 0005 |
@@ -48,7 +56,12 @@ file wins.
 - `docs/fuentes-y-atribucion.md` — source register and scraping etiquette
 - `scripts/check-diagrams.cjs` — the diagram validator; run it with `npm run check:diagrams`
 - `package.json` / `package-lock.json` — **documentation tooling only**; `node_modules/` is ignored
-- `backend/`, `frontend/`, `tests/` — reserved, currently empty
+- `backend/` — Django project: `carnaval/` settings and apps, `core/` + `programme/` models and
+  migrations, and `backend/tests/` (pytest suite, factories, no-egress guard). Run
+  `python backend/manage.py check` (see `README.md` for the full local run guide)
+- `.github/` — `workflows/ci.yml` (backend/docs CI) and `dependabot.yml`
+- `frontend/` — reserved, still empty (React public site)
+- `tests/` — reserved, still empty at the root; backend tests live under `backend/tests/`
 
 Docs use an `NN-` prefix for ordering. ADRs are the exception: `000N-`, no prefix.
 
@@ -135,7 +148,7 @@ are not negotiable.
 - `audit_logs` is append-only for every role, including `admin`.
 - Secrets only in environment variables. Infrastructure must stay at zero cost.
 
-## When code does land
+## Working with code
 
 - **No test may contact a live source.** HTTP is mocked; scraper tests replay committed
   fixtures under `backend/tests/fixtures/`. This is the project's highest-risk failure mode.
@@ -143,6 +156,12 @@ are not negotiable.
   regenerated `docs/02-diseno/openapi.yaml`; never hand-edit it (ADR 0011).
 - Missing English translation keys must **fail the build**, not degrade at runtime.
 - Migrations must be reviewed in the pull request; `makemigrations --check` gates the build.
+- Content tables inherit `carnaval.core.models.ModeratedModel`. `status` defaults to
+  `pending`, `is_published` is **derived**, and `origin` is mandatory: never add a stored
+  publication boolean.
+- `Meta.constraints` is **not** inherited from an abstract base model. Compose shared
+  constraints per model — see `carnaval.core.models.rejection_reason_constraint` — and name
+  them with `%(app_label)s_%(class)s` placeholders so they stay unique.
 - New requirements get a stable ID in `srs.md`, a row in `matriz-trazabilidad.md`, and a
   verification method. Never renumber an existing requirement.
 - Before scraping work, confirm `data/raw/` and `*.pdf` are still in `.gitignore`.

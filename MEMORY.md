@@ -5,8 +5,8 @@ conflict. **Hard limit: 50 lines.** Records what happened and what is next, neve
 
 ## Current state
 
-- **Phase 0 closed 2026-10-04; Sprint 01 mostly delivered.** Django skeleton in `backend/`: spine models + migrations, DRF/spectacular, committed `openapi.yaml`, CI workflow, **real no-egress guard**, factories, settings hardened 2026-10-05. `frontend/` and root `tests/` still empty. 46 Markdown files: 15 ADRs, acta, SRS (170 reqs), 32 stories, matrix, 9 design docs, **74 cases**, 4 legal, 3 sprints.
-- **Stack decided** (0009): Python 3.12 + Django 5 + DRF + **PostgreSQL 16** (settings enable it via `DB_*` env; SQLite is a dev fallback only). React for the public site only. Admin is **Django admin** (0005), **no JWT anywhere**. Site **bilingual es/en** (0010); OpenAPI **generated**, drift fails CI (0011). Platform **undecided**.
+- **Phase 0 closed 2026-10-04; Sprint 01 delivered** (retro 2026-10-06). Django skeleton in `backend/` on **Django 5.2.9 LTS**: spine models + moderation mixin (migration `0003`), DRF/spectacular, committed `openapi.yaml`, CI workflow + `check --deploy`, **real no-egress guard**, factories, settings hardened. `frontend/` and root `tests/` still empty. **Local `main` is ahead of origin (`5d08331`, the review fixes) — CI is green only on `e3f5c52`, before those fixes; push and confirm before calling it closed.** 49 Markdown files: 15 ADRs, acta, SRS (170 reqs), 32 stories, matrix, 9 design docs, **74 cases**, 4 legal, 4 sprints.
+- **Stack decided** (0009): Python 3.12 + Django 5.2 LTS + DRF + **PostgreSQL 16** (settings enable it via `DB_*` env; SQLite is a dev fallback only). React for the public site only. Admin is **Django admin** (0005), **no JWT anywhere**. Site **bilingual es/en** (0010); OpenAPI **generated**, drift fails CI (0011). Platform **undecided**.
 - Brief is **reconciled**. **Source spike:** WP REST API live, `robots.txt` permissive, **terms of use not found → risk accepted**, not answered.
 - Contact is **victorloal513@gmail.com**. Corpocarnaval letter **sent 2026-10-04 to `comunicacion@carnavaldepasto.org`, no reply** — silence is not permission. **Watch for a bounce**: the spike found no email on that site, so the address's existence is unverified.
 - **No professional legal review, ever** (0016). Legal texts ship as labelled drafts; `[PENDIENTE]`s are permanent.
@@ -35,7 +35,7 @@ unreviewed and labelled** (0016).
 
 ## Next steps
 
-1. **Finish Sprint 01** (`docs/sprints/sprint-01-plan.md`): CI stages that need frontend/E2E as components land; automate SEC-46's secret scan (NFR-09 stays Open); optional Postgres service for CI.
+1. **Close Sprint 01:** push `5d08331` and confirm CI green on HEAD; then add the remaining `plan-pruebas.md` §7 stages (frontend/E2E/dependency audit) as their components land; automate SEC-46's secret scan (NFR-09 stays Open); optional Postgres service for CI.
 2. **Corpocarnaval request: awaiting reply.** Check for a bounce (`comunicacion@carnavaldepasto.org` — unverified) and set a review date. Human act.
 3. Platform + **ADR 0015** (egress cost). Candidates already in `despliegue.md` §3.
 4. **Decide v3's gate.** ADR 0008 required reviewed legal texts for public submissions; 0016 declined them. Unresolved by design — settle it before the upload form is built, not while. **PRV-06 is blocked for the same reason** (retention periods); left intact, not weakened.
@@ -47,3 +47,4 @@ unreviewed and labelled** (0016).
 | 2026-10-03 | Six sessions: audit/AGENTS/MEMORY, 11 ADRs + acta + SRS + stories + matrix, 9 design docs + threat↔case remap, source spike (WP API live, terms not found), ADR 0012/0013/0014, Sprint 01 planned |
 | 2026-10-04 | **Phase 0 closed**; validator runnable — **mermaid@12.1.0 parses `C4Context`, falsifying ADR 0014 §2** (amended). Contact email; **ADR 0016**; terms risk accepted; **Corpocarnaval letter sent, unanswered**; 0016 broke **PRV-06** → marked blocked |
 | 2026-10-05 | **Sprint 01 items 1–9** (skeleton, migrations, ruff/mypy, OpenAPI, CI, fixtures), green locally; **review fixes** — real no-egress guard (NFR-16), DRF fail-closed, SECRET_KEY fail-loud (SEC-46) + DEBUG off, Argon2id first, django-otp wired, factories + FR-A-01/02 tests (→ Done); `django-argon2` → `argon2-cffi` in 5 docs |
+| 2026-10-06 | **Sprint 01 retrospective** (`docs/sprints/sprint-01-retrospectiva.md`); **AGENTS.md corrected** — it was a full sprint behind (claimed empty backend, no linter/tests/CI); CI verified on GitHub — green on `e3f5c52`, **HEAD `5d08331` unpushed**; 9 Dependabot PRs open with failing CI; **code review fixes** — Django 5.0.6 (EOL) → **5.2.9 LTS**, DRF 3.16.1, spectacular 0.30.0, mypy 2.3.1, production security + `check --deploy` in CI, **moderation mixin** on the spine (migration `0003`), pytest hack removed |
