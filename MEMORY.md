@@ -5,7 +5,7 @@ conflict. **Hard limit: 50 lines.** Records what happened and what is next, neve
 
 ## Current state
 
-- **Phase 0 closed 2026-10-04; Sprint 01 delivered** (retro 2026-10-06). Django skeleton in `backend/` on **Django 5.2.9 LTS**: spine models + moderation mixin (migration `0003`), DRF/spectacular, committed `openapi.yaml`, CI workflow + `check --deploy`, **real no-egress guard**, factories, settings hardened. `frontend/` and root `tests/` still empty. **Local `main` is ahead of origin (`5d08331`, the review fixes) — CI is green only on `e3f5c52`, before those fixes; push and confirm before calling it closed.** 49 Markdown files: 15 ADRs, acta, SRS (170 reqs), 32 stories, matrix, 9 design docs, **74 cases**, 4 legal, 4 sprints.
+- **Phase 0 closed 2026-10-04; Sprint 01 delivered** (retro 2026-10-06). Django skeleton in `backend/` on **Django 5.2.9 LTS**: spine models + moderation mixin (migration `0003`), DRF/spectacular, committed `openapi.yaml`, CI workflow + `check --deploy`, **real no-egress guard**, factories, settings hardened. `frontend/` and root `tests/` still empty. **Sprint 01 closed: the review fixes and the Django 5.2 upgrade are pushed and CI is green on `main`; the rest of `plan-pruebas.md` §7 waits on frontend/E2E components.** 49 Markdown files: 15 ADRs, acta, SRS (170 reqs), 32 stories, matrix, 9 design docs, **74 cases**, 4 legal, 4 sprints.
 - **Stack decided** (0009): Python 3.12 + Django 5.2 LTS + DRF + **PostgreSQL 16** (settings enable it via `DB_*` env; SQLite is a dev fallback only). React for the public site only. Admin is **Django admin** (0005), **no JWT anywhere**. Site **bilingual es/en** (0010); OpenAPI **generated**, drift fails CI (0011). Platform **undecided**.
 - Brief is **reconciled**. **Source spike:** WP REST API live, `robots.txt` permissive, **terms of use not found → risk accepted**, not answered.
 - Contact is **victorloal513@gmail.com**. Corpocarnaval letter **sent 2026-10-04 to `comunicacion@carnavaldepasto.org`, no reply** — silence is not permission. **Watch for a bounce**: the spike found no email on that site, so the address's existence is unverified.
@@ -35,7 +35,7 @@ unreviewed and labelled** (0016).
 
 ## Next steps
 
-1. **Close Sprint 01:** push `5d08331` and confirm CI green on HEAD; then add the remaining `plan-pruebas.md` §7 stages (frontend/E2E/dependency audit) as their components land; automate SEC-46's secret scan (NFR-09 stays Open); optional Postgres service for CI.
+1. **Sprint 02:** add the remaining `plan-pruebas.md` §7 stages (frontend/E2E/dependency audit) as their components land; automate SEC-46's secret scan (NFR-09 stays Open); optional Postgres service for CI.
 2. **Corpocarnaval request: awaiting reply.** Check for a bounce (`comunicacion@carnavaldepasto.org` — unverified) and set a review date. Human act.
 3. Platform + **ADR 0015** (egress cost). Candidates already in `despliegue.md` §3.
 4. **Decide v3's gate.** ADR 0008 required reviewed legal texts for public submissions; 0016 declined them. Unresolved by design — settle it before the upload form is built, not while. **PRV-06 is blocked for the same reason** (retention periods); left intact, not weakened.
