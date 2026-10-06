@@ -1,0 +1,18 @@
+[
+  {
+    "id": 101,
+    "date": "2020-01-05T09:00:00",
+    "slug": "dia-de-negros",
+    "link": "https://carnavaldepasto.org/dia-de-negros/",
+    "title": {"rendered": "Dia de Negros"},
+    "categories": [12, 9]
+  },
+  {
+    "id": 102,
+    "date": "2020-01-06T09:00:00",
+    "slug": "dia-de-blancos-desfile-magno",
+    "link": "https://carnavaldepasto.org/dia-de-blancos-desfile-magno/",
+    "title": {"rendered": "Dia de Blancos - Desfile Magno"},
+    "categories": [13]
+  }
+]

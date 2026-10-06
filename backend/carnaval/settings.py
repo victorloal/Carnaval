@@ -193,5 +193,28 @@ SPECTACULAR_SETTINGS = {
     "SERVE_INCLUDE_SCHEMA": False,
 }
 
+# Ingestion pipeline (FR-B). Read at call time by the ingestion package so a
+# test can override any of them.
+INGESTION_CONTACT_EMAIL = os.environ.get(
+    "INGESTION_CONTACT_EMAIL", "victorloal513@gmail.com"
+)
+INGESTION_HTTP_TIMEOUT = float(os.environ.get("INGESTION_HTTP_TIMEOUT", "30"))
+INGESTION_RETRY_BASE = int(os.environ.get("INGESTION_RETRY_BASE", "5"))
+INGESTION_RETRY_ATTEMPTS = int(os.environ.get("INGESTION_RETRY_ATTEMPTS", "3"))
+INGESTION_RETRY_CAP = int(os.environ.get("INGESTION_RETRY_CAP", "300"))
+INGESTION_BREAKER_THRESHOLD = int(os.environ.get("INGESTION_BREAKER_THRESHOLD", "5"))
+INGESTION_ROBOTS_CACHE_SECONDS = int(
+    os.environ.get("INGESTION_ROBOTS_CACHE_SECONDS", "86400")
+)
+# Raw payloads live outside git (`data/` is ignored). ADR 0015 picks the
+# provider; this path is the swap point for object storage.
+INGESTION_RAW_ROOT = Path(
+    os.environ.get("INGESTION_RAW_ROOT", str(REPO_DIR / "data" / "raw"))
+)
+INGESTION_RAW_RETENTION_DAYS = int(os.environ.get("INGESTION_RAW_RETENTION_DAYS", "30"))
+INGESTION_RAW_RETENTION_BYTES = int(
+    os.environ.get("INGESTION_RAW_RETENTION_BYTES", str(50_000_000))
+)
+
 # Default primary key field type
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

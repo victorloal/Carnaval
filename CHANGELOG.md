@@ -104,6 +104,25 @@ Phase 0 (documentation) is **closed**. No deployed version yet — see the statu
 - README claimed `backend/`, `frontend/` and `tests/` were empty; its status and layout
   now describe the skeleton, and a short run guide was added.
 
+### Added — Sprint 03: the extractor, part 1 (2026-10-06)
+
+- The ingestion HTTP layer: `robots.txt` cached per host and honoured, per-source rate
+  limiting, an identifiable `User-Agent` carrying the contact address, retry with exponential
+  backoff for transient failures, `Retry-After` on a 429, and no retry on other 4xx (FR-B-13,
+  FR-B-14).
+- The raw store: SHA-256 hashing, a hash-gated no-op, payloads written behind a storage
+  abstraction, and a `raw_documents` row per unique payload (FR-B-02, FR-B-03).
+- Run bookkeeping: `ingestion_runs` opened `running`, closed with `stats`, and `skipped`
+  without a network call when a source is disabled (FR-B-08).
+- The circuit breaker on `scrape_sources`: counters, `last_error`, auto-disable at the
+  threshold, and an alarm (FR-B-10).
+- `manage.py ingest_source --all|--due|--source` (plus `--dry-run`) and
+  `manage.py prune_raw_documents`, which enforces ADR 0013's 30-day window and per-source byte
+  cap (FR-B-16, FR-B-17, FR-B-18).
+- HTTP is mocked with `httpx.MockTransport`; committed fixtures live under
+  `backend/tests/fixtures/`, reduced with `_fields=` so no third-party article text is
+  committed. No test touches the network (NFR-16). SEC-37/38/39/41/42 have executable tests.
+
 ### Added — forward sprint plans (2026-10-06)
 
 - `docs/sprints/sprint-03-plan.md` … `sprint-17-plan.md` — the planned path from the extractor

@@ -7,6 +7,7 @@
   network.** It parses nothing and stages nothing.
 - **Starts:** after Sprint 02 closes; nominal 1 week.
 - **WIP limit:** 2 items (ADR 0001)
+- **Status:** implemented and verified locally; `Done` is set once CI is green (ADR 0001).
 
 > This sprint turns the Sprint 02 tables into behaviour for the first time. It stops at
 > **RAW STORE**: the payload is stored and recorded, and nothing becomes a record yet.
@@ -18,14 +19,14 @@ Ordered; with a WIP limit of 2, items are taken top-down.
 
 | # | Item | Requirement | Verification | Status |
 |---|---|---|---|---|
-| 1 | HTTP layer over `httpx`: `robots.txt` cached per host, per-source rate limit, identifiable User-Agent with contact, retry with backoff, 429 `Retry-After`, 4xx permanent | FR-B-13, FR-B-14 | SEC-41, SEC-42 | Open |
-| 2 | Raw store: SHA-256, hash-gated no-op, payload written behind a storage abstraction, `raw_documents` insert, `IntegrityError` treated as a skip | FR-B-02, FR-B-03 | SEC-37 (raw layer) | Open |
-| 3 | Run bookkeeping: open `ingestion_runs` `running`, per-stage `stats`, terminal status, `skipped` when a source is not due | FR-B-08 | tests | Open |
-| 4 | Circuit breaker: increment/reset counters, `last_failure_at`/`last_error`, auto-disable at the threshold, alarm | FR-B-10 | SEC-39 | Open |
-| 5 | `manage.py ingest_source --due \| --source \| --all` (and `--dry-run`) with trigger `cron`/`manual` | FR-B-17, FR-B-18 | tests | Open |
-| 6 | A failed run never modifies, degrades or deletes a `published` row | FR-B-09 | SEC-38 | Open |
-| 7 | Fixtures under `backend/tests/fixtures/<source>/<case>/` + `meta.json`; HTTP mocked with `httpx.MockTransport` | NFR-16 | plan-pruebas §1 | Open |
-| 8 | Raw retention per ADR 0013 (30 days + per-source byte cap) via `prune_raw_documents` | FR-B-16 | test | Open |
+| 1 | HTTP layer over `httpx`: `robots.txt` cached per host, per-source rate limit, identifiable User-Agent with contact, retry with backoff, 429 `Retry-After`, 4xx permanent | FR-B-13, FR-B-14 | SEC-41, SEC-42 | Implemented |
+| 2 | Raw store: SHA-256, hash-gated no-op, payload written behind a storage abstraction, `raw_documents` insert, `IntegrityError` treated as a skip | FR-B-02, FR-B-03 | SEC-37 (raw layer) | Implemented |
+| 3 | Run bookkeeping: open `ingestion_runs` `running`, per-stage `stats`, terminal status, `skipped` when a source is not due | FR-B-08 | tests | Implemented |
+| 4 | Circuit breaker: increment/reset counters, `last_failure_at`/`last_error`, auto-disable at the threshold, alarm | FR-B-10 | SEC-39 | Implemented |
+| 5 | `manage.py ingest_source --due \| --source \| --all` (and `--dry-run`) with trigger `cron`/`manual` | FR-B-17, FR-B-18 | tests | Implemented |
+| 6 | A failed run never modifies, degrades or deletes a `published` row | FR-B-09 | SEC-38 | Implemented |
+| 7 | Fixtures under `backend/tests/fixtures/<source>/<case>/` + `meta.json`; HTTP mocked with `httpx.MockTransport` | NFR-16 | plan-pruebas §1 | Implemented |
+| 8 | Raw retention per ADR 0013 (30 days + per-source byte cap) via `prune_raw_documents` | FR-B-16 | test | Implemented |
 
 ### Why the raw store exists
 

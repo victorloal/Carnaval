@@ -90,3 +90,13 @@ def block_external_egress() -> Generator[None, None, None]:
 def _no_https_redirect(settings: Any) -> None:
     """Production sets SECURE_SSL_REDIRECT; the test client speaks plain HTTP."""
     settings.SECURE_SSL_REDIRECT = False
+
+
+@pytest.fixture(autouse=True)
+def _clear_robots_cache() -> Generator[None, None, None]:
+    """The robots cache is process-global; a test must not inherit another's."""
+    from carnaval.ingestion import robots
+
+    robots.clear_cache()
+    yield
+    robots.clear_cache()
