@@ -1,4 +1,4 @@
-import type { Paginated } from "./types";
+import type { Paginated, SearchResponse } from "./types";
 
 const API_BASE: string = import.meta.env.VITE_API_BASE ?? "/api";
 
@@ -19,4 +19,15 @@ export async function getAllPages<T>(
 ): Promise<T[]> {
   const page = await getJson<Paginated<T>>(path, signal);
   return page.results;
+}
+
+/** Full-text search over published events and news (FR-I-01). */
+export async function search(
+  query: string,
+  signal?: AbortSignal,
+): Promise<SearchResponse> {
+  return getJson<SearchResponse>(
+    `/search/?q=${encodeURIComponent(query)}`,
+    signal,
+  );
 }

@@ -1,19 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 
-import { getAllPages } from "./api/client";
-import type { Day, Event } from "./api/types";
 import { Disclaimer } from "./components/Disclaimer";
-import { ProgrammeList } from "./components/ProgrammeList";
-import { DEFAULT_LOCALE, isLocale, type Locale } from "./lib/config";
-import { groupEventsByDay, type DayGroup } from "./lib/group";
+import { SiteNav } from "./components/SiteNav";
+import { useLocale } from "./lib/useLocale";
 
+/** The site shell: title, navigation, the active page and the disclaimer. */
 export function App() {
-  const params = useParams();
   const { t, i18n } = useTranslation();
-  const locale: Locale = isLocale(params.locale) ? params.locale : DEFAULT_LOCALE;
-  const [groups, setGroups] = useState<DayGroup[]>([]);
+  const locale = useLocale();
+  const { pathname } = useLocation();
 
   useEffect(() => {
     void i18n.changeLanguage(locale);
@@ -21,23 +18,13 @@ export function App() {
     document.cookie = `locale=${locale}; path=/; max-age=31536000; samesite=lax`;
   }, [locale, i18n]);
 
-  useEffect(() => {
-    const controller = new AbortController();
-    Promise.all([
-      getAllPages<Day>("/days/", controller.signal),
-      getAllPages<Event>("/events/", controller.signal),
-    ])
-      .then(([days, events]) => setGroups(groupEventsByDay(days, events)))
-      .catch(() => setGroups([]));
-    return () => controller.abort();
-  }, []);
-
   return (
     <main className="site">
       <header>
         <h1>{t("app.title")}</h1>
+        <SiteNav locale={locale} pathname={pathname} />
       </header>
-      <ProgrammeList groups={groups} locale={locale} />
+      <Outlet />
       <Disclaimer />
     </main>
   );

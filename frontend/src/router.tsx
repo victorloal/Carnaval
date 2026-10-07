@@ -1,6 +1,9 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 
 import { App } from "./App";
+import { NewsPage } from "./pages/NewsPage";
+import { ProgrammePage } from "./pages/ProgrammePage";
+import { SearchPage } from "./pages/SearchPage";
 import { redirectTarget } from "./lib/locale";
 
 /** The unprefixed root redirects to the negotiated locale (FR-H-04). */
@@ -12,5 +15,13 @@ function RootRedirect() {
 
 export const router = createBrowserRouter([
   { path: "/", element: <RootRedirect /> },
-  { path: "/:locale", element: <App /> },
+  {
+    path: "/:locale",
+    element: <App />,
+    children: [
+      { index: true, element: <ProgrammePage /> },
+      { path: "news", element: <NewsPage /> },
+      { path: "search", element: <SearchPage /> },
+    ],
+  },
 ]);

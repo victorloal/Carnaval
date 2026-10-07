@@ -44,6 +44,33 @@ export interface Event {
   source_url: string;
 }
 
+export interface NewsItem {
+  id: string;
+  headline: string;
+  url: string;
+  outlet: string;
+  published_on: string | null;
+  summary_es: string;
+  summary_en: string;
+}
+
+export interface SearchEvent {
+  id: string;
+  title_es: string;
+  title_en: string;
+}
+
+export interface SearchNews {
+  id: string;
+  headline: string;
+}
+
+export interface SearchResponse {
+  query: string;
+  events: SearchEvent[];
+  news: SearchNews[];
+}
+
 export interface Paginated<T> {
   count: number;
   next: string | null;

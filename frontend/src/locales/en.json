@@ -3,12 +3,34 @@
     "title": "Carnival of Pasto",
     "disclaimer": "Unofficial site. Not affiliated with or endorsed by Corpocarnaval."
   },
+  "nav": {
+    "heading": "Navigation",
+    "language": "Language",
+    "programme": "Programme",
+    "news": "News",
+    "search": "Search",
+    "locale": {
+      "es": "Español",
+      "en": "English"
+    }
+  },
   "programme": {
     "heading": "Programme",
     "empty": "There are no published events yet.",
     "source": "View the source"
   },
-  "nav": {
-    "language": "Language"
+  "news": {
+    "heading": "News",
+    "empty": "There are no published news items yet.",
+    "read": "Read at the source"
+  },
+  "search": {
+    "heading": "Search",
+    "label": "Search the programme and the news",
+    "placeholder": "Type to search…",
+    "submit": "Search",
+    "empty": "No results.",
+    "events": "Events",
+    "news": "News"
   }
 }

@@ -12,6 +12,32 @@ are versioned per `legal_documents` and never edited after publication.
 Phase 0 (documentation) is **closed**. No deployed version yet — see the status table in
 `README.md`. Implementation begins with Sprint 01, `docs/sprints/sprint-01-plan.md`.
 
+### Added — public site pages, dependency audit and the PostgreSQL CI job (2026-10-07)
+
+- The public site navigates between the **programme**, **news** and **search** pages per
+  locale. `App` is now the shell: site title, a locale-preserving switcher and the
+  disclaimer (FR-A-09, FR-H-03/05).
+- `NewsList` renders published news as a **citation** — headline, outlet, date, a short
+  own-words summary and the source link (FR-E-01/02, LEG-04). The article body is never
+  fetched or shown.
+- `SearchPage`/`SearchResults` query `/api/search/` and show matching events and news
+  (FR-I-01/02); the query lives in `?q=` so a result is linkable, in both locales.
+- 24 frontend tests (was 12), covering the locale-switch path helper and the two new
+  components. `frontend/vitest.setup.ts` now unmounts between tests: vitest runs without
+  `globals`, so React Testing Library could not register its own cleanup and a second
+  `render` in a file matched duplicate elements.
+- **NFR-10:** `pip-audit` runs in CI and fails the build on a known vulnerability in a
+  pinned dependency. The pins were moved to their fixed versions (Django 5.2.17,
+  djangorestframework 3.17.2, Pillow 12.3.0, pytest 9.0.3, python-dotenv 1.2.2,
+  pdfplumber 0.11.10 → pdfminer.six 20260107); `pip-audit -r requirements.txt` is clean.
+- A `postgres` CI job runs the whole suite against **PostgreSQL 16**, so the deployment
+  database and the Postgres-only search branch are exercised (FR-I-03). The `ci` job keeps
+  the SQLite run: fast, zero infrastructure.
+- `matriz-trazabilidad.md`: the summary table was stale — it read "1 Done / 167 Open" while
+  the body carried 108 Done rows. It now reports the real counts (170 rows: **124 Done, 45
+  Open, 1 blocked**) and FR-A-05 is Done against its existing venue test.
+
+
 ### Added — project scaffolding
 
 - `AGENTS.md` — binding rules for coding agents.

@@ -1,11 +1,8 @@
 import { useTranslation } from "react-i18next";
 
 import type { Locale } from "../lib/config";
+import { localized } from "../lib/content";
 import type { DayGroup } from "../lib/group";
-
-function localized(es: string, en: string, locale: Locale): string {
-  return locale === "en" && en ? en : es;
-}
 
 export function ProgrammeList({
   groups,

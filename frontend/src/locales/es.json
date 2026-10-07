@@ -3,12 +3,34 @@
     "title": "Carnaval de Pasto",
     "disclaimer": "Sitio no oficial. No está afiliado a Corpocarnaval ni cuenta con su respaldo."
   },
+  "nav": {
+    "heading": "Navegación",
+    "language": "Idioma",
+    "programme": "Programa",
+    "news": "Noticias",
+    "search": "Buscar",
+    "locale": {
+      "es": "Español",
+      "en": "English"
+    }
+  },
   "programme": {
     "heading": "Programa",
     "empty": "Todavía no hay eventos publicados.",
     "source": "Ver la fuente"
   },
-  "nav": {
-    "language": "Idioma"
+  "news": {
+    "heading": "Noticias",
+    "empty": "Todavía no hay noticias publicadas.",
+    "read": "Leer en la fuente"
+  },
+  "search": {
+    "heading": "Buscar",
+    "label": "Buscar en el programa y las noticias",
+    "placeholder": "Escribe para buscar…",
+    "submit": "Buscar",
+    "empty": "Sin resultados.",
+    "events": "Eventos",
+    "news": "Noticias"
   }
 }

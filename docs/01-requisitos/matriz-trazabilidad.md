@@ -1,7 +1,7 @@
 # Traceability matrix
 
-- **Status:** Draft
-- **Date:** 2026-10-03
+- **Status:** Living
+- **Date:** 2026-10-07
 - **Purpose:** ADR 0001 makes the fourth Definition-of-Done criterion "the requirement is
   linked in the traceability matrix". This file is where that obligation is discharged.
 - **Sources:** `docs/01-requisitos/srs.md` (requirements),
@@ -21,7 +21,7 @@
 | **Status** | *Open* (not started) · *WIP* · *Done* · *Deferred* (recorded reason) |
 
 A requirement reaches **Done** only when its verification has actually been performed and
-recorded. "Open" is the honest default for this project at present: nothing is implemented.
+recorded. **Open** is the honest default for a row whose verification has not yet run.
 
 **Rule:** a requirement with no verification method cannot be closed. A test that verifies
 no requirement should be deleted.
@@ -36,7 +36,7 @@ no requirement should be deleted.
 | FR-A-02 | US-02 | modelo-datos §3.2 | 0002 | T | unit: days are rows not enum | Done |
 | FR-A-03 | US-02, US-03 | modelo-datos §3.3–3.4 | 0002 | T | unit: event model | Done |
 | FR-A-04 | US-02 | modelo-datos §3.2 | 0002 | T | seed_demo: 2–6 Jan milestones | Done |
-| FR-A-05 | US-03 | modelo-datos §3.3 | 0002 | T | API: venues | Open |
+| FR-A-05 | US-03 | modelo-datos §3.3 | 0002 | T | API: venues | Done |
 | FR-A-06 | US-04 | modelo-datos §2 | 0002 | T | **SEC-47** | Done |
 | FR-A-07 | US-02 | arquitectura-c4 (L2) | 0009 | T | API: schema endpoints | Done |
 | FR-A-08 | US-02 | — | 0009 | D | component: programme rendering | Done |
@@ -267,17 +267,24 @@ no requirement should be deleted.
 
 ## Summary
 
-| Group | Count | Done | Open |
-|---|---|---|---|
-| FR-A … FR-I (functional) | 112 | 0 | 112 |
-| NFR | 21 | 0 | 21 |
-| SEC | 16 | 0 | 16 |
-| PRV | 9 | 0 | 9 |
-| LEG | 10 | 1 | 9 |
-| **Total** | **168** | **1** | **167** |
+| Group | Count | Done | Open | Blocked |
+|---|---|---|---|---|
+| FR-A … FR-I (functional) | 114 | 91 | 23 | 0 |
+| NFR | 21 | 14 | 7 | 0 |
+| SEC | 16 | 11 | 5 | 0 |
+| PRV | 9 | 4 | 4 | 1 |
+| LEG | 10 | 4 | 6 | 0 |
+| **Total** | **170** | **124** | **45** | **1** |
 
-**Everything is Open except LEG-06**, which is satisfied by the repository state. This is
-the honest picture at the end of Phase 0: the documentation exists, nothing is built.
+**Done** means the row's verification was performed and recorded. **Open** is the honest
+default for a row whose verification has not run — most of them need a deployment, a
+browser or a bucket, not new code. **Blocked** is PRV-06, which ADR 0016 left without the
+legal judgement its retention periods require.
+
+The four backend versions (MVP, v1, v2, v3) are delivered and their tests pass; the Open
+rows are dominated by frontend, deployment/E2E and storage-dependent verification. This
+table is maintained by hand alongside the sprints — re-verify a row before moving it, and
+never mark a row Done because a completion report says so.
 
 ## Gaps and open decisions
 

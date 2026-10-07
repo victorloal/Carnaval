@@ -38,22 +38,25 @@ can reach.
 ## Status
 
 **Phase 0 — documentation — closed 2026-10-04.** The requirements, design set, test plan,
-threat model, and ADRs are complete. **Sprint 01 is in progress**: `backend/` now holds the
-Django skeleton — programme models and migrations, a generated and CI-enforced
-`openapi.yaml`, lint and type checks, tests with a no-egress guard, and a GitHub Actions
-pipeline. `frontend/` and `tests/` are still empty, and nothing is deployed. The sprint's
-goal is a repository that builds and whose CI can refuse a bad change — not a feature
-(`docs/sprints/sprint-01-plan.md`).
+threat model and ADRs are complete. The **backend for all four versions is delivered** and
+its tests pass (127 pytest). The React site serves the **programme, news and search** pages
+in two locales (24 vitest tests). **Nothing is deployed** — that needs the maintainer's
+accounts and is carried (ADR 0015 is Proposed).
 
 | Version | Contents | State |
 |---|---|---|
-| MVP | Ingestion pipeline, database, public API, frontend | Not started |
-| v1 | Django admin, roles, review queue, audit log | Not started |
-| v2 | News, historical gallery with citations, site settings | Not started |
-| v3 | Public submissions, moderation, legal documents | Not started |
+| MVP | Ingestion pipeline, database, public API, frontend | Backend done; programme UI done; deployment carried |
+| v1 | Django admin, roles, review queue, audit log | Backend done |
+| v2 | News, historical gallery with citations, site settings | Backend done; news + search UI done; gallery UI carried |
+| v3 | Public submissions, moderation, legal documents | Backend done; submission form carried (v3 legal gate, ADR 0008 vs 0016) |
 
-Known gaps that block a public launch, not the next sprint: Corpocarnaval has not been
-contacted, and the site's terms of use were never found. The contact email is now
+CI runs the suite on SQLite and on **PostgreSQL 16**, audits dependencies with `pip-audit`,
+and checks the frontend (`tsc`, eslint, vitest, build). The browser stages — Playwright E2E,
+Lighthouse and axe — are carried; they need a browser environment.
+
+Known gaps that block a public launch, not the next sprint: Corpocarnaval was asked in
+writing (`comunicacion@carnavaldepasto.org`, 2026-10-04) and **has not replied** — silence is
+not permission — and the site's terms of use were never found. The contact email is
 `victorloal513@gmail.com`. The legal texts are **permanently unreviewed drafts** — there will
 be no professional review, so every legal page carries a DRAFT notice instead (ADR 0016).
 See `docs/00-acta-proyecto.md` §12.2.
@@ -62,8 +65,8 @@ See `docs/00-acta-proyecto.md` §12.2.
 
 ```
 ├── docs/            requirements, design, tests, ADRs, legal, sprint notes
-├── backend/         Django project (API, admin, ingestion) — skeleton in place
-├── frontend/        React + TypeScript public site — reserved
+├── backend/         Django project (API, admin, ingestion) — backend for MVP–v3
+├── frontend/        React + TypeScript public site (programme, news, search)
 ├── tests/           cross-cutting E2E and security suites — reserved
 ├── AGENTS.md        rules for coding agents
 ├── MEMORY.md        session memory for coding agents
