@@ -7,9 +7,9 @@
 - **Starts:** after Sprint 06 closes; nominal 1–2 weeks.
 - **WIP limit:** 2 items (ADR 0001)
 - **Status:** partially delivered — the security headers, CORS, the secret scan, the coverage
-  gate, the frontend CI stages and the **dependency audit** landed; a **PostgreSQL 16 CI job**
-  was added and awaits its first green run. The **deployment** and the **browser stages**
-  (E2E, Lighthouse, axe) are carried and named in `sprint-07-retrospectiva.md`.
+  gate, the frontend CI stages, the **dependency audit** and the **PostgreSQL 16 CI job** all
+  landed. The **deployment** and the **browser stages** (E2E, Lighthouse, axe) are carried
+  and named in `sprint-07-retrospectiva.md`.
 
 ## Sprint backlog
 
@@ -18,7 +18,7 @@
 | 1 | CSP without `unsafe-inline` for scripts; HSTS; `X-Content-Type-Options`; `Referrer-Policy` | SEC-15, NFR-07 | `check --deploy` + header test | Done |
 | 2 | CORS restricted to the site's own origins | NFR-08 | test | Done |
 | 3 | Complete `plan-pruebas.md` §7: `tsc`, eslint, vitest, build, docker-compose E2E, Lighthouse, axe, `pip-audit`/`npm audit` | NFR-01, NFR-11 | CI green | Done for the unit stages + `pip-audit`; E2E/Lighthouse/axe/`npm audit` carried |
-| 4 | PostgreSQL service in CI so the schema is exercised on its production engine | NFR-13 | CI | Added — a `postgres` job runs the suite on PostgreSQL 16; awaiting its first green run |
+| 4 | PostgreSQL service in CI so the schema is exercised on its production engine | NFR-13 | CI | Done — the `postgres` job runs the suite on PostgreSQL 16; green on `4a08742` |
 | 5 | Automate the `SEC-46` secret scan (closes **NFR-09**) | NFR-09 | CI | Done |
 | 6 | Ingestion + API coverage ≥ 80 % | NFR-15 | coverage | Done |
 | 7 | **ADR 0015** (storage and egress) and deployment on free tiers | NFR-05, ADR 0015 | demonstration | ADR 0015 proposed; deployment carried (needs the maintainer's accounts) |

@@ -32,7 +32,7 @@ Phase 0 (documentation) is **closed**. No deployed version yet — see the statu
   pdfplumber 0.11.10 → pdfminer.six 20260107); `pip-audit -r requirements.txt` is clean.
 - A `postgres` CI job runs the whole suite against **PostgreSQL 16**, so the deployment
   database and the Postgres-only search branch are exercised (FR-I-03). The `ci` job keeps
-  the SQLite run: fast, zero infrastructure.
+  the SQLite run: fast, zero infrastructure. Both jobs are green on `4a08742`.
 - `matriz-trazabilidad.md`: the summary table was stale — it read "1 Done / 167 Open" while
   the body carried 108 Done rows. It now reports the real counts (170 rows: **124 Done, 45
   Open, 1 blocked**) and FR-A-05 is Done against its existing venue test.
