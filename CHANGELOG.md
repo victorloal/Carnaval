@@ -172,6 +172,27 @@ Phase 0 (documentation) is **closed**. No deployed version yet — see the statu
 - `tsc`, eslint and 12 vitest + testing-library tests; the CI stages for the frontend land in
   Sprint 07.
 
+### Added — Sprint 07: hardening, and the road to the MVP (partially delivered, 2026-10-06)
+
+- A strict `Content-Security-Policy` for everything but `/admin/`, plus `Referrer-Policy` and
+  `X-Content-Type-Options`; CORS restricted to the site's own origins (SEC-15, NFR-07/08).
+- The frontend stages (`tsc`, eslint, vitest, build) are now in CI, completing the non-browser
+  half of `plan-pruebas.md` §7 (NFR-11).
+- `scripts/check_secrets.py` scans the tracked tree and fails the build on a secret, closing
+  **NFR-09**.
+- The backend test step enforces ≥ 80 % coverage of the ingestion pipeline and the public API
+  (NFR-15; measured 93 %).
+- A console `LOGGING` config that never receives a secret, a raw IP or a session identifier
+  (NFR-19).
+- **ADR 0015 (Proposed)** — the zero-cost platform, decided by egress cost: Cloudflare Pages +
+  a Python container host + Neon/Supabase + Cloudflare R2. The deployment itself needs the
+  maintainer's accounts and is carried.
+- `despliegue.md` §11 documents the backup and restore procedure (NFR-20); the rehearsal is
+  carried.
+- **Carried, not silently skipped:** the deployment, the PostgreSQL CI service, the browser
+  stages (docker compose + Playwright, Lighthouse, axe, dependency audit) and the
+  dependency-triage process. See `docs/sprints/sprint-07-retrospectiva.md`.
+
 ### Added — forward sprint plans (2026-10-06)
 
 - `docs/sprints/sprint-03-plan.md` … `sprint-17-plan.md` — the planned path from the extractor

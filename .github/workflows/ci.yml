@@ -31,7 +31,8 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          # Vitest 5 requires Node >= 22.12; Vite and eslint agree at 24.
+          node-version: "24"
 
       - name: Install Python dependencies
         run: |
@@ -41,56 +42,90 @@ jobs:
       - name: Install Node dependencies
         run: npm ci
 
+      - name: Install frontend dependencies
+        run: npm ci
+        working-directory: frontend
+
+      # Stage 1 — lint, and the SEC-46 secret scan with it.
       - name: Lint with ruff
         run: |
           ruff check backend
           ruff format --check backend
 
+      - name: Scan tracked files for secrets
+        run: python scripts/check_secrets.py
+
+      # Stage 2 — typecheck the backend.
       - name: Type check with mypy
-        run: |
-          DJANGO_SETTINGS_MODULE=carnaval.settings mypy backend
+        run: mypy backend
         env:
           DJANGO_SETTINGS_MODULE: carnaval.settings
 
+      # Stages 3–5 — frontend typecheck, lint and unit tests.
+      - name: Frontend typecheck
+        run: npm run typecheck
+        working-directory: frontend
+
+      - name: Frontend lint
+        run: npm run lint
+        working-directory: frontend
+
+      - name: Frontend unit tests
+        run: npm test
+        working-directory: frontend
+
+      # Stage 6 — migration drift.
       - name: Check migrations
-        run: |
-          cd backend
-          python manage.py makemigrations --check --dry-run
+        run: python manage.py makemigrations --check --dry-run
+        working-directory: backend
         env:
           DJANGO_SETTINGS_MODULE: carnaval.settings
 
-      # NFR-07 / SEC-43 …: production transport security must be in place with
-      # DEBUG off, the way the deployment runs. Gated settings mean this is a
-      # real check, not a paper one.
+      # NFR-07 / SEC-15: production transport security must be in place with
+      # DEBUG off, the way the deployment runs.
       - name: Deployment checks
-        run: |
-          cd backend
-          python manage.py check --deploy
+        run: python manage.py check --deploy
+        working-directory: backend
         env:
           DJANGO_SETTINGS_MODULE: carnaval.settings
           DEBUG: "0"
 
-      - name: Run tests
-        run: |
-          python -m pytest
-        env:
-          DJANGO_SETTINGS_MODULE: carnaval.settings
-
+      # Stages 7–8 — the API contract, validated then drift-checked.
       - name: Validate OpenAPI schema
-        run: |
-          cd backend
-          python manage.py spectacular --validate --fail-on-warn
+        run: python manage.py spectacular --validate --fail-on-warn
+        working-directory: backend
         env:
           DJANGO_SETTINGS_MODULE: carnaval.settings
 
       - name: Check OpenAPI drift
         run: |
-          cd backend
           python manage.py spectacular --file ../docs/02-diseno/openapi.yaml
           cd ..
           git diff --exit-code docs/02-diseno/openapi.yaml
+        working-directory: backend
         env:
           DJANGO_SETTINGS_MODULE: carnaval.settings
 
+      # Stage 9 — backend tests, with the NFR-15 coverage gate.
+      - name: Run backend tests
+        run: |
+          python -m pytest \
+            --cov=carnaval.ingestion --cov=carnaval.api \
+            --cov-fail-under=80 --cov-report=term-missing
+        env:
+          DJANGO_SETTINGS_MODULE: carnaval.settings
+
+      # Stage 10 — the frontend production build.
+      - name: Frontend build
+        run: npm run build
+        working-directory: frontend
+
+      # The docs check runs with stage 1; it gates documentation, not the build.
       - name: Check diagrams
         run: node scripts/check-diagrams.cjs .
+
+      # Not yet wired: stages 11–14 (docker compose + Playwright E2E,
+      # Lighthouse, axe, dependency audit) and a PostgreSQL service. They need a
+      # working Docker/browser environment and a service container; they are
+      # carried in docs/sprints/sprint-07-plan.md and the retrospective, not
+      # silently skipped.

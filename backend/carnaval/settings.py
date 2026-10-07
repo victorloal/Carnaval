@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     "django_otp",
     "django_otp.plugins.otp_static",
     "django_otp.plugins.otp_totp",
+    "corsheaders",
     "rest_framework",
     "drf_spectacular",
     "carnaval.core",
@@ -61,6 +62,9 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    # CORS must run early; the strict CSP is applied by our own middleware.
+    "corsheaders.middleware.CorsMiddleware",
+    "carnaval.core.middleware.ContentSecurityPolicyMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -159,6 +163,28 @@ SECURE_HSTS_PRELOAD = not DEBUG
 # and bypass SECURE_SSL_REDIRECT.
 if os.environ.get("TRUST_PROXY_SSL_HEADER", "").lower() in ("1", "true", "yes"):
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
+
+# CORS (NFR-08): only the site's own origins, set at deployment. Credentials
+# are off because the public API is anonymous and read-only.
+CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOW_CREDENTIALS = False
+_cors_origins = os.environ.get("CORS_ALLOWED_ORIGINS", "")
+CORS_ALLOWED_ORIGINS = [
+    origin.strip() for origin in _cors_origins.split(",") if origin.strip()
+]
+
+# Logging (NFR-19): console only. Nothing that carries a secret, a raw IP or a
+# session identifier is ever handed to it.
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "plain": {"format": "{asctime} {levelname} {name}: {message}", "style": "{"}
+    },
+    "handlers": {"console": {"class": "logging.StreamHandler", "formatter": "plain"}},
+    "root": {"handlers": ["console"], "level": "INFO"},
+}
 
 
 # Internationalization

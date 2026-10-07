@@ -266,3 +266,16 @@ Run before the first public deploy, and again before any release that changes pr
 - [ ] **Every legal page carries the DRAFT notice** (`docs/legal/`, ADR 0016). There will be
       **no** professional review — that was decided on 2026-10-04 — so the notice is the only
       control there is, and it must sit above the content, not in a footer. Brief §11, §20.
+
+## 11. Backup and restore (NFR-20)
+
+- **What is backed up:** the PostgreSQL database — schema and data. It is the source of
+  truth (ADR 0002); `raw_documents` payloads are a cache and are **not** backed up.
+- **How:** a scheduled `pg_dump` (the provider's scheduled backups where the free tier offers
+  them, otherwise a GitHub Actions job that dumps and stores the compressed file in a private
+  bucket), with a documented retention.
+- **Restore rehearsal:** restoring the latest dump into a scratch database reproduces the
+  published catalogue. The procedure is exercised **once per version release**, not merely
+  written — this is the requirement, and it is the item most likely to rot unchecked.
+- **What it does not cover:** object storage. Approved public images are the one thing a
+  database backup cannot reproduce, so from v2 they are copied alongside it.

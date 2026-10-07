@@ -196,20 +196,20 @@ no requirement should be deleted.
 | NFR-03 | US-05 | plan-pruebas §3.6 | 0009 | T | axe + manual | Open |
 | NFR-04 | US-05 | plan-pruebas §3.4 | 0009 | T | E2E 360 px | Open |
 | NFR-05 | US-31 | despliegue | 0001 | A | analysis: no paid dep | Open |
-| NFR-06 | US-15 | flujo-datos | 0002 | T | **SEC-38** | Open |
+| NFR-06 | US-15 | flujo-datos | 0002 | T | **SEC-38** | Done |
 | NFR-07 | US-05 | despliegue | 0005 | T | **SEC-43** | Open |
-| NFR-08 | US-05 | despliegue | 0005 | T | **SEC-44** | Open |
-| NFR-09 | US-20 | despliegue (secrets) | 0005 | T | **SEC-46** | Open |
+| NFR-08 | US-05 | despliegue | 0005 | T | **SEC-44** | Done |
+| NFR-09 | US-20 | despliegue (secrets) | 0005 | T | **SEC-46** | Done |
 | NFR-10 | — | plan-pruebas §2 | 0004 | I | inspection: Dependabot | Done — no story |
 | NFR-11 | — | plan-pruebas §7 | 0001 | T | CI stage order | Done — no story |
 | NFR-12 | — | ADR 0011 | 0011 | T | **schema drift check** | Done — no story |
 | NFR-13 | US-32 | despliegue (migrations) | 0009 | I | inspection: PR review | Done |
 | NFR-14 | — | plan-pruebas §2 | 0009 | T | ruff + mypy | Done — no story |
-| NFR-15 | — | plan-pruebas §3.1 | 0001 | T | coverage gate | In Progress — no story |
+| NFR-15 | — | plan-pruebas §3.1 | 0001 | T | coverage gate | Done — no story |
 | NFR-16 | — | plan-pruebas §1 | 0002 | T | CI: no egress | Done — no story |
 | NFR-17 | — | despliegue | 0004 | T | **SEC-45** | Done — no story |
 | NFR-18 | US-04 | modelo-datos §6.1 | 0005 | T | **SEC-15** | Done |
-| NFR-19 | — | plan-pruebas | 0005 | T | log scan | Open — no story |
+| NFR-19 | — | plan-pruebas | 0005 | T | log scan | Done — no story |
 | NFR-20 | US-32 | despliegue (backup) | 0009 | D | rehearsal | Open |
 | NFR-21 | US-10 | despliegue | 0005 | T | robots + header check | Open |
 
@@ -231,7 +231,7 @@ no requirement should be deleted.
 | SEC-12 | US-26 | ADR 0006 | 0006 | T | **SEC-24** | Open |
 | SEC-13 | US-22 | ADR 0006 | 0006 | I | inspection: presigned flow | Open |
 | SEC-14 | US-22 | modelo-datos §6.2 | 0006 | T | **SEC-22**, **SEC-27** | Open |
-| SEC-15 | US-05 | despliegue (headers) | 0005 | T | **SEC-43** | Open |
+| SEC-15 | US-05 | despliegue (headers) | 0005 | T | **SEC-43** | Done |
 | SEC-16 | — | plan-pruebas §2 | 0004 | I | inspection: Dependabot | Open — no story |
 
 ## PRV — Privacy requirements
