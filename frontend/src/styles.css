@@ -1,0 +1,49 @@
+:root {
+  color-scheme: light dark;
+  font-family: system-ui, sans-serif;
+  line-height: 1.5;
+}
+
+body {
+  margin: 0;
+}
+
+.site {
+  max-width: 60rem;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.day {
+  margin-block: 1.5rem;
+}
+
+.day ul {
+  list-style: none;
+  padding: 0;
+}
+
+.day li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: space-between;
+  padding-block: 0.25rem;
+}
+
+.disclaimer {
+  margin-top: 2rem;
+  border-top: 1px solid currentColor;
+  padding-top: 0.75rem;
+  font-size: 0.875rem;
+}
+
+@media (max-width: 400px) {
+  .site {
+    padding: 0.5rem;
+  }
+
+  .day li {
+    flex-direction: column;
+  }
+}

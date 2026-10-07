@@ -85,6 +85,19 @@ is absent (SEC-46); a gitignored `.env` supplies development values. With no `DB
 variables set, development falls back to SQLite — `DB_*` is what enables PostgreSQL 16
 (ADR 0009), the deployment database.
 
+## Running the frontend
+
+```bash
+cd frontend
+npm ci
+npm run typecheck && npm run lint && npm test
+npm run dev          # the site reads /api (set VITE_API_BASE to point elsewhere)
+```
+
+The public site is bilingual: `/es/…` and `/en/…`, with the unprefixed root redirecting to
+the negotiated locale and the choice kept in a cookie. Its package is separate from the root
+manifest, which exists only for the diagram validator.
+
 ## Documentation
 
 Start with `docs/00-contexto-proyecto.md` (the project brief, in Spanish).

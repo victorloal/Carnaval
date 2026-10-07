@@ -6,6 +6,7 @@
   unofficial disclaimer on every page.
 - **Starts:** after Sprint 05 closes; nominal 1 week.
 - **WIP limit:** 2 items (ADR 0001)
+- **Status:** implemented and verified locally; `Done` is set once CI is green (ADR 0001).
 
 > The site is a pure reader. It has no account, no session and no write path; the only cookie
 > it sets is the locale preference.
@@ -14,12 +15,12 @@
 
 | # | Item | Requirement | Verification | Status |
 |---|---|---|---|---|
-| 1 | `frontend/` app: Vite + React + TS; its own package (the root manifest stays docs-only) | ADR 0003 | build | Open |
-| 2 | Locale-prefixed routes `/es/…`, `/en/…`; root redirect; cookie persistence; no machine translation | FR-H-01/03/04/05/10 | tests | Open |
-| 3 | Programme grouped by day, chronological; a source link per entry | FR-A-08, FR-A-12 | E2E | Open |
-| 4 | Unofficial / not-affiliated disclaimer on every page | FR-A-09 | E2E | Open |
-| 5 | Responsive at 360 px; WCAG 2.1 AA; missing translation key fails the build | FR-A-13, NFR-03, NFR-04, FR-H-02 | axe + build | Open |
-| 6 | Content translation with fallback to the source locale | FR-H-06 | test | Open |
+| 1 | `frontend/` app: Vite + React + TS; its own package (the root manifest stays docs-only) | ADR 0003 | build | Implemented |
+| 2 | Locale-prefixed routes `/es/…`, `/en/…`; root redirect; cookie persistence; no machine translation | FR-H-01/03/04/05/10 | tests | Implemented |
+| 3 | Programme grouped by day, chronological; a source link per entry | FR-A-08, FR-A-12 | E2E | Implemented |
+| 4 | Unofficial / not-affiliated disclaimer on every page | FR-A-09 | E2E | Implemented |
+| 5 | Responsive at 360 px; WCAG 2.1 AA; missing translation key fails the build | FR-A-13, NFR-03, NFR-04, FR-H-02 | axe + build | Implemented |
+| 6 | Content translation with fallback to the source locale | FR-H-06 | test | Implemented |
 
 ## What must be true when it ends
 

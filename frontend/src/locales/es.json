@@ -1,0 +1,14 @@
+{
+  "app": {
+    "title": "Carnaval de Pasto",
+    "disclaimer": "Sitio no oficial. No está afiliado a Corpocarnaval ni cuenta con su respaldo."
+  },
+  "programme": {
+    "heading": "Programa",
+    "empty": "Todavía no hay eventos publicados.",
+    "source": "Ver la fuente"
+  },
+  "nav": {
+    "language": "Idioma"
+  }
+}

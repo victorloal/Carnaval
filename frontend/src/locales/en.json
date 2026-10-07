@@ -1,0 +1,14 @@
+{
+  "app": {
+    "title": "Carnival of Pasto",
+    "disclaimer": "Unofficial site. Not affiliated with or endorsed by Corpocarnaval."
+  },
+  "programme": {
+    "heading": "Programme",
+    "empty": "There are no published events yet.",
+    "source": "View the source"
+  },
+  "nav": {
+    "language": "Language"
+  }
+}

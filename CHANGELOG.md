@@ -159,6 +159,19 @@ Phase 0 (documentation) is **closed**. No deployed version yet — see the statu
 - `django-filter==26.2` added; `rest_framework`/`django_filters` joined the mypy
   missing-import override because neither ships `py.typed`.
 
+### Added — Sprint 06: the public site (2026-10-06)
+
+- `frontend/` — a React + TypeScript site built with Vite, in its own package (the root
+  manifest stays documentation tooling only). It renders the programme grouped by day in
+  chronological order with a source link per entry (FR-A-08, FR-A-12) and the unofficial /
+  not-affiliated disclaimer (FR-A-09).
+- Bilingual routing: `/es/…` and `/en/…`, the unprefixed root redirected to the negotiated
+  locale, the choice persisted in a cookie, and no machine translation (FR-H-01/03/04/05/10).
+- A build-failing check that both locales define the same, non-empty keys (FR-H-02), and
+  content fallback to the source locale rather than an empty page (FR-H-06).
+- `tsc`, eslint and 12 vitest + testing-library tests; the CI stages for the frontend land in
+  Sprint 07.
+
 ### Added — forward sprint plans (2026-10-06)
 
 - `docs/sprints/sprint-03-plan.md` … `sprint-17-plan.md` — the planned path from the extractor

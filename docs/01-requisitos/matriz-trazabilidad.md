@@ -39,11 +39,11 @@ no requirement should be deleted.
 | FR-A-05 | US-03 | modelo-datos §3.3 | 0002 | T | API: venues | Open |
 | FR-A-06 | US-04 | modelo-datos §2 | 0002 | T | **SEC-47** | Done |
 | FR-A-07 | US-02 | arquitectura-c4 (L2) | 0009 | T | API: schema endpoints | Done |
-| FR-A-08 | US-02 | — | 0009 | D | E2E: programme rendering | Open |
-| FR-A-09 | US-04 | fuentes-y-atribucion | 0004 | T | E2E: disclaimer on all pages | Open |
+| FR-A-08 | US-02 | — | 0009 | D | component: programme rendering | Done |
+| FR-A-09 | US-04 | fuentes-y-atribucion | 0004 | T | component: disclaimer | Done |
 | FR-A-10 | US-01 | modelo-datos §3.1 | 0008 | T | **SEC-47** (unpublished 404) | Open |
 | FR-A-11 | — | modelo-datos §3.1 | 0009 | T | API: filters | Done — no story (see gaps) |
-| FR-A-12 | US-04 | modelo-datos §3.5 | 0004 | T | E2E: source link present | Open |
+| FR-A-12 | US-04 | modelo-datos §3.5 | 0004 | T | component: source link present | Done |
 | FR-A-13 | US-05 | arquitectura-c4 (L2) | 0009 | T | E2E 360 px + axe | Open |
 
 ## FR-B — Ingestion pipeline
@@ -168,16 +168,16 @@ no requirement should be deleted.
 
 | Req | Story | Design | ADR | Verif. | Test | Status |
 |---|---|---|---|---|---|---|
-| FR-H-01 | US-06 | ADR 0010 | 0010 | T | i18n: two locales | Open |
-| FR-H-02 | US-06 | plan-pruebas §3.7 | 0010 | T | **SEC-48** | Open |
-| FR-H-03 | US-06 | ADR 0010 | 0010 | T | E2E: prefixed URLs | Open |
-| FR-H-04 | US-06 | ADR 0010 | 0010 | T | E2E: root redirect | Open |
-| FR-H-05 | US-06 | ADR 0010 | 0010 | T | E2E: cookie persists | Open |
-| FR-H-06 | — | modelo-datos §4.5 | 0010 | T | unit: fallback | Open — no story |
+| FR-H-01 | US-06 | ADR 0010 | 0010 | T | i18n: two locales | Done |
+| FR-H-02 | US-06 | plan-pruebas §3.7 | 0010 | T | **SEC-48** | Done |
+| FR-H-03 | US-06 | ADR 0010 | 0010 | T | unit: prefixed URLs | Done |
+| FR-H-04 | US-06 | ADR 0010 | 0010 | T | unit: root redirect | Done |
+| FR-H-05 | US-06 | ADR 0010 | 0010 | T | unit: cookie persists | Done |
+| FR-H-06 | — | modelo-datos §4.5 | 0010 | T | unit: fallback | Done — no story |
 | FR-H-07 | — | modelo-datos §4.5 | 0010 | T | unit: per-locale slug | Open — no story |
 | FR-H-08 | US-10 | ADR 0010 | 0010 | I | inspection: admin es only | Open |
 | FR-H-09 | US-19 | ADR 0010 | 0010 | I | inspection: verbatim citation | Open |
-| FR-H-10 | US-06 | ADR 0010 | 0010 | A | inspection: no MT dependency | Open |
+| FR-H-10 | US-06 | ADR 0010 | 0010 | A | inspection: no MT dependency | Done |
 
 ## FR-I — Search
 
