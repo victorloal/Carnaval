@@ -1,7 +1,8 @@
 export interface Edition {
   id: string;
   year: number;
-  slug: string;
+  slug_es: string;
+  slug_en: string;
   title_es: string;
   title_en: string;
   starts_on: string | null;
@@ -14,7 +15,8 @@ export interface Day {
   id: string;
   edition: string;
   date: string;
-  slug: string;
+  slug_es: string;
+  slug_en: string;
   label_es: string;
   label_en: string;
 }

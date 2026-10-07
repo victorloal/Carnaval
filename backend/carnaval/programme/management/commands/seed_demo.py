@@ -122,7 +122,7 @@ class Command(BaseCommand):
         edition, _ = Edition.objects.update_or_create(
             year=2026,
             defaults={
-                "slug": "carnaval-2026",
+                "slug_es": "carnaval-2026",
                 "title_es": "Carnaval de Negros y Blancos 2026",
                 "title_en": "Carnival of Blacks and Whites 2026",
                 "starts_on": date(2026, 1, 2),
@@ -154,7 +154,7 @@ class Command(BaseCommand):
         for day_date, slug, label_es, label_en in _CANONICAL_DAYS:
             day, _ = Day.objects.update_or_create(
                 edition=edition,
-                slug=slug,
+                slug_es=slug,
                 defaults={
                     "date": day_date,
                     "label_es": label_es,

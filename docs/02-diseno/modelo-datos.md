@@ -93,7 +93,7 @@ classDiagram
 |---|---|---|
 | `id` | UUID | PK |
 | `year` | int, unique | 2026, 2027… |
-| `slug` | slug, unique | URL segment |
+| `slug_es`, `slug_en` | slug | One per locale (FR-H-07); `slug_es` unique, `slug_en` unique when set |
 | `title_es`, `title_en` | text | Display name |
 | `starts_on`, `ends_on` | date | Typically 2–6 January |
 | `summary_es`, `summary_en` | text | Editorial introduction |
@@ -109,7 +109,7 @@ edition can be published or withheld as a unit.
 | `id` | UUID | PK |
 | `edition` | FK → `editions` | Indexed |
 | `date` | date | |
-| `slug` | slug | Unique per edition |
+| `slug_es`, `slug_en` | slug | One per locale (FR-H-07), unique per edition |
 | `label_es`, `label_en` | text | e.g. "Día de Negros" / "Day of Blacks" |
 
 The brief's §5 identifies the fixed January milestones: 2 Jan Carnavalito, 3 Jan

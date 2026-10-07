@@ -8,7 +8,8 @@ function day(id: string, date: string): Day {
     id,
     edition: "edition",
     date,
-    slug: id,
+    slug_es: id,
+    slug_en: "",
     label_es: id,
     label_en: id,
   };

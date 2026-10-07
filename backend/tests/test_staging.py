@@ -58,7 +58,7 @@ def test_stage_creates_pending_rows() -> None:
     assert event.origin == ModerationOrigin.SCRAPED  # noqa: S101
     assert event.ingestion_run_id == run.id  # noqa: S101
     assert Edition.objects.get(year=2020).status == ModerationStatus.PENDING  # noqa: S101
-    assert Day.objects.get(slug="5-de-enero").status == ModerationStatus.PENDING  # noqa: S101
+    assert Day.objects.get(slug_es="5-de-enero").status == ModerationStatus.PENDING  # noqa: S101
 
 
 def test_restaging_updates_the_pending_row() -> None:
@@ -74,7 +74,7 @@ def test_restaging_updates_the_pending_row() -> None:
 
 def test_a_published_event_is_never_modified() -> None:
     edition = EditionFactory(year=2020, status=ModerationStatus.PUBLISHED)
-    day = DayFactory(edition=edition, slug="5-de-enero")
+    day = DayFactory(edition=edition, slug_es="5-de-enero")
     EventFactory(
         day=day,
         source_record_key="101",

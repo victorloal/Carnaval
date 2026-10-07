@@ -72,8 +72,8 @@ def test_edition_year_is_unique() -> None:
 
 def test_day_labels_are_rows_not_an_enum() -> None:
     """FR-A-02: any day label can be stored, without a migration."""
-    negro = DayFactory(label_es="Dia de Negros", slug="dia-negros")
-    carnavalito = DayFactory(label_es="Carnavalito", slug="carnavalito")
+    negro = DayFactory(label_es="Dia de Negros", slug_es="dia-negros")
+    carnavalito = DayFactory(label_es="Carnavalito", slug_es="carnavalito")
     assert negro.pk != carnavalito.pk  # noqa: S101
     assert negro.label_es != carnavalito.label_es  # noqa: S101
 
@@ -81,11 +81,29 @@ def test_day_labels_are_rows_not_an_enum() -> None:
 def test_day_slug_is_unique_within_an_edition_only() -> None:
     """FR-A-02: the slug constraint binds per edition, not globally."""
     edition = EditionFactory()
-    DayFactory(edition=edition, slug="viernes")
+    DayFactory(edition=edition, slug_es="viernes")
     with pytest.raises(IntegrityError):
         with transaction.atomic():
-            DayFactory(edition=edition, slug="viernes")
+            DayFactory(edition=edition, slug_es="viernes")
 
     # The same slug in a different edition is allowed.
-    other = DayFactory(edition=EditionFactory(), slug="viernes")
+    other = DayFactory(edition=EditionFactory(), slug_es="viernes")
     assert other.pk is not None  # noqa: S101
+
+
+def test_a_slug_is_resolved_per_locale_with_fallback() -> None:
+    """FR-H-07: the English URL is used when it exists, else the source one."""
+    edition = EditionFactory(slug_es="edicion-2026", slug_en="edition-2026")
+    fallback = EditionFactory(slug_es="solo-es")
+
+    assert edition.slug_for("es") == "edicion-2026"  # noqa: S101
+    assert edition.slug_for("en") == "edition-2026"  # noqa: S101
+    assert fallback.slug_for("en") == "solo-es"  # noqa: S101
+
+
+def test_an_english_slug_cannot_collide() -> None:
+    """FR-H-07: two rows cannot share a translated URL."""
+    EditionFactory(slug_en="edition-2026")
+    with pytest.raises(IntegrityError):
+        with transaction.atomic():
+            EditionFactory(slug_en="edition-2026")

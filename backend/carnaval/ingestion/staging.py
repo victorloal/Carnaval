@@ -28,7 +28,7 @@ def stage(run: IngestionRun, report: TransformReport) -> dict[str, object]:
         edition, _ = Edition.objects.get_or_create(
             year=candidate.year,
             defaults={
-                "slug": f"carnaval-{candidate.year}",
+                "slug_es": f"carnaval-{candidate.year}",
                 "title_es": f"Carnaval {candidate.year}",
                 "status": ModerationStatus.PENDING,
                 "origin": ModerationOrigin.SCRAPED,
@@ -37,7 +37,7 @@ def stage(run: IngestionRun, report: TransformReport) -> dict[str, object]:
         )
         day, _ = Day.objects.get_or_create(
             edition=edition,
-            slug=candidate.day_slug,
+            slug_es=candidate.day_slug,
             defaults={
                 "date": candidate.day_date,
                 "label_es": candidate.day_label_es,

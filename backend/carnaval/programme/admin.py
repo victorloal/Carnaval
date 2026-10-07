@@ -19,13 +19,13 @@ from carnaval.programme.models import Day, Edition, Event, Venue
 @admin.register(Edition)
 class EditionAdmin(ModeratedAdmin):
     list_display = ("year", "title_es", "status", "origin", "reviewed_at")
-    search_fields = ("title_es", "slug")
+    search_fields = ("title_es", "slug_es", "slug_en")
 
 
 @admin.register(Day)
 class DayAdmin(ModeratedAdmin):
     list_display = ("date", "label_es", "edition", "status", "origin")
-    search_fields = ("label_es", "slug")
+    search_fields = ("label_es", "slug_es", "slug_en")
 
 
 @admin.register(Venue)

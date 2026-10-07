@@ -9,7 +9,8 @@ const day: Day = {
   id: "d1",
   edition: "e1",
   date: "2026-01-05",
-  slug: "dia-de-negros",
+  slug_es: "dia-de-negros",
+  slug_en: "",
   label_es: "Día de Negros",
   label_en: "Day of Blacks",
 };

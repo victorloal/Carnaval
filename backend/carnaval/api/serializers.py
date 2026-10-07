@@ -21,7 +21,8 @@ class EditionSerializer(serializers.ModelSerializer):
         fields = [
             "id",
             "year",
-            "slug",
+            "slug_es",
+            "slug_en",
             "title_es",
             "title_en",
             "starts_on",
@@ -34,7 +35,7 @@ class EditionSerializer(serializers.ModelSerializer):
 class DaySerializer(serializers.ModelSerializer):
     class Meta:
         model = Day
-        fields = ["id", "edition", "date", "slug", "label_es", "label_en"]
+        fields = ["id", "edition", "date", "slug_es", "slug_en", "label_es", "label_en"]
 
 
 class VenueSerializer(serializers.ModelSerializer):

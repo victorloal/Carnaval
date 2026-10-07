@@ -14,7 +14,9 @@ from carnaval.core.models import (
 class Edition(ModeratedModel):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     year = models.PositiveIntegerField(unique=True)
-    slug = models.SlugField(unique=True, max_length=200)
+    slug_es = models.SlugField(unique=True, max_length=200)
+    # FR-H-07: a slug per locale, so a translated page has a translated URL.
+    slug_en = models.SlugField(max_length=200, blank=True, default="")
     title_es = models.CharField(max_length=200)
     title_en = models.CharField(max_length=200, blank=True, default="")
     starts_on = models.DateField(blank=True, null=True)
@@ -26,8 +28,19 @@ class Edition(ModeratedModel):
 
     class Meta:
         ordering = ["year"]
-        constraints = [rejection_reason_constraint()]
+        constraints = [
+            rejection_reason_constraint(),
+            models.UniqueConstraint(
+                fields=["slug_en"],
+                condition=~models.Q(slug_en=""),
+                name="edition_slug_en_unique",
+            ),
+        ]
         permissions = moderation_permissions("edition")
+
+    def slug_for(self, locale: str) -> str:
+        """The slug for a locale, falling back to the source locale (FR-H-06/07)."""
+        return self.slug_en if locale == "en" and self.slug_en else self.slug_es
 
     def __str__(self) -> str:
         return f"{self.year} - {self.title_es}"
@@ -37,7 +50,8 @@ class Day(ModeratedModel):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     edition = models.ForeignKey(Edition, on_delete=models.CASCADE, related_name="days")
     date = models.DateField()
-    slug = models.SlugField(max_length=200)
+    slug_es = models.SlugField(max_length=200)
+    slug_en = models.SlugField(max_length=200, blank=True, default="")
     label_es = models.CharField(max_length=200)
     label_en = models.CharField(max_length=200, blank=True, default="")
     created_at = models.DateTimeField(auto_now_add=True)
@@ -47,11 +61,20 @@ class Day(ModeratedModel):
         ordering = ["date"]
         constraints = [
             models.UniqueConstraint(
-                fields=["edition", "slug"], name="day_edition_slug_unique"
+                fields=["edition", "slug_es"], name="day_edition_slug_es_unique"
+            ),
+            models.UniqueConstraint(
+                fields=["edition", "slug_en"],
+                condition=~models.Q(slug_en=""),
+                name="day_edition_slug_en_unique",
             ),
             rejection_reason_constraint(),
         ]
         permissions = moderation_permissions("day")
+
+    def slug_for(self, locale: str) -> str:
+        """The slug for a locale, falling back to the source locale (FR-H-06/07)."""
+        return self.slug_en if locale == "en" and self.slug_en else self.slug_es
 
     def __str__(self) -> str:
         return f"{self.edition.year} - {self.label_es}"

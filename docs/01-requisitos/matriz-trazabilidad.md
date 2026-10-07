@@ -174,7 +174,7 @@ no requirement should be deleted.
 | FR-H-04 | US-06 | ADR 0010 | 0010 | T | unit: root redirect | Done |
 | FR-H-05 | US-06 | ADR 0010 | 0010 | T | unit: cookie persists | Done |
 | FR-H-06 | — | modelo-datos §4.5 | 0010 | T | unit: fallback | Done — no story |
-| FR-H-07 | — | modelo-datos §4.5 | 0010 | T | unit: per-locale slug | Open — no story |
+| FR-H-07 | — | modelo-datos §4.5 | 0010 | T | unit: per-locale slug | Done |
 | FR-H-08 | US-10 | ADR 0010 | 0010 | I | inspection: admin es only | Done |
 | FR-H-09 | US-19 | ADR 0010 | 0010 | I | inspection: verbatim citation | Open |
 | FR-H-10 | US-06 | ADR 0010 | 0010 | A | inspection: no MT dependency | Done |
@@ -269,12 +269,12 @@ no requirement should be deleted.
 
 | Group | Count | Done | Open | Blocked |
 |---|---|---|---|---|
-| FR-A … FR-I (functional) | 114 | 97 | 17 | 0 |
+| FR-A … FR-I (functional) | 114 | 98 | 16 | 0 |
 | NFR | 21 | 14 | 7 | 0 |
 | SEC | 16 | 11 | 5 | 0 |
 | PRV | 9 | 8 | 0 | 0 |
 | LEG | 10 | 5 | 5 | 0 |
-| **Total** | **170** | **135** | **34** | **0** |
+| **Total** | **170** | **136** | **33** | **0** |
 
 **Done** means the row's verification was performed and recorded. **Open** is the honest
 default for a row whose verification has not run — most of them need a deployment, a

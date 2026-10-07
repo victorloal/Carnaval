@@ -413,10 +413,18 @@ components:
         date:
           type: string
           format: date
-        slug:
+        slug_es:
           type: string
           maxLength: 200
           pattern: ^[-a-zA-Z0-9_]+$
+        slug_en:
+          oneOf:
+          - type: string
+            default: ''
+            maxLength: 200
+            pattern: ^[-a-zA-Z0-9_]+$
+          - type: string
+            maxLength: 0
         label_es:
           type: string
           maxLength: 200
@@ -428,7 +436,7 @@ components:
       - edition
       - id
       - label_es
-      - slug
+      - slug_es
     Edition:
       type: object
       properties:
@@ -441,10 +449,17 @@ components:
           maximum: 9223372036854775807
           minimum: 0
           format: int64
-        slug:
+        slug_es:
           type: string
           maxLength: 200
           pattern: ^[-a-zA-Z0-9_]+$
+        slug_en:
+          oneOf:
+          - type: string
+            maxLength: 200
+            pattern: ^[-a-zA-Z0-9_]+$
+          - type: string
+            maxLength: 0
         title_es:
           type: string
           maxLength: 200
@@ -465,7 +480,7 @@ components:
           type: string
       required:
       - id
-      - slug
+      - slug_es
       - title_es
       - year
     Event:

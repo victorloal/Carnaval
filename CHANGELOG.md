@@ -108,6 +108,20 @@ Phase 0 (documentation) is **closed**. No deployed version yet — see the statu
 - 141 backend tests (was 135); factories for `Submission`, `ConsentRecord` and
   `TakedownRequest`.
 
+### Added — Sprint 21: per-locale slugs (2026-10-07)
+
+- `Edition` and `Day` now carry `slug_es` **and** `slug_en` (FR-H-07), matching what
+  `modelo-datos.md` §3.1/§3.2 already specified. The migration **renames** `slug` to
+  `slug_es` — existing rows keep their slug — and adds `slug_en` (blank by default).
+- `slug_for(locale)` resolves the slug with one-directional fallback to the source locale,
+  the same rule ADR 0012 gives for content. `slug_en` is unique when set: two rows cannot
+  share a translated URL, and an empty English slug is not a duplicate.
+- The public API exposes both slugs (`slug_es`, `slug_en`); the admin searches both. OpenAPI
+  regenerated.
+- 143 backend tests (was 141); matrix at **136 Done / 33 Open / 0 blocked**.
+- Carried: locale-prefixed detail routes (there are no public detail pages yet) and verbatim
+  citations with a translation (FR-H-09).
+
 
 
 ### Added — project scaffolding
