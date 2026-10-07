@@ -53,6 +53,9 @@ INSTALLED_APPS = [
     "django_otp.plugins.otp_totp",
     "corsheaders",
     "rest_framework",
+    # Provides the templates the DRF browsable API uses to render the filter
+    # form; without the app installed, an HTML request to an endpoint 500s.
+    "django_filters",
     "drf_spectacular",
     "carnaval.core",
     "carnaval.programme",

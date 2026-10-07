@@ -52,3 +52,12 @@ def test_results_are_paginated() -> None:
     body = APIClient().get("/api/editions/").json()
 
     assert {"count", "next", "previous", "results"} <= set(body)  # noqa: S101
+
+
+def test_the_browsable_api_renders_without_a_500() -> None:
+    """A browser (Accept: text/html) must not hit the filter-form template error."""
+    EditionFactory(status=ModerationStatus.PUBLISHED)
+
+    response = APIClient().get("/api/editions/", HTTP_ACCEPT="text/html")
+
+    assert response.status_code == 200  # noqa: S101
