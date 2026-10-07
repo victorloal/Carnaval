@@ -2,12 +2,14 @@
 
 from pathlib import Path
 
+import pytest
 from carnaval.ingestion.models import IngestionRun, RawDocument, ScrapeSource
 from carnaval.programme.models import Day, Edition, Event, Venue
 from django.conf import settings
-from django.contrib import admin
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
+
+pytestmark = pytest.mark.django_db
 
 
 def test_env_file_is_ignored() -> None:
@@ -27,11 +29,19 @@ def test_csrf_cookie_is_httponly() -> None:
     assert settings.CSRF_COOKIE_SAMESITE == "Lax"  # noqa: S101
 
 
-def test_content_models_are_not_exposed_in_admin() -> None:
-    """FR-D-03: a fresh install must not surface unreviewed content.
+def test_content_models_are_permission_gated() -> None:
+    """FR-D-03: registration is permission-gated, not open to any staff user.
 
-    The MVP ships no admin, so none of the content or ingestion models may be
-    registered on the site.
+    The content models are registered in v1, but a fresh staff user with no role
+    has no `view` permission on them, so the console exposes nothing.
     """
+    from django.contrib.auth import get_user_model
+
+    user = get_user_model().objects.create_user(
+        username="fresh-staff",
+        password="pw",  # noqa: S106
+        is_staff=True,  # noqa: S106
+    )
     for model in (Edition, Day, Venue, Event, ScrapeSource, RawDocument, IngestionRun):
-        assert not admin.site.is_registered(model)  # noqa: S101
+        app, name = model._meta.app_label, model._meta.model_name
+        assert not user.has_perm(f"{app}.view_{name}")  # noqa: S101

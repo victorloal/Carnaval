@@ -4,7 +4,11 @@ import uuid
 
 from django.db import models
 
-from carnaval.core.models import ModeratedModel, rejection_reason_constraint
+from carnaval.core.models import (
+    ModeratedModel,
+    moderation_permissions,
+    rejection_reason_constraint,
+)
 
 
 class Edition(ModeratedModel):
@@ -23,6 +27,7 @@ class Edition(ModeratedModel):
     class Meta:
         ordering = ["year"]
         constraints = [rejection_reason_constraint()]
+        permissions = moderation_permissions("edition")
 
     def __str__(self) -> str:
         return f"{self.year} - {self.title_es}"
@@ -46,6 +51,7 @@ class Day(ModeratedModel):
             ),
             rejection_reason_constraint(),
         ]
+        permissions = moderation_permissions("day")
 
     def __str__(self) -> str:
         return f"{self.edition.year} - {self.label_es}"
@@ -76,6 +82,7 @@ class Venue(ModeratedModel):
     class Meta:
         ordering = ["name_es"]
         constraints = [rejection_reason_constraint()]
+        permissions = moderation_permissions("venue")
 
     def __str__(self) -> str:
         return self.name_es
@@ -121,6 +128,7 @@ class Event(ModeratedModel):
                 name="event_day_source_key_unique",
             ),
         ]
+        permissions = moderation_permissions("event")
         indexes = [models.Index(fields=["day", "sort_order"])]
 
     def __str__(self) -> str:

@@ -90,6 +90,9 @@ def test_a_published_event_is_never_modified() -> None:
     published = Event.objects.get(source_record_key="101")
     assert published.title_es == "Live"  # noqa: S101
     assert published.status == ModerationStatus.PUBLISHED  # noqa: S101
+    # §5.1: the change is proposed, never written.
+    assert published.staged_changes is not None  # noqa: S101
+    assert published.staged_changes["title_es"] == "Changed"  # noqa: S101
 
 
 def test_an_existing_edition_is_not_modified() -> None:

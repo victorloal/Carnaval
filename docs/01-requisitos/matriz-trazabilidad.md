@@ -50,13 +50,13 @@ no requirement should be deleted.
 
 | Req | Story | Design | ADR | Verif. | Test | Status |
 |---|---|---|---|---|---|---|
-| FR-B-01 | US-14 | flujo-datos | 0002 | T | integration: extract→staging (review/load in v1) | Open |
+| FR-B-01 | US-14 | flujo-datos | 0002 | T | integration: extract→staging→review→load | Done |
 | FR-B-02 | US-14 | flujo-datos §RAW | 0002 | T | unit: raw storage + hash | Done |
 | FR-B-03 | US-14 | modelo-datos §3.6 | 0002 | T | **SEC-37** (raw layer) | Done |
 | FR-B-04 | US-14 | flujo-datos (idempotency) | 0002 | T | **SEC-37** | Done |
 | FR-B-05 | US-14 | flujo-datos §TRANSFORM | 0002 | T | unit: schema validation | Done |
 | FR-B-06 | US-07 | modelo-datos §2 | 0002 | T | unit: pending on ingest | Done |
-| FR-B-07 | US-14 | flujo-datos §LOAD | 0002 | T | integration: upsert | Open |
+| FR-B-07 | US-14 | flujo-datos §LOAD | 0002 | T | integration: upsert | Done |
 | FR-B-08 | US-14 | modelo-datos §3.7 | 0002 | T | integration: run stats | Done |
 | FR-B-09 | US-15 | flujo-datos (failure) | 0002 | T | **SEC-38** | Done |
 | FR-B-10 | US-12 | flujo-datos (breaker) | 0002 | T | **SEC-39** | Done |
@@ -74,17 +74,17 @@ no requirement should be deleted.
 
 | Req | Story | Design | ADR | Verif. | Test | Status |
 |---|---|---|---|---|---|---|
-| FR-C-01 | US-07 | modelo-datos §2 | 0002 | T | unit: mixin fields | Open |
-| FR-C-02 | US-07 | estados | 0002 | T | **SEC-47**, integration | Open |
-| FR-C-03 | US-07 | estados | 0005 | T | **SEC-13** (editor allow) | Open |
-| FR-C-04 | US-07 | modelo-datos §9 | 0005 | T | **SEC-17**, CHECK constraint | Open |
-| FR-C-05 | US-08 | estados (unpublish) | 0002 | T | integration: published→pending | Open |
-| FR-C-06 | US-09 | estados | 0009 | T | admin: queue filters | Open |
-| FR-C-07 | US-07 | modelo-datos §6.5 | 0005 | T | **SEC-17** | Open |
+| FR-C-01 | US-07 | modelo-datos §2 | 0002 | T | unit: mixin fields | Done |
+| FR-C-02 | US-07 | estados | 0002 | T | **SEC-47**, integration | Done |
+| FR-C-03 | US-07 | estados | 0005 | T | **SEC-13** (editor allow) | Done |
+| FR-C-04 | US-07 | modelo-datos §9 | 0005 | T | **SEC-17**, CHECK constraint | Done |
+| FR-C-05 | US-08 | estados (unpublish) | 0002 | T | integration: published→pending | Done |
+| FR-C-06 | US-09 | estados | 0009 | T | admin: queue filters | Done |
+| FR-C-07 | US-07 | modelo-datos §6.5 | 0005 | T | **SEC-17** | Done |
 | FR-C-08 | US-09 | flujo-datos | 0002 | A | inspection: default off | Open — Could |
-| FR-C-09 | US-07, US-26 | modelo-datos §3.6 | 0002 | T | E2E: raw payload visible | Open |
+| FR-C-09 | US-07, US-26 | modelo-datos §3.6 | 0002 | T | E2E: raw payload visible | Done |
 | FR-C-10 | US-26 | ADR 0006 | 0008 | T | integration: rejection deletes | Open |
-| FR-C-11 | US-09 | estados | 0005 | T | **SEC-17** (per-item rows) | Open |
+| FR-C-11 | US-09 | estados | 0005 | T | **SEC-17** (per-item rows) | Done |
 
 ## FR-D — Administration, roles, audit
 
@@ -92,16 +92,16 @@ no requirement should be deleted.
 |---|---|---|---|---|---|---|
 | FR-D-01 | US-10 | arquitectura-c4 (L2) | 0005 | D | admin reachable | Done |
 | FR-D-02 | US-10 | roles-permisos | 0005 | T | unit: groups | Done |
-| FR-D-03 | US-10 | roles-permisos | 0005 | T | **SEC-12**, **SEC-13** | Open |
+| FR-D-03 | US-10 | roles-permisos | 0005 | T | **SEC-12**, **SEC-13** | Done |
 | FR-D-04 | US-10 | autenticacion (RBAC) | 0005 | T | **SEC-13** | Done |
-| FR-D-05 | US-10 | roles-permisos | 0005 | T | **SEC-13** (viewer deny) | Open |
+| FR-D-05 | US-10 | roles-permisos | 0005 | T | **SEC-13** (viewer deny) | Done |
 | FR-D-06 | US-10 | roles-permisos | 0005 | T | **SEC-13** (editor deny) | Done |
 | FR-D-07 | US-10 | roles-permisos | 0005 | T | **SEC-13** (admin allow) | Done |
 | FR-D-08 | US-11 | modelo-datos §5.1 | 0005 | T | **SEC-17**, **SEC-18** | Done |
 | FR-D-09 | US-11 | modelo-datos §5.1 | 0005 | T | **SEC-16** | Done (app-level; DB trigger carried until Postgres) |
 | FR-D-10 | US-11 | autenticacion (throttling) | 0005 | T | **SEC-18** | Done |
 | FR-D-11 | US-31 | arquitectura-c4, despliegue | 0009 | T | integration: /health | Done |
-| FR-D-12 | US-12 | modelo-datos §3.5 | 0002 | T | admin: source status | Open |
+| FR-D-12 | US-12 | modelo-datos §3.5 | 0002 | T | admin: source status | Done |
 | FR-D-13 | US-10 | autenticacion (provisioning) | 0005 | T | **SEC-12** | Done |
 | FR-D-14 | US-10 | autenticacion (provisioning) | 0005 | I | inspection: seed command | Done |
 | FR-D-15 | — | autenticacion §7.3 | 0013 | T | **SEC-02**; v1 idle- and absolute-expiry tests | Open |
@@ -225,8 +225,7 @@ no requirement should be deleted.
 | SEC-06 | US-12 | autenticacion (throttling) | 0005 | T | **SEC-06**, **SEC-07** | Done |
 | SEC-07 | US-10 | autenticacion | 0005 | T | **SEC-09** | Done |
 | SEC-08 | US-11 | autenticacion (revocation) | 0005 | T | **SEC-11** | Done |
-| SEC-09 | US-10 | autenticacion (RBAC) | 0005 | T | **SEC-14** | Open |
-| SEC-10 | US-10 | roles-permisos | 0005 | T | **SEC-13**, **SEC-14** | Open |
+| SEC-09 | US-10 | autenticacion (RBAC) | 0005 | T | **SEC-14** | Open || SEC-10 | US-10 | roles-permisos | 0005 | T | **SEC-13**, **SEC-14** | Open |
 | SEC-11 | US-22 | ADR 0006 | 0006 | T | **SEC-19**, **SEC-20**, **SEC-21** | Open |
 | SEC-12 | US-26 | ADR 0006 | 0006 | T | **SEC-24** | Open |
 | SEC-13 | US-22 | ADR 0006 | 0006 | I | inspection: presigned flow | Open |

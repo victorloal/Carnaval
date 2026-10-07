@@ -6,6 +6,8 @@
   `audit_logs`. This is also where `flujo-datos.md` §5.1 gets its ADR and schema amendment.
 - **Starts:** after Sprint 08 closes; nominal 1 week.
 - **WIP limit:** 2 items (ADR 0001)
+- **Status:** delivered with the second half of Sprint 08 as the **v1 backend**; item 9
+  (auto-publish) is `Could` and remains Open. See `sprint-09-retrospectiva.md`.
 
 > Every transition writes **three** things in one transaction: the field update, a
 > `moderation_actions` row, and an `audit_logs` row. Nothing reaches `published` without this.
@@ -14,15 +16,15 @@
 
 | # | Item | Requirement | Verification | Status |
 |---|---|---|---|---|
-| 1 | `approve` sets `status = published`, `reviewed_by`, `reviewed_at` | FR-C-03 | test | Open |
-| 2 | `reject` requires a non-empty `rejection_reason` (DB `CHECK` already exists) | FR-C-04 | test | Open |
-| 3 | `unpublish` returns a published row to `pending`, deliberate and manual | FR-C-05 | test | Open |
-| 4 | Every transition writes `moderation_actions` and `audit_logs` atomically | FR-C-07 | SEC test | Open |
-| 5 | Queue filterable by `status`, `origin` and type; shows source URL and payload to the right roles | FR-C-06, FR-C-09 | tests | Open |
-| 6 | Bulk approval records each decision individually | FR-C-11 | test | Open |
-| 7 | **ADR for `flujo-datos.md` §5.1** + `staged_changes` on the mixin; the pipeline proposes, never overwrites | FR-B-07, FR-B-09 | SEC-38 | Open |
-| 8 | Source dashboard: active flag, consecutive failures, last success, `last_error` | FR-D-12 | test | Open |
-| 9 | Auto-publish configurable by `admin` and **off by default** | FR-C-08 | test | Open |
+| 1 | `approve` sets `status = published`, `reviewed_by`, `reviewed_at` | FR-C-03 | test | Done |
+| 2 | `reject` requires a non-empty `rejection_reason` (DB `CHECK` already exists) | FR-C-04 | test | Done |
+| 3 | `unpublish` returns a published row to `pending`, deliberate and manual | FR-C-05 | test | Done |
+| 4 | Every transition writes `moderation_actions` and `audit_logs` atomically | FR-C-07 | SEC test | Done |
+| 5 | Queue filterable by `status`, `origin` and type; shows source URL and payload to the right roles | FR-C-06, FR-C-09 | tests | Done |
+| 6 | Bulk approval records each decision individually | FR-C-11 | test | Done |
+| 7 | **ADR for `flujo-datos.md` §5.1** + `staged_changes` on the mixin; the pipeline proposes, never overwrites | FR-B-07, FR-B-09 | SEC-38 | Done (ADR 0017) |
+| 8 | Source dashboard: active flag, consecutive failures, last success, `last_error` | FR-D-12 | test | Done |
+| 9 | Auto-publish configurable by `admin` and **off by default** | FR-C-08 | test | Open — Could |
 
 ### The one open mechanism
 

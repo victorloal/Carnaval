@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     "carnaval.api",
     "carnaval.accounts",
     "carnaval.audit",
+    "carnaval.moderation",
 ]
 
 MIDDLEWARE = [
@@ -183,6 +184,8 @@ CORS_ALLOWED_ORIGINS = [
 
 # Accounts, sessions and second factors (ADR 0005, 0013; FR-D-15/16).
 AUTHENTICATION_BACKENDS = ["carnaval.accounts.backends.ThrottledModelBackend"]
+# The only login surface is the admin's; there is no public signup (FR-D-13).
+LOGIN_URL = "/admin/login/"
 # 12 h idle window, sliding because the session is saved on every request.
 SESSION_COOKIE_AGE = 12 * 60 * 60
 SESSION_SAVE_EVERY_REQUEST = True

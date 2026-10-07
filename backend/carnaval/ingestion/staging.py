@@ -85,6 +85,20 @@ def _upsert_event(day: Day, candidate: EventCandidate, run: IngestionRun) -> str
         )
         return "inserted"
 
+    if existing.status == ModerationStatus.PUBLISHED and (
+        existing.origin == ModerationOrigin.SCRAPED
+    ):
+        # §5.1: propose the change, never write the published row.
+        proposed = {
+            field: value
+            for field, value in _candidate_fields(candidate).items()
+            if getattr(existing, field) != value
+        }
+        if proposed:
+            existing.staged_changes = {**proposed, "ingestion_run": str(run.pk)}
+            existing.save(update_fields=["staged_changes"])
+        return "skipped"
+
     if (
         existing.status != ModerationStatus.PENDING
         or existing.origin != ModerationOrigin.SCRAPED
@@ -92,13 +106,20 @@ def _upsert_event(day: Day, candidate: EventCandidate, run: IngestionRun) -> str
         # A human or community decision stands. The pipeline does not touch it.
         return "skipped"
 
-    existing.title_es = candidate.title_es
-    existing.title_en = candidate.title_en
-    existing.description_es = candidate.description_es
-    existing.description_en = candidate.description_en
-    existing.starts_at = candidate.starts_at
-    existing.ends_at = candidate.ends_at
-    existing.source_url = candidate.source_url
+    for field, value in _candidate_fields(candidate).items():
+        setattr(existing, field, value)
     existing.ingestion_run = run
     existing.save()
     return "updated"
+
+
+def _candidate_fields(candidate: EventCandidate) -> dict[str, object]:
+    return {
+        "title_es": candidate.title_es,
+        "title_en": candidate.title_en,
+        "description_es": candidate.description_es,
+        "description_en": candidate.description_en,
+        "starts_at": candidate.starts_at,
+        "ends_at": candidate.ends_at,
+        "source_url": candidate.source_url,
+    }

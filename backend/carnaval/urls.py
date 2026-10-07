@@ -9,8 +9,11 @@ from django.contrib import admin
 from django.urls import include, path
 
 from carnaval.api.health import health
+from carnaval.ingestion.views import raw_payload
 
 urlpatterns = [
+    # Before the admin include so the custom payload route wins.
+    path("admin/raw-payload/<uuid:pk>/", raw_payload, name="raw-payload"),
     path("admin/", admin.site.urls),
     path("accounts/", include("carnaval.accounts.urls")),
     path("api/", include("carnaval.api.urls")),

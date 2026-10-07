@@ -212,6 +212,22 @@ Phase 0 (documentation) is **closed**. No deployed version yet — see the statu
   (SEC-05 — `django-otp` stores them in plain text), the PostgreSQL append-only trigger, and
   the explicit session-expiry test (FR-D-15).
 
+### Added — v1 backend: admin surface and review queue (Sprint 08b + 09, 2026-10-06)
+
+- A `carnaval.moderation` app: an append-only `ModerationAction` and a `service` that is the
+  only path to `published` — `approve` (which cascades to the pending children of an edition or
+  a day), `reject` (a non-empty reason is required), `unpublish`, `request_changes` — each
+  writing a `moderation_actions` row and an `audit_logs` row in one transaction (FR-C-03/04/05/07).
+- The content and the ingestion tables are registered in the admin behind the permission matrix.
+  A fresh staff user with no role sees nothing (FR-D-03); `viewer` cannot moderate (FR-D-05);
+  the queue filters by `status`/`origin` and shows `source_url` plus a permission-gated link to
+  the stored payload (FR-C-06/09, matrix row 11).
+- The source dashboard shows each source's active flag, consecutive failures and last success
+  (FR-D-12).
+- **ADR 0017** and a `staged_changes` column: the pipeline now **proposes** a change to an
+  already-published row instead of skipping it, and a reviewer applies it. `apply_proposal` is
+  the only code path that writes a published content field (FR-B-07/09, §5.1, SEC-38).
+
 ### Added — forward sprint plans (2026-10-06)
 
 - `docs/sprints/sprint-03-plan.md` … `sprint-17-plan.md` — the planned path from the extractor

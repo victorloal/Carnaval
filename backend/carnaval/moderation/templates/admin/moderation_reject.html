@@ -1,0 +1,21 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+  <h1>Reject with a reason</h1>
+  <p>
+    Every rejection is recorded with a non-empty reason
+    (<code>moderation_actions</code>, FR-C-04). {{ queryset.count }} record(s)
+    will be rejected.
+  </p>
+  <form method="post">
+    {% csrf_token %}
+    <input type="hidden" name="action" value="{{ action }}" />
+    {% for obj in queryset %}
+      <input type="hidden" name="_selected_action" value="{{ obj.pk }}" />
+    {% endfor %}
+    <p>
+      <label for="reason">Reason</label><br />
+      <textarea id="reason" name="reason" rows="4" cols="60" required></textarea>
+    </p>
+    <button type="submit" name="index" value="0">Reject</button>
+  </form>
+{% endblock %}
