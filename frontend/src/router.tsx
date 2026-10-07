@@ -1,6 +1,7 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 
 import { App } from "./App";
+import { GalleryPage } from "./pages/GalleryPage";
 import { NewsPage } from "./pages/NewsPage";
 import { ProgrammePage } from "./pages/ProgrammePage";
 import { SearchPage } from "./pages/SearchPage";
@@ -21,6 +22,7 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <ProgrammePage /> },
       { path: "news", element: <NewsPage /> },
+      { path: "gallery", element: <GalleryPage /> },
       { path: "search", element: <SearchPage /> },
     ],
   },

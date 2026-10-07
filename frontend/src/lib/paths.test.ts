@@ -10,6 +10,7 @@ describe("localePath", () => {
 
   it("builds a page path", () => {
     expect(localePath("es", "news")).toBe("/es/news");
+    expect(localePath("en", "gallery")).toBe("/en/gallery");
     expect(localePath("en", "search")).toBe("/en/search");
   });
 });

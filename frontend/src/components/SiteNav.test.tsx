@@ -25,6 +25,10 @@ describe("SiteNav", () => {
       "href",
       "/es/news",
     );
+    expect(screen.getByRole("link", { name: "Galería" })).toHaveAttribute(
+      "href",
+      "/es/gallery",
+    );
     expect(screen.getByRole("link", { name: "Buscar" })).toHaveAttribute(
       "href",
       "/es/search",

@@ -66,6 +66,19 @@ class Submission(ModeratedModel):
     def __str__(self) -> str:
         return f"{self.kind} {self.public_token[:8]}"
 
+    def on_reject(self) -> None:
+        """Delete the quarantined bytes when a submission is rejected (FR-C-10).
+
+        ADR 0006: a rejected upload is discarded, not kept. The `Submission`
+        row stays `rejected` with its reason for the register; the private
+        files and their rows do not survive the decision.
+        """
+        from carnaval.submissions import storage
+
+        for file in self.files.all():
+            storage.delete_quarantine(file.quarantine_key)
+        self.files.all().delete()
+
 
 class SubmissionFile(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

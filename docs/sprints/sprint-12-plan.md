@@ -7,8 +7,9 @@
   form.
 - **Starts:** after Sprint 11 closes; nominal 1–2 weeks.
 - **WIP limit:** 2 items (ADR 0001)
-- **Status:** backend delivered (model, rights gate, admin, published-only API); the **gallery
-  UI** (FR-E-06, LEG-03) and **duplicate refusal** (FR-E-07) are carried.
+- **Status:** backend delivered (model, rights gate, admin, published-only API); the gallery
+  UI and duplicate refusal landed in Sprint 18. The `img` bytes and the quarantine keys
+  still wait on object storage (ADR 0015).
 
 > This is the highest-risk table in the schema. A bypass is a legal exposure, so the gate is
 > repeated at every layer and tested at each one.
@@ -19,8 +20,8 @@
 |---|---|---|---|---|
 | 1 | `MediaAsset` schema (rights fields, `exif_stripped`, `featured`, `minor_subject`, `guardian_consent_on_file`) | FR-E-04 | migration review | Done |
 | 2 | The publish gate: `rights_status = unknown` blocks publication on every path | FR-E-05, LEG-02 | SEC test | Done |
-| 3 | Citation text shown beside every published image | FR-E-06, LEG-03 | E2E | Open — frontend |
-| 4 | Duplicate detection by `content_hash`; identical bytes refused re-publication | FR-E-07 | test | Open — carried |
+| 3 | Citation text shown beside every published image | FR-E-06, LEG-03 | E2E | Done — gallery component (browser E2E carried) |
+| 4 | Duplicate detection by `content_hash`; identical bytes refused re-publication | FR-E-07 | test | Done |
 | 5 | EXIF stripped on ingest and **re-verified at approval** | FR-E-08, PRV-04 | test | Done (approval gate; ingest is v3) |
 | 6 | Minor-subject gate: `minor_subject` requires `guardian_consent_on_file` | LEG-09 | test | Done |
 | 7 | `editor` can feature an approved asset | FR-E-09 | test | Done |

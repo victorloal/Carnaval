@@ -8,10 +8,18 @@ from typing import Any
 import pytest
 from carnaval.core.models import ModerationOrigin, ModerationStatus
 from carnaval.legal.models import ClaimType, TakedownRequest, TakedownStatus
-from carnaval.submissions.images import ImageValidationError, validate_image
+from carnaval.moderation import service
+from carnaval.submissions.images import (
+    ImageValidationError,
+    declared_mime_conflicts,
+    validate_image,
+)
 from carnaval.submissions.models import Submission, SubmissionFile
 from carnaval.submissions.video import normalise_video
+from django.contrib.auth import get_user_model
+from django.contrib.auth.models import Group
 from django.core.files.uploadedfile import SimpleUploadedFile
+from django.core.management import call_command
 from PIL import Image
 from rest_framework.test import APIClient
 
@@ -177,3 +185,140 @@ def test_an_illegal_content_takedown_is_escalated() -> None:
     assert response.status_code == 201  # noqa: S101
     record = TakedownRequest.objects.get()
     assert record.status == TakedownStatus.ESCALATED  # noqa: S101
+
+
+def test_declared_mime_mismatch_rule() -> None:
+    # A concrete image type that contradicts the bytes conflicts.
+    assert declared_mime_conflicts("image/jpeg", "image/png")  # noqa: S101
+    # The historical JPEG spelling is an alias, not a mismatch.
+    assert not declared_mime_conflicts("image/jpg", "image/jpeg")  # noqa: S101
+    # Nothing declared, or a generic type, is not a lie about the content.
+    assert not declared_mime_conflicts("", "image/png")  # noqa: S101
+    assert not declared_mime_conflicts(None, "image/png")  # noqa: S101
+    assert not declared_mime_conflicts("application/octet-stream", "image/png")  # noqa: S101
+    # A parameterised header is reduced to its type.
+    assert not declared_mime_conflicts("image/png; charset=binary", "image/png")  # noqa: S101
+
+
+def test_an_image_declared_as_a_different_type_is_refused(
+    tmp_path: Any, settings: Any
+) -> None:
+    settings.SUBMISSION_QUARANTINE_ROOT = str(tmp_path)
+
+    response = APIClient().post(
+        "/api/submissions/",
+        {
+            "kind": "image",
+            "rights": True,
+            "file": SimpleUploadedFile("photo.jpg", _png(), content_type="image/jpeg"),
+        },
+        format="multipart",
+    )
+
+    assert response.status_code == 400  # noqa: S101
+    assert not SubmissionFile.objects.exists()  # noqa: S101
+
+
+def test_an_octet_stream_declaration_is_allowed(tmp_path: Any, settings: Any) -> None:
+    settings.SUBMISSION_QUARANTINE_ROOT = str(tmp_path)
+
+    response = APIClient().post(
+        "/api/submissions/",
+        {
+            "kind": "image",
+            "rights": True,
+            "file": SimpleUploadedFile(
+                "photo.png", _png(), content_type="application/octet-stream"
+            ),
+        },
+        format="multipart",
+    )
+
+    assert response.status_code == 201  # noqa: S101
+
+
+def test_identical_uploads_are_flagged_as_duplicates(
+    tmp_path: Any, settings: Any
+) -> None:
+    settings.SUBMISSION_QUARANTINE_ROOT = str(tmp_path)
+    client = APIClient()
+
+    def submit() -> int:
+        return client.post(  # type: ignore[no-any-return]
+            "/api/submissions/",
+            {
+                "kind": "image",
+                "rights": True,
+                "file": SimpleUploadedFile(
+                    "photo.png", _png(), content_type="image/png"
+                ),
+            },
+            format="multipart",
+        ).status_code
+
+    assert submit() == 201  # noqa: S101
+    assert submit() == 201  # noqa: S101
+
+    files = SubmissionFile.objects.filter(duplicate_of__isnull=True)
+    duplicates = SubmissionFile.objects.filter(duplicate_of__isnull=False)
+    assert SubmissionFile.objects.count() == 2  # noqa: S101
+    assert files.count() == 1  # noqa: S101
+    assert duplicates.count() == 1  # noqa: S101
+    assert duplicates.get().duplicate_of_id == files.get().id  # noqa: S101
+
+
+def _editor() -> Any:
+    call_command("seed_roles")
+    user = get_user_model().objects.create_user(username="sub-editor", password="pw")  # noqa: S106
+    user.groups.add(Group.objects.get(name="editor"))
+    return user
+
+
+def test_rejecting_a_submission_deletes_its_quarantine(
+    tmp_path: Any, settings: Any
+) -> None:
+    settings.SUBMISSION_QUARANTINE_ROOT = str(tmp_path)
+    created = (
+        APIClient()
+        .post(
+            "/api/submissions/",
+            {
+                "kind": "image",
+                "rights": True,
+                "file": SimpleUploadedFile(
+                    "photo.png", _png(), content_type="image/png"
+                ),
+            },
+            format="multipart",
+        )
+        .json()
+    )
+    submission = Submission.objects.get(public_token=created["token"])
+    file = SubmissionFile.objects.get()
+    quarantined = tmp_path / file.quarantine_key
+    assert quarantined.exists()  # noqa: S101
+
+    service.reject(submission, actor=_editor(), reason="duplicate of a published photo")
+
+    submission.refresh_from_db()
+    assert submission.status == ModerationStatus.REJECTED  # noqa: S101
+    assert not quarantined.exists()  # noqa: S101
+    assert not SubmissionFile.objects.exists()  # noqa: S101
+
+
+def test_personal_submission_data_is_not_cacheable() -> None:
+    created = (
+        APIClient()
+        .post(
+            "/api/submissions/",
+            {"kind": "video_link", "video_url": "https://vimeo.com/1", "rights": True},
+            format="json",
+        )
+        .json()
+    )
+
+    found = APIClient().get(f"/api/submissions/{created['token']}/")
+
+    cache_control = found.headers["Cache-Control"]
+    assert "no-store" in cache_control  # noqa: S101
+    assert "private" in cache_control  # noqa: S101

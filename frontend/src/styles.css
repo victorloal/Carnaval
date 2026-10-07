@@ -77,6 +77,35 @@ body {
   flex: 1 1 12rem;
 }
 
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  gap: 1rem;
+  list-style: none;
+  padding: 0;
+}
+
+.gallery article {
+  border: 1px solid currentColor;
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  height: 100%;
+}
+
+.gallery h3 {
+  margin-top: 0;
+}
+
+.gallery-meta {
+  font-size: 0.8125rem;
+  opacity: 0.8;
+}
+
+.gallery-citation {
+  font-size: 0.8125rem;
+  font-style: italic;
+}
+
 .disclaimer {
   margin-top: 2rem;
   border-top: 1px solid currentColor;

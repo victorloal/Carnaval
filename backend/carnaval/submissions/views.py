@@ -11,6 +11,7 @@ from __future__ import annotations
 import hashlib
 
 from django.conf import settings
+from django.views.decorators.cache import cache_control
 from django.views.decorators.csrf import csrf_exempt
 from drf_spectacular.utils import extend_schema
 from rest_framework import status
@@ -27,7 +28,11 @@ from rest_framework.response import Response
 from carnaval.accounts.privacy import hash_ip
 from carnaval.legal.models import LegalDocType, LegalDocument
 from carnaval.submissions import captcha, quotas, storage
-from carnaval.submissions.images import ImageValidationError, validate_image
+from carnaval.submissions.images import (
+    ImageValidationError,
+    declared_mime_conflicts,
+    validate_image,
+)
 from carnaval.submissions.models import (
     ConsentRecord,
     Submission,
@@ -50,6 +55,7 @@ def _bad(detail: str, code: int = status.HTTP_400_BAD_REQUEST) -> Response:
     request=SubmissionSubmitSerializer,
     responses={201: SubmissionCreatedSerializer},
 )
+@cache_control(private=True, no_store=True, max_age=0)
 @csrf_exempt
 @api_view(["POST"])
 @permission_classes([AllowAny])
@@ -96,7 +102,16 @@ def submit(request: Request) -> Response:
             validated = validate_image(data)
         except ImageValidationError as exc:
             return _bad(str(exc))
-        storage_key = f"submissions/{hashlib.sha256(validated.body).hexdigest()}"
+        # FR-F-04: a concrete image type that contradicts the bytes is refused.
+        if declared_mime_conflicts(upload.content_type, validated.mime):
+            return _bad("the declared content type does not match the file content")
+        digest = hashlib.sha256(validated.body).hexdigest()
+        # FR-F-21: identical bytes are flagged for the reviewer, not silently
+        # accepted as new. The first upload of the hash is the original.
+        duplicate = (
+            SubmissionFile.objects.filter(content_hash=digest).order_by("id").first()
+        )
+        storage_key = f"submissions/{digest}"
         storage.save_quarantine(storage_key, validated.body)
         submission = Submission.objects.create(
             kind=SubmissionKind.IMAGE,
@@ -108,11 +123,12 @@ def submit(request: Request) -> Response:
             quarantine_key=storage_key,
             mime_detected=validated.mime,
             declared_mime=upload.content_type or "",
-            content_hash=hashlib.sha256(validated.body).hexdigest(),
+            content_hash=digest,
             byte_size=len(validated.body),
             width=validated.width,
             height=validated.height,
             exif_stripped=validated.exif_stripped,
+            duplicate_of=duplicate,
         )
     else:
         return _bad("unknown submission kind")
@@ -133,6 +149,7 @@ def submit(request: Request) -> Response:
 
 
 @extend_schema(responses=SubmissionStatusSerializer)
+@cache_control(private=True, no_store=True, max_age=0)
 @api_view(["GET"])
 @permission_classes([AllowAny])
 def submission_status(request: Request, token: str) -> Response:

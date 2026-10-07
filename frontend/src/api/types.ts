@@ -44,6 +44,21 @@ export interface Event {
   source_url: string;
 }
 
+export interface MediaAsset {
+  id: string;
+  edition: string | null;
+  title_es: string;
+  title_en: string;
+  description_es: string;
+  description_en: string;
+  year_approx: number | null;
+  author: string;
+  source_ref: string;
+  license: string;
+  citation_text: string;
+  featured: boolean;
+}
+
 export interface NewsItem {
   id: string;
   headline: string;

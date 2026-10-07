@@ -3,7 +3,7 @@ import type { Locale } from "./config";
 /** The locale-prefixed URL for a page within the site (FR-H-03). */
 export function localePath(
   locale: Locale,
-  page: "" | "news" | "search" = "",
+  page: "" | "news" | "gallery" | "search" = "",
 ): string {
   const base = `/${locale}/`;
   return page ? `${base}${page}` : base;

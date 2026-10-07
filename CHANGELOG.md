@@ -37,6 +37,26 @@ Phase 0 (documentation) is **closed**. No deployed version yet — see the statu
   the body carried 108 Done rows. It now reports the real counts (170 rows: **124 Done, 45
   Open, 1 blocked**) and FR-A-05 is Done against its existing venue test.
 
+### Added — Sprint 18: the gallery and submission integrity (2026-10-07)
+
+- A public **gallery** page: a published image shows its title, year, author, licence and
+  **citation text** (FR-E-06, LEG-03). Only `published` rows reach it, so an image with
+  `rights_status = unknown` cannot appear. The `img` bytes are a storage concern the
+  deployment owns (ADR 0015 is Proposed); the card is correct without them.
+- **FR-E-07:** identical image bytes are refused re-publication by a partial unique
+  constraint on `MediaAsset.content_hash` (migration `editorial/0002`); the empty "no hash
+  recorded" case is excluded.
+- **FR-F-21:** a submission whose bytes match an earlier one is flagged for the reviewer
+  (`SubmissionFile.duplicate_of`) rather than silently accepted.
+- **FR-F-04:** `declared_mime_conflicts` refuses a *concrete* `image/*` declaration that
+  contradicts the bytes; an empty header, a generic `application/octet-stream` and the
+  historical `image/jpg` spelling pass, because browsers send imperfect content types.
+- **FR-C-10 (ADR 0006):** rejecting a submission deletes its quarantined files and their
+  rows; the `Submission` row stays `rejected` with its reason for the register.
+- **PRV-09:** the submission endpoints answer `Cache-Control: private, no-store`.
+- 133 backend tests (was 127) and 27 frontend tests (was 24); no OpenAPI drift.
+
+
 
 ### Added — project scaffolding
 

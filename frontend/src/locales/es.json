@@ -8,6 +8,7 @@
     "language": "Idioma",
     "programme": "Programa",
     "news": "Noticias",
+    "gallery": "Galería",
     "search": "Buscar",
     "locale": {
       "es": "Español",
@@ -23,6 +24,11 @@
     "heading": "Noticias",
     "empty": "Todavía no hay noticias publicadas.",
     "read": "Leer en la fuente"
+  },
+  "gallery": {
+    "heading": "Galería",
+    "empty": "Todavía no hay imágenes publicadas.",
+    "citation": "Cita"
   },
   "search": {
     "heading": "Buscar",

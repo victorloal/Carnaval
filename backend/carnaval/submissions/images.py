@@ -14,6 +14,28 @@ from PIL import Image, ImageOps, UnidentifiedImageError
 
 ALLOWED_FORMATS = {"JPEG": "image/jpeg", "PNG": "image/png", "WEBP": "image/webp"}
 
+# Browsers and old clients disagree on the spelling of a JPEG, and some send a
+# generic octet-stream; the mismatch rule tolerates the aliases it can resolve
+# and ignores anything that is not a concrete image type (FR-F-04).
+MIME_ALIASES = {
+    "image/jpg": "image/jpeg",
+    "image/pjpeg": "image/jpeg",
+    "image/x-png": "image/png",
+}
+
+
+def declared_mime_conflicts(declared: str | None, detected: str) -> bool:
+    """Whether the client's declared type contradicts the detected one (FR-F-04).
+
+    Only a *concrete* `image/*` declaration can conflict: an empty header, a
+    missing header, or a generic `application/octet-stream` is not a lie about
+    the content, so it is allowed through.
+    """
+    value = (declared or "").split(";")[0].strip().lower()
+    if not value or not value.startswith("image/"):
+        return False
+    return MIME_ALIASES.get(value, value) != detected
+
 
 class ImageValidationError(Exception):
     """The bytes are not an allowed image."""

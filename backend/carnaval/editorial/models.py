@@ -120,6 +120,14 @@ class MediaAsset(ModeratedModel):
         ordering = ["-year_approx", "title_es"]
         constraints = [
             rejection_reason_constraint(),
+            # FR-E-07: identical bytes are refused re-publication. The condition
+            # excludes the empty hash, which means "no hash recorded", not a
+            # duplicate.
+            models.UniqueConstraint(
+                fields=["content_hash"],
+                condition=~models.Q(content_hash=""),
+                name="%(app_label)s_%(class)s_content_hash_unique",
+            ),
             # An unknown-rights or uncited image cannot be published (LEG-02).
             models.CheckConstraint(
                 condition=~models.Q(status="published")

@@ -122,6 +122,11 @@ def reject(
             "staged_changes",
         ]
     )
+    # FR-C-10 / ADR 0006: a model may discard what it no longer needs on
+    # rejection (a submission deletes its quarantined files).
+    on_reject = getattr(obj, "on_reject", None)
+    if callable(on_reject):
+        on_reject()
     return _record(
         obj, ModerationVerb.REJECT, actor=actor, request=request, reason=reason
     )

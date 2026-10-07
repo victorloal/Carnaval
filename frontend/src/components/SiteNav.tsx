@@ -27,6 +27,9 @@ export function SiteNav({
           <Link to={localePath(locale, "news")}>{t("nav.news")}</Link>
         </li>
         <li>
+          <Link to={localePath(locale, "gallery")}>{t("nav.gallery")}</Link>
+        </li>
+        <li>
           <Link to={localePath(locale, "search")}>{t("nav.search")}</Link>
         </li>
       </ul>

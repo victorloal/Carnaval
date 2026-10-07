@@ -83,7 +83,7 @@ no requirement should be deleted.
 | FR-C-07 | US-07 | modelo-datos §6.5 | 0005 | T | **SEC-17** | Done |
 | FR-C-08 | US-09 | flujo-datos | 0002 | A | inspection: default off | Open — Could |
 | FR-C-09 | US-07, US-26 | modelo-datos §3.6 | 0002 | T | E2E: raw payload visible | Done |
-| FR-C-10 | US-26 | ADR 0006 | 0008 | T | integration: rejection deletes | Open |
+| FR-C-10 | US-26 | ADR 0006 | 0008 | T | integration: rejection deletes | Done |
 | FR-C-11 | US-09 | estados | 0005 | T | **SEC-17** (per-item rows) | Done |
 
 ## FR-D — Administration, roles, audit
@@ -116,8 +116,8 @@ no requirement should be deleted.
 | FR-E-03 | US-18 | estados | 0002 | T | integration: news pending | Open — news pipeline carried |
 | FR-E-04 | US-19 | modelo-datos §4.2 | 0004 | T | API: gallery | Done |
 | FR-E-05 | US-19 | modelo-datos §4.2 | 0004 | T | **SEC-30** | Done |
-| FR-E-06 | US-19 | modelo-datos §4.2 | 0004 | D | E2E: citation visible | Open — frontend |
-| FR-E-07 | US-19 | modelo-datos §4.2 | 0006 | T | **SEC-23** | Open — duplicate refusal carried |
+| FR-E-06 | US-19 | modelo-datos §4.2 | 0004 | D | component: citation rendered | Done |
+| FR-E-07 | US-19 | modelo-datos §4.2 | 0006 | T | **SEC-23** | Done |
 | FR-E-08 | US-19 | modelo-datos §4.2 | 0006 | T | **SEC-21** | Done |
 | FR-E-09 | US-19 | modelo-datos §4.2 | 0009 | T | admin: feature toggle | Done |
 | FR-E-10 | US-20 | modelo-datos §4.4 | 0009 | T | admin: settings CRUD | Done |
@@ -131,7 +131,7 @@ no requirement should be deleted.
 | FR-F-01 | US-22 | arquitectura-c4 (L2) | 0006 | T | E2E: submit image | Done |
 | FR-F-02 | US-24 | ADR 0007 | 0007 | T | **SEC-36** | Done |
 | FR-F-03 | US-22 | modelo-datos §6.2 | 0006 | T | **SEC-19** | Done |
-| FR-F-04 | US-22 | modelo-datos §6.2 | 0006 | T | **SEC-19** | Open |
+| FR-F-04 | US-22 | modelo-datos §6.2 | 0006 | T | **SEC-19** | Done |
 | FR-F-05 | US-22 | ADR 0006 | 0006 | T | **SEC-20** | Done |
 | FR-F-06 | US-22 | modelo-datos §8 | 0006 | T | **SEC-21** | Done |
 | FR-F-07 | US-22 | ADR 0006 | 0006 | T | **SEC-24** | Done |
@@ -148,7 +148,7 @@ no requirement should be deleted.
 | FR-F-18 | US-25 | modelo-datos §6.1 | 0006 | T | integration: token lookup | Done |
 | FR-F-19 | US-24 | ADR 0007 | 0007 | T | **SEC-36** | Done |
 | FR-F-20 | US-26 | ADR 0006 | 0006 | T | **SEC-26** | Open |
-| FR-F-21 | US-26 | modelo-datos §6.2 | 0006 | T | **SEC-23** | Open |
+| FR-F-21 | US-26 | modelo-datos §6.2 | 0006 | T | **SEC-23** | Done |
 | FR-F-22 | US-26 | estados | 0002 | T | integration: pending | Done |
 
 ## FR-G — Legal and takedown
@@ -246,7 +246,7 @@ no requirement should be deleted.
 | PRV-06 | US-27 | legal/privacidad | 0008 | I | inspection | **Blocked — ADR 0016.** Retention periods need legal judgement that will not be obtained. The requirement is left intact rather than weakened; do not fill it with a plausible value |
 | PRV-07 | US-30 | legal/privacidad | 0008 | A | inspection: procedure | Open |
 | PRV-08 | US-27 | legal/privacidad | 0007 | T | E2E: consent gate | Open |
-| PRV-09 | US-22 | plan-pruebas | 0005 | T | **SEC-49** | Open |
+| PRV-09 | US-22 | plan-pruebas | 0005 | T | **SEC-49** | Done |
 
 ## LEG — Copyright and content integrity
 
@@ -254,7 +254,7 @@ no requirement should be deleted.
 |---|---|---|---|---|---|---|
 | LEG-01 | US-07 | estados | 0002 | T | **SEC-47** | Open |
 | LEG-02 | US-19 | modelo-datos §4.2 | 0004 | T | **SEC-30** | Done |
-| LEG-03 | US-19 | modelo-datos §4.2 | 0004 | D | E2E: citation | Open — frontend |
+| LEG-03 | US-19 | modelo-datos §4.2 | 0004 | D | component: citation | Done |
 | LEG-04 | US-18 | modelo-datos §4.1 | 0004 | T | **SEC-34** | Done |
 | LEG-05 | US-14 | `.gitignore`, ADR 0004 | 0004 | T | **SEC-35** | Open |
 | LEG-06 | US-04 | `LICENSE`, ADR 0004 | 0004 | I | inspection | **Done** — LICENSE is MIT with the carve-out |
@@ -269,12 +269,12 @@ no requirement should be deleted.
 
 | Group | Count | Done | Open | Blocked |
 |---|---|---|---|---|
-| FR-A … FR-I (functional) | 114 | 91 | 23 | 0 |
+| FR-A … FR-I (functional) | 114 | 96 | 18 | 0 |
 | NFR | 21 | 14 | 7 | 0 |
 | SEC | 16 | 11 | 5 | 0 |
-| PRV | 9 | 4 | 4 | 1 |
-| LEG | 10 | 4 | 6 | 0 |
-| **Total** | **170** | **124** | **45** | **1** |
+| PRV | 9 | 5 | 3 | 1 |
+| LEG | 10 | 5 | 5 | 0 |
+| **Total** | **170** | **131** | **38** | **1** |
 
 **Done** means the row's verification was performed and recorded. **Open** is the honest
 default for a row whose verification has not run — most of them need a deployment, a
