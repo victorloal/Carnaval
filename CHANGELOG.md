@@ -127,10 +127,12 @@ Phase 0 (documentation) is **closed**. No deployed version yet — see the statu
 - **The project is closed in code; it is not launched.** All four versions of ADR 0008 are
   implemented, tested and green in CI. The single remaining act is the **deployment**, which
   needs the maintainer's accounts (ADR 0015 is Proposed); it is carried, not hidden.
-- The missing retrospectives are written: `sprint-05` (the read API), `sprint-10` (v1 release,
-  **not run**), `sprint-14` (v2 release, **not run**), `sprint-17` (v3 launch, **not launched**)
-  and `sprint-18-21` (the public close-out). The project close is
-  `docs/sprints/proyecto-retrospectiva.md`.
+- The retrospection is now complete **per sprint**. Written for the sprints that lacked one:
+  `sprint-05` (the read API), `sprint-08` (the whole admin-foundation plan), `sprint-10` (v1
+  release, **not run**), `sprint-11` (news and the citation registry), `sprint-12` (media and
+  rights), `sprint-14` (v2 release, **not run**), `sprint-15` (submission intake), `sprint-17`
+  (v3 launch, **not launched**) and `sprint-18`, `sprint-19`, `sprint-20`, `sprint-21`. The
+  project close is `docs/sprints/proyecto-retrospectiva.md`.
 - The documentation sweep reconciled `AGENTS.md` and `SECURITY.md` — both still described a
   project several sprints (or a whole build) behind the tree — and `README.md` and the matrix.
 - Final state: **143 backend + 33 frontend tests**; matrix at **136 Done / 33 Open / 0
