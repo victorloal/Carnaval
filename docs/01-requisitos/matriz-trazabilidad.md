@@ -128,41 +128,41 @@ no requirement should be deleted.
 
 | Req | Story | Design | ADR | Verif. | Test | Status |
 |---|---|---|---|---|---|---|
-| FR-F-01 | US-22 | arquitectura-c4 (L2) | 0006 | T | E2E: submit image | Open |
-| FR-F-02 | US-24 | ADR 0007 | 0007 | T | **SEC-36** | Open |
-| FR-F-03 | US-22 | modelo-datos §6.2 | 0006 | T | **SEC-19** | Open |
+| FR-F-01 | US-22 | arquitectura-c4 (L2) | 0006 | T | E2E: submit image | Done |
+| FR-F-02 | US-24 | ADR 0007 | 0007 | T | **SEC-36** | Done |
+| FR-F-03 | US-22 | modelo-datos §6.2 | 0006 | T | **SEC-19** | Done |
 | FR-F-04 | US-22 | modelo-datos §6.2 | 0006 | T | **SEC-19** | Open |
-| FR-F-05 | US-22 | ADR 0006 | 0006 | T | **SEC-20** | Open |
-| FR-F-06 | US-22 | modelo-datos §8 | 0006 | T | **SEC-21** | Open |
-| FR-F-07 | US-22 | ADR 0006 | 0006 | T | **SEC-24** | Open |
-| FR-F-08 | US-26 | ADR 0006 | 0006 | T | **SEC-25** | Open |
-| FR-F-09 | US-26 | estados (submission) | 0006 | T | integration: move on approve | Open |
-| FR-F-10 | US-22 | modelo-datos §6.3 | 0006 | T | **SEC-29** | Open |
-| FR-F-11 | US-23 | modelo-datos §6.3 | 0006 | T | **SEC-28** | Open |
-| FR-F-12 | US-22 | modelo-datos §8 | 0006 | T | **SEC-32** | Open |
+| FR-F-05 | US-22 | ADR 0006 | 0006 | T | **SEC-20** | Done |
+| FR-F-06 | US-22 | modelo-datos §8 | 0006 | T | **SEC-21** | Done |
+| FR-F-07 | US-22 | ADR 0006 | 0006 | T | **SEC-24** | Done |
+| FR-F-08 | US-26 | ADR 0006 | 0006 | T | **SEC-25** | Open — deployment |
+| FR-F-09 | US-26 | estados (submission) | 0006 | T | integration: move on approve | Open — carried |
+| FR-F-10 | US-22 | modelo-datos §6.3 | 0006 | T | **SEC-29** | Done |
+| FR-F-11 | US-23 | modelo-datos §6.3 | 0006 | T | **SEC-28** | Done |
+| FR-F-12 | US-22 | modelo-datos §8 | 0006 | T | **SEC-32** | Done |
 | FR-F-13 | US-23 | modelo-datos §6.1 | 0006 | T | form: declaration fields | Open |
-| FR-F-14 | US-23 | modelo-datos §6.3 | 0006 | T | form: consent declaration | Open |
-| FR-F-15 | US-26 | modelo-datos §4.2 | 0004 | T | **SEC-31** | Open |
-| FR-F-16 | US-22 | modelo-datos §6.2 | 0006 | T | **SEC-22** | Open |
-| FR-F-17 | US-22 | arquitectura-c4 (CAPTCHA) | 0006 | T | **SEC-27** | Open |
-| FR-F-18 | US-25 | modelo-datos §6.1 | 0006 | T | integration: token lookup | Open |
-| FR-F-19 | US-24 | ADR 0007 | 0007 | T | **SEC-36** | Open |
+| FR-F-14 | US-23 | modelo-datos §6.3 | 0006 | T | form: consent declaration | Done |
+| FR-F-15 | US-26 | modelo-datos §4.2 | 0004 | T | **SEC-31** | Done |
+| FR-F-16 | US-22 | modelo-datos §6.2 | 0006 | T | **SEC-22** | Done |
+| FR-F-17 | US-22 | arquitectura-c4 (CAPTCHA) | 0006 | T | **SEC-27** | Done (honeypot + Turnstile; provider unverified) |
+| FR-F-18 | US-25 | modelo-datos §6.1 | 0006 | T | integration: token lookup | Done |
+| FR-F-19 | US-24 | ADR 0007 | 0007 | T | **SEC-36** | Done |
 | FR-F-20 | US-26 | ADR 0006 | 0006 | T | **SEC-26** | Open |
 | FR-F-21 | US-26 | modelo-datos §6.2 | 0006 | T | **SEC-23** | Open |
-| FR-F-22 | US-26 | estados | 0002 | T | integration: pending | Open |
+| FR-F-22 | US-26 | estados | 0002 | T | integration: pending | Done |
 
 ## FR-G — Legal and takedown
 
 | Req | Story | Design | ADR | Verif. | Test | Status |
 |---|---|---|---|---|---|---|
-| FR-G-01 | US-27 | modelo-datos §6.4 | 0008 | T | unit: one current version | Open |
-| FR-G-02 | US-27 | modelo-datos §6.4 | 0008 | T | **SEC-28** | Open |
-| FR-G-03 | US-27 | legal/README | 0008 | I | inspection: published | Open |
-| FR-G-04 | US-28 | modelo-datos §6.6 | 0008 | T | integration: claim types | Open |
-| FR-G-05 | US-29 | legal/takedown | 0008 | T | state-machine test | Open — gap noted |
-| FR-G-06 | US-28 | modelo-datos §6.6 | 0008 | T | integration: action_taken | Open |
+| FR-G-01 | US-27 | modelo-datos §6.4 | 0008 | T | unit: one current version | Done |
+| FR-G-02 | US-27 | modelo-datos §6.4 | 0008 | T | **SEC-28** | Done |
+| FR-G-03 | US-27 | legal/README | 0008 | I | inspection: published | Done |
+| FR-G-04 | US-28 | modelo-datos §6.6 | 0008 | T | integration: claim types | Done |
+| FR-G-05 | US-29 | legal/takedown | 0008 | T | state-machine test | Done |
+| FR-G-06 | US-28 | modelo-datos §6.6 | 0008 | T | integration: action_taken | Done |
 | FR-G-07 | US-24 | ADR 0007 | 0007 | I | inspection: remove ref only | Open |
-| FR-G-08 | US-04 | fuentes-y-atribucion | 0004 | T | E2E: disclaimer | Open |
+| FR-G-08 | US-04 | fuentes-y-atribucion | 0004 | T | E2E: disclaimer | Open — frontend |
 
 ## FR-H — Internationalisation
 
@@ -225,11 +225,12 @@ no requirement should be deleted.
 | SEC-06 | US-12 | autenticacion (throttling) | 0005 | T | **SEC-06**, **SEC-07** | Done |
 | SEC-07 | US-10 | autenticacion | 0005 | T | **SEC-09** | Done |
 | SEC-08 | US-11 | autenticacion (revocation) | 0005 | T | **SEC-11** | Done |
-| SEC-09 | US-10 | autenticacion (RBAC) | 0005 | T | **SEC-14** | Open || SEC-10 | US-10 | roles-permisos | 0005 | T | **SEC-13**, **SEC-14** | Open |
-| SEC-11 | US-22 | ADR 0006 | 0006 | T | **SEC-19**, **SEC-20**, **SEC-21** | Open |
-| SEC-12 | US-26 | ADR 0006 | 0006 | T | **SEC-24** | Open |
+| SEC-09 | US-10 | autenticacion (RBAC) | 0005 | T | **SEC-14** | Open |
+| SEC-10 | US-10 | roles-permisos | 0005 | T | **SEC-13**, **SEC-14** | Open |
+| SEC-11 | US-22 | ADR 0006 | 0006 | T | **SEC-19**, **SEC-20**, **SEC-21** | Done |
+| SEC-12 | US-26 | ADR 0006 | 0006 | T | **SEC-24** | Done (private quarantine); signed URLs carried |
 | SEC-13 | US-22 | ADR 0006 | 0006 | I | inspection: presigned flow | Open |
-| SEC-14 | US-22 | modelo-datos §6.2 | 0006 | T | **SEC-22**, **SEC-27** | Open |
+| SEC-14 | US-22 | modelo-datos §6.2 | 0006 | T | **SEC-22**, **SEC-27** | Done |
 | SEC-15 | US-05 | despliegue (headers) | 0005 | T | **SEC-43** | Done |
 | SEC-16 | — | plan-pruebas §2 | 0004 | I | inspection: Dependabot | Open — no story |
 
@@ -238,10 +239,10 @@ no requirement should be deleted.
 | Req | Story | Design | ADR | Verif. | Test | Status |
 |---|---|---|---|---|---|---|
 | PRV-01 | US-26 | modelo-datos §8 | 0006 | T | **SEC-32** | Done |
-| PRV-02 | US-22 | modelo-datos §8 | 0006 | T | **SEC-32** | Open |
+| PRV-02 | US-22 | modelo-datos §8 | 0006 | T | **SEC-32** | Done |
 | PRV-03 | US-30 | legal/privacidad | 0008 | T | **SEC-33** | Open |
-| PRV-04 | US-22 | modelo-datos §8 | 0006 | T | **SEC-21** | Open |
-| PRV-05 | US-23 | modelo-datos §6.3 | 0006 | T | **SEC-28** | Open |
+| PRV-04 | US-22 | modelo-datos §8 | 0006 | T | **SEC-21** | Done |
+| PRV-05 | US-23 | modelo-datos §6.3 | 0006 | T | **SEC-28** | Done |
 | PRV-06 | US-27 | legal/privacidad | 0008 | I | inspection | **Blocked — ADR 0016.** Retention periods need legal judgement that will not be obtained. The requirement is left intact rather than weakened; do not fill it with a plausible value |
 | PRV-07 | US-30 | legal/privacidad | 0008 | A | inspection: procedure | Open |
 | PRV-08 | US-27 | legal/privacidad | 0007 | T | E2E: consent gate | Open |

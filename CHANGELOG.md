@@ -246,6 +246,24 @@ Phase 0 (documentation) is **closed**. No deployed version yet — see the statu
   verbatim citations with a translation, the quarantine-key guarantee and the Postgres
   full-text verification.
 
+### Added — v3 backend: submissions, legal and takedown (Sprints 15–16, 2026-10-06)
+
+- A `carnaval.submissions` app: `Submission`, `SubmissionFile` and `ConsentRecord`. Image uploads
+  are validated by **magic bytes via Pillow**, fully decoded and **re-encoded** so embedded
+  payloads and every EXIF tag (including GPS) are stripped — verified, not assumed (FR-F-03/05/06,
+  SEC-11). Video links are normalised against a YouTube/Vimeo allowlist to `(provider, id)`, never
+  a raw embed `src` (FR-F-02/19, ADR 0007).
+- The public `POST /api/submissions/` and `GET /api/submissions/<token>/` endpoints, with a
+  blocking rights declaration, a honeypot, per-**salted-IP** quotas and a Turnstile hook
+  (FR-F-10/11/12/16/17/18). Submissions enter as `pending`, `origin = community` (FR-F-22).
+- A `carnaval.legal` app: `LegalDocument` versioned and **never edited in place** once current
+  (FR-G-01/02), and a `TakedownRequest` register whose `illegal_content` claims are escalated and
+  cannot be closed by an internal note (FR-G-03/04/05/06), reachable at `POST /takedown/`.
+- Carried and named: the quarantine → public move and the `MediaAsset` on approval (FR-F-09), the
+  rejected-upload policy (FR-C-10), signed-URL transfer (SEC-13), duplicate detection (FR-F-21),
+  PII purge (PRV-03/07), consent-gated embeds (PRV-08), `Cache-Control` for personal data (PRV-09)
+  and the deployment/browser verification. The CAPTCHA is off by default and documented as such.
+
 ### Added — forward sprint plans (2026-10-06)
 
 - `docs/sprints/sprint-03-plan.md` … `sprint-17-plan.md` — the planned path from the extractor

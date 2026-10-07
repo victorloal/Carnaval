@@ -6,7 +6,7 @@ info:
 paths:
   /api/days/:
     get:
-      operationId: days_list
+      operationId: api_days_list
       parameters:
       - in: query
         name: edition
@@ -19,7 +19,7 @@ paths:
         schema:
           type: integer
       tags:
-      - days
+      - api
       security:
       - cookieAuth: []
       - {}
@@ -32,7 +32,7 @@ paths:
           description: ''
   /api/days/{id}/:
     get:
-      operationId: days_retrieve
+      operationId: api_days_retrieve
       parameters:
       - in: path
         name: id
@@ -42,7 +42,7 @@ paths:
         description: A UUID string identifying this day.
         required: true
       tags:
-      - days
+      - api
       security:
       - cookieAuth: []
       - {}
@@ -55,7 +55,7 @@ paths:
           description: ''
   /api/editions/:
     get:
-      operationId: editions_list
+      operationId: api_editions_list
       parameters:
       - name: page
         required: false
@@ -68,7 +68,7 @@ paths:
         schema:
           type: integer
       tags:
-      - editions
+      - api
       security:
       - cookieAuth: []
       - {}
@@ -81,7 +81,7 @@ paths:
           description: ''
   /api/editions/{id}/:
     get:
-      operationId: editions_retrieve
+      operationId: api_editions_retrieve
       parameters:
       - in: path
         name: id
@@ -91,7 +91,7 @@ paths:
         description: A UUID string identifying this edition.
         required: true
       tags:
-      - editions
+      - api
       security:
       - cookieAuth: []
       - {}
@@ -104,7 +104,7 @@ paths:
           description: ''
   /api/events/:
     get:
-      operationId: events_list
+      operationId: api_events_list
       parameters:
       - in: query
         name: date_from
@@ -127,7 +127,7 @@ paths:
         schema:
           type: integer
       tags:
-      - events
+      - api
       security:
       - cookieAuth: []
       - {}
@@ -140,7 +140,7 @@ paths:
           description: ''
   /api/events/{id}/:
     get:
-      operationId: events_retrieve
+      operationId: api_events_retrieve
       parameters:
       - in: path
         name: id
@@ -150,7 +150,7 @@ paths:
         description: A UUID string identifying this event.
         required: true
       tags:
-      - events
+      - api
       security:
       - cookieAuth: []
       - {}
@@ -163,7 +163,7 @@ paths:
           description: ''
   /api/media/:
     get:
-      operationId: media_list
+      operationId: api_media_list
       parameters:
       - name: page
         required: false
@@ -172,7 +172,7 @@ paths:
         schema:
           type: integer
       tags:
-      - media
+      - api
       security:
       - cookieAuth: []
       - {}
@@ -185,7 +185,7 @@ paths:
           description: ''
   /api/media/{id}/:
     get:
-      operationId: media_retrieve
+      operationId: api_media_retrieve
       parameters:
       - in: path
         name: id
@@ -195,7 +195,7 @@ paths:
         description: A UUID string identifying this media asset.
         required: true
       tags:
-      - media
+      - api
       security:
       - cookieAuth: []
       - {}
@@ -208,7 +208,7 @@ paths:
           description: ''
   /api/news/:
     get:
-      operationId: news_list
+      operationId: api_news_list
       parameters:
       - name: page
         required: false
@@ -217,7 +217,7 @@ paths:
         schema:
           type: integer
       tags:
-      - news
+      - api
       security:
       - cookieAuth: []
       - {}
@@ -230,7 +230,7 @@ paths:
           description: ''
   /api/news/{id}/:
     get:
-      operationId: news_retrieve
+      operationId: api_news_retrieve
       parameters:
       - in: path
         name: id
@@ -240,7 +240,7 @@ paths:
         description: A UUID string identifying this news item.
         required: true
       tags:
-      - news
+      - api
       security:
       - cookieAuth: []
       - {}
@@ -253,9 +253,9 @@ paths:
           description: ''
   /api/search/:
     get:
-      operationId: search_retrieve
+      operationId: api_search_retrieve
       tags:
-      - search
+      - api
       security:
       - cookieAuth: []
       - {}
@@ -266,9 +266,57 @@ paths:
               schema:
                 $ref: '#/components/schemas/SearchResponse'
           description: ''
+  /api/submissions/:
+    post:
+      operationId: api_submissions_create
+      tags:
+      - api
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SubmissionSubmit'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SubmissionSubmit'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubmissionSubmit'
+        required: true
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubmissionCreated'
+          description: ''
+  /api/submissions/{token}/:
+    get:
+      operationId: api_submissions_retrieve
+      parameters:
+      - in: path
+        name: token
+        schema:
+          type: string
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubmissionStatus'
+          description: ''
   /api/venues/:
     get:
-      operationId: venues_list
+      operationId: api_venues_list
       parameters:
       - name: page
         required: false
@@ -277,7 +325,7 @@ paths:
         schema:
           type: integer
       tags:
-      - venues
+      - api
       security:
       - cookieAuth: []
       - {}
@@ -290,7 +338,7 @@ paths:
           description: ''
   /api/venues/{id}/:
     get:
-      operationId: venues_retrieve
+      operationId: api_venues_retrieve
       parameters:
       - in: path
         name: id
@@ -300,7 +348,7 @@ paths:
         description: A UUID string identifying this venue.
         required: true
       tags:
-      - venues
+      - api
       security:
       - cookieAuth: []
       - {}
@@ -311,8 +359,47 @@ paths:
               schema:
                 $ref: '#/components/schemas/Venue'
           description: ''
+  /takedown/:
+    post:
+      operationId: takedown_create
+      tags:
+      - takedown
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TakedownRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TakedownRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TakedownRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TakedownResponse'
+          description: ''
 components:
   schemas:
+    ClaimTypeEnum:
+      enum:
+      - copyright
+      - privacy
+      - illegal_content
+      - other
+      type: string
+      description: |-
+        * `copyright` - Copyright
+        * `privacy` - Privacy
+        * `illegal_content` - Illegal content
+        * `other` - Other
     Day:
       type: object
       properties:
@@ -429,6 +516,14 @@ components:
       - day
       - id
       - title_es
+    KindEnum:
+      enum:
+      - image
+      - video_link
+      type: string
+      description: |-
+        * `image` - Image
+        * `video_link` - Video link
     MediaAsset:
       type: object
       properties:
@@ -681,6 +776,84 @@ components:
       - events
       - news
       - query
+    SubmissionCreated:
+      type: object
+      properties:
+        token:
+          type: string
+        status:
+          type: string
+      required:
+      - status
+      - token
+    SubmissionStatus:
+      type: object
+      properties:
+        status:
+          type: string
+        rejection_reason:
+          type: string
+      required:
+      - rejection_reason
+      - status
+    SubmissionSubmit:
+      type: object
+      properties:
+        kind:
+          $ref: '#/components/schemas/KindEnum'
+        rights:
+          type: boolean
+        video_url:
+          oneOf:
+          - type: string
+            format: uri
+          - type: string
+            maxLength: 0
+        author:
+          type: string
+        description:
+          type: string
+        minor_subject:
+          type: boolean
+        captcha:
+          type: string
+        website:
+          type: string
+        file:
+          type: string
+          format: uri
+          nullable: true
+      required:
+      - kind
+      - rights
+    TakedownRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        claim_type:
+          $ref: '#/components/schemas/ClaimTypeEnum'
+        name:
+          type: string
+        evidence_url:
+          oneOf:
+          - type: string
+            format: uri
+          - type: string
+            maxLength: 0
+        subject_type:
+          type: string
+      required:
+      - claim_type
+      - email
+    TakedownResponse:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+      - status
     Venue:
       type: object
       properties:

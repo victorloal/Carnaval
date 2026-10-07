@@ -228,6 +228,7 @@ data/raw/
 # Local uploads and images received from visitors (quarantine, moderation
 # artifacts, EXIF-stripping scratch space).
 data/uploads/
+data/quarantine/
 
 # Node — the diagram validator's dependencies (scripts/check-diagrams.cjs,
 # ADR 0014). package.json and package-lock.json ARE committed; the installed

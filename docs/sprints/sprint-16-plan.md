@@ -6,23 +6,26 @@
   takedown channel can actually pull content and answer a claim.
 - **Starts:** after Sprint 15 closes; nominal 2 weeks.
 - **WIP limit:** 2 items (ADR 0001)
+- **Status:** legal versioning and the takedown register are delivered; the **quarantine → public
+  move** (FR-F-09), the **rejected-upload policy** (FR-C-10), **PII purge**, **consent-gated
+  embeds** and **`Cache-Control` for personal data** are carried.
 
 ## Sprint backlog
 
 | # | Item | Requirement | Verification | Status |
 |---|---|---|---|---|
-| 1 | Approval moves the object from quarantine to public storage and creates a lawful `MediaAsset` | FR-F-09, ADR 0006 | test | Open |
-| 2 | Rejected uploads deleted or retained per a configurable policy, with the outcome recorded | FR-C-10 | test | Open |
-| 3 | `LegalDocument` versioned; one current version per `(doc_type, locale)` via a partial unique index | FR-G-01 | test | Open |
-| 4 | A published legal version is never edited in place; a change is a new version | FR-G-02 | test | Open |
-| 5 | Public takedown channel with a contact placeholder; claim types recorded | FR-G-03, FR-G-04 | test | Open |
-| 6 | `illegal_content` sets `escalated` and is never closed by an internal note alone | FR-G-05 | test | Open |
-| 7 | `action_taken` and `responded_at` recorded for every request | FR-G-06 | test | Open |
-| 8 | Video takedown removes the reference and contacts the provider | FR-G-07 | test | Open |
-| 9 | PII (`requester_email`, `contact_email`) with a retention deadline and a purge action | PRV-03, PRV-07 | test | Open |
-| 10 | Consent-gated embeds; no advertising or tracking cookies | PRV-08 | inspection | Open |
-| 11 | `Cache-Control` so responses with personal data are not shared-cached | PRV-09 | test | Open |
-| 12 | Status lookup returns the recorded reason for a rejection | FR-F-18 | test | Open |
+| 1 | Approval moves the object from quarantine to public storage and creates a lawful `MediaAsset` | FR-F-09, ADR 0006 | test | Open — carried (needs object storage) |
+| 2 | Rejected uploads deleted or retained per a configurable policy, with the outcome recorded | FR-C-10 | test | Open — carried |
+| 3 | `LegalDocument` versioned; one current version per `(doc_type, locale)` via a partial unique index | FR-G-01 | test | Done |
+| 4 | A published legal version is never edited in place; a change is a new version | FR-G-02 | test | Done |
+| 5 | Public takedown channel with a contact placeholder; claim types recorded | FR-G-03, FR-G-04 | test | Done |
+| 6 | `illegal_content` sets `escalated` and is never closed by an internal note alone | FR-G-05 | test | Done |
+| 7 | `action_taken` and `responded_at` recorded for every request | FR-G-06 | test | Done (fields + admin) |
+| 8 | Video takedown removes the reference and contacts the provider | FR-G-07 | test | Open — carried |
+| 9 | PII (`requester_email`, `contact_email`) with a retention deadline and a purge action | PRV-03, PRV-07 | test | Open — carried |
+| 10 | Consent-gated embeds; no advertising or tracking cookies | PRV-08 | inspection | Open — frontend |
+| 11 | `Cache-Control` so responses with personal data are not shared-cached | PRV-09 | test | Open — carried |
+| 12 | Status lookup returns the recorded reason for a rejection | FR-F-18 | test | Done |
 
 ### The move is the moment a file can leak
 

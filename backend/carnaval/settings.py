@@ -62,6 +62,8 @@ INSTALLED_APPS = [
     "carnaval.audit",
     "carnaval.moderation",
     "carnaval.editorial",
+    "carnaval.submissions",
+    "carnaval.legal",
 ]
 
 MIDDLEWARE = [
@@ -201,6 +203,27 @@ PRIVACY_IP_SALT = os.environ.get("PRIVACY_IP_SALT", SECRET_KEY)
 LOGIN_THROTTLE_THRESHOLD = int(os.environ.get("LOGIN_THROTTLE_THRESHOLD", "5"))
 LOGIN_THROTTLE_BASE_SECONDS = int(os.environ.get("LOGIN_THROTTLE_BASE_SECONDS", "60"))
 LOGIN_THROTTLE_MAX_SECONDS = int(os.environ.get("LOGIN_THROTTLE_MAX_SECONDS", "3600"))
+
+# Public submissions (v3). The CAPTCHA is off so development needs no keys;
+# production must enable it. The honeypot and the quotas are always active.
+SUBMISSION_MAX_UPLOAD_BYTES = int(
+    os.environ.get("SUBMISSION_MAX_UPLOAD_BYTES", str(5_000_000))
+)
+SUBMISSION_QUARANTINE_ROOT = Path(
+    os.environ.get("SUBMISSION_QUARANTINE_ROOT", str(REPO_DIR / "data" / "quarantine"))
+)
+SUBMISSION_IP_QUOTA_PER_HOUR = int(os.environ.get("SUBMISSION_IP_QUOTA_PER_HOUR", "5"))
+SUBMISSION_DAILY_PENDING_QUOTA = int(
+    os.environ.get("SUBMISSION_DAILY_PENDING_QUOTA", "100")
+)
+SUBMISSION_CAPTCHA_ENABLED = os.environ.get(
+    "SUBMISSION_CAPTCHA_ENABLED", ""
+).lower() in (
+    "1",
+    "true",
+    "yes",
+)
+SUBMISSION_CAPTCHA_SECRET = os.environ.get("SUBMISSION_CAPTCHA_SECRET", "")
 
 # Logging (NFR-19): console only. Nothing that carries a secret, a raw IP or a
 # session identifier is ever handed to it.

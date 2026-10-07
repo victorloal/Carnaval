@@ -6,6 +6,9 @@
   retrospective and a final reconciliation of documentation against reality.
 - **Starts:** after Sprint 16 closes; nominal 1–2 weeks.
 - **WIP limit:** 2 items (ADR 0001)
+- **Status:** the v3 **backend** is delivered; this launch sprint — the deployed security sweep,
+  the rehearsed privacy procedures, the backup rehearsal and the DNS/launch acts — is carried
+  and needs an environment and the maintainer's accounts.
 
 > This is the defensive pass before and after launch. No new features.
 

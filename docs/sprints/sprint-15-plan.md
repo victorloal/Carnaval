@@ -6,6 +6,9 @@
   quarantine and tied to a consented legal-text version. Abuse is bounded. Nothing is public.
 - **Starts:** after Sprint 14 closes **and** the v3 gate below is settled; nominal 2 weeks.
 - **WIP limit:** 2 items (ADR 0001)
+- **Status:** the submission **backend** is delivered (models, validation, endpoints, quotas);
+  the declared/detected mismatch (FR-F-04), the **signed-URL transfer** (SEC-13) and
+  **duplicate detection** (FR-F-21) are carried. The Turnstile provider itself is unverified.
 
 > **Gate before any code.** `ADR 0008` gated public submissions behind *reviewed* legal
 > documents; `ADR 0016` permanently declined professional review. This is settled **before the
@@ -16,18 +19,18 @@
 
 | # | Item | Requirement | Verification | Status |
 |---|---|---|---|---|
-| 1 | Anonymous image and video-link submission form | FR-F-01, FR-F-02 | tests | Open |
-| 2 | Magic-byte validation against a JPEG/PNG/WebP allowlist; declared/detected mismatch rejected | FR-F-03, FR-F-04, SEC-11 | tests | Open |
-| 3 | Full decode and re-encode, stripping embedded payloads | FR-F-05 | test | Open |
-| 4 | EXIF stripped unconditionally, including GPS, with no config to retain it | FR-F-06, PRV-04 | test | Open |
-| 5 | Quarantine storage, not publicly readable; written via a short-lived signed URL | FR-F-07, SEC-12, SEC-13 | test | Open |
-| 6 | Consent checkbox unchecked by default and blocking; `ConsentRecord` bound to the exact legal version | FR-F-10, FR-F-11, PRV-05 | tests | Open |
-| 7 | CAPTCHA + honeypot; per-IP counts, size limits, global daily pending quota | FR-F-16, FR-F-17, SEC-14 | tests | Open |
-| 8 | Only a **salted** IP hash is stored; no raw IP anywhere, including logs | FR-F-12, PRV-01, PRV-02 | test | Open |
-| 9 | Video links restricted to YouTube/Vimeo, normalised to provider + id; the URL is never an embed `src` | FR-F-02, FR-F-19, ADR 0007 | test | Open |
-| 10 | Status lookup by unguessable `public_token`; an invalid token reveals nothing | FR-F-18 | test | Open |
-| 11 | Duplicate submissions detected by content hash and flagged for the reviewer | FR-F-21 | test | Open |
-| 12 | Submissions enter the moderation queue as `pending`, `origin = community` | FR-F-22, LEG-01 | test | Open |
+| 1 | Anonymous image and video-link submission form | FR-F-01, FR-F-02 | tests | Done |
+| 2 | Magic-byte validation against a JPEG/PNG/WebP allowlist; declared/detected mismatch rejected | FR-F-03, FR-F-04, SEC-11 | tests | Magic bytes Done; mismatch (FR-F-04) carried |
+| 3 | Full decode and re-encode, stripping embedded payloads | FR-F-05 | test | Done |
+| 4 | EXIF stripped unconditionally, including GPS, with no config to retain it | FR-F-06, PRV-04 | test | Done |
+| 5 | Quarantine storage, not publicly readable; written via a short-lived signed URL | FR-F-07, SEC-12, SEC-13 | test | Private quarantine Done; signed URL carried |
+| 6 | Consent checkbox unchecked by default and blocking; `ConsentRecord` bound to the exact legal version | FR-F-10, FR-F-11, PRV-05 | tests | Done |
+| 7 | CAPTCHA + honeypot; per-IP counts, size limits, global daily pending quota | FR-F-16, FR-F-17, SEC-14 | tests | Done (Turnstile provider unverified) |
+| 8 | Only a **salted** IP hash is stored; no raw IP anywhere, including logs | FR-F-12, PRV-01, PRV-02 | test | Done |
+| 9 | Video links restricted to YouTube/Vimeo, normalised to provider + id; the URL is never an embed `src` | FR-F-02, FR-F-19, ADR 0007 | test | Done |
+| 10 | Status lookup by unguessable `public_token`; an invalid token reveals nothing | FR-F-18 | test | Done |
+| 11 | Duplicate submissions detected by content hash and flagged for the reviewer | FR-F-21 | test | Open — carried |
+| 12 | Submissions enter the moderation queue as `pending`, `origin = community` | FR-F-22, LEG-01 | test | Done |
 
 ### The main attack surface
 
