@@ -59,7 +59,7 @@ Stated here so the letter makes no promise the project does not keep.
 | **Availability** | The database is the source of truth. If the official site disappeared tomorrow, the site would keep serving what it already holds |
 | **Affiliation** | **None.** The site is unofficial, states so on every page including error pages, and is not affiliated with, endorsed by, or official with Corpocarnaval or any parade organiser. The name is used descriptively to refer to the event, never as a brand |
 | **Publication** | Every item is staged as `pending` and published only after a human reviews it. Nothing goes live automatically |
-| **Takedown** | A published contact address, a documented removal procedure, and no deadline — a removal request is never refused for arriving late |
+| **Takedown** | A published contact address and a documented removal procedure with stated deadlines (acknowledge 7 days, resolve 30; ADR 0018) — a removal request is never refused for arriving late |
 | **Nature of the project** | Personal, non-commercial. No advertising, no ticket sales, no user accounts, no monetisation of any kind. The source code is public under the MIT licence (code only, never content) |
 
 ## 4. The letter

@@ -56,6 +56,25 @@ Phase 0 (documentation) is **closed**. No deployed version yet — see the statu
 - **PRV-09:** the submission endpoints answer `Cache-Control: private, no-store`.
 - 133 backend tests (was 127) and 27 frontend tests (was 24); no OpenAPI drift.
 
+### Changed — ADR 0018: the v3 legal gate is resolved (2026-10-07)
+
+- **ADR 0018** amends ADR 0008's gate: public submissions ship under the **permanently
+  labelled draft** legal texts (ADR 0016). The "reviewed legal documents" condition becomes
+  "published as labelled drafts"; moderation, the takedown register and blocking consent
+  bound to a `legal_documents` version stand unchanged.
+- Operational defaults are set by the maintainer as **revisable choices, not legal advice**:
+  retention (consent 24 months; contact email 12 months after a decision; takedown email 24
+  months after `responded_at`; rejected files deleted on rejection; `raw_documents` 30 days;
+  `audit_logs` and `ingestion_runs` bounded) and takedown deadlines (acknowledge 7 days,
+  resolve 30, minor-privacy claims prioritised at 48 h, unlawful content escalated
+  immediately and never closed by a note). This unblocks **PRV-06**.
+- ADR 0008, ADR 0016, `docs/legal/README.md` §2.1, the privacy policy §5, the takedown
+  procedure §4 and `estados.md` §5 are updated to match. The legal-analysis items (legal
+  basis per activity, supervisory-authority registration, liability/jurisdiction wording) stay
+  unresolved by decision — they are not invented.
+- The matrix's **Blocked** row disappears: **132 Done / 37 Open / 0 blocked**. This decision is
+  conditional on scale and must be revisited before any commercial use.
+
 
 
 ### Added — project scaffolding

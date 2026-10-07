@@ -63,8 +63,8 @@ assumed.
 
 1. **Moving objects between buckets is where a file can leak** — tested for the pre-approval
    state.
-2. **Legal drafts are drafts (ADR 0016)** — the takedown procedure has no deadline; the
-   limitation stays stated on the site, not hidden.
+2. **Legal drafts are drafts (ADR 0016)** — the takedown deadlines are the maintainer's
+   operational defaults (ADR 0018); the limitation stays stated on the site, not hidden.
 3. **Scope** — approval/storage-move and takedown/legal can be two sprints; the storage move is
    the release-critical half.
 

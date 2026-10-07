@@ -48,7 +48,7 @@ accounts and is carried (ADR 0015 is Proposed).
 | MVP | Ingestion pipeline, database, public API, frontend | Backend done; programme UI done; deployment carried |
 | v1 | Django admin, roles, review queue, audit log | Backend done |
 | v2 | News, historical gallery with citations, site settings | Backend done; news + search UI done; gallery UI carried |
-| v3 | Public submissions, moderation, legal documents | Backend done; submission form carried (v3 legal gate, ADR 0008 vs 0016) |
+| v3 | Public submissions, moderation, legal documents | Backend done; gate resolved (ADR 0018); submission form buildable |
 
 CI runs the suite on SQLite and on **PostgreSQL 16**, audits dependencies with `pip-audit`,
 and checks the frontend (`tsc`, eslint, vitest, build). The browser stages — Playwright E2E,

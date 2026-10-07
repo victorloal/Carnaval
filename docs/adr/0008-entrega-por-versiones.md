@@ -35,6 +35,9 @@ Supporting rules:
   reviewed legal documents. Publishing an upload path before moderation exists and before
   the takedown and privacy documents are written would create legal exposure and an
   unmoderated channel on the public site.
+  **Amended by ADR 0018 (2026-10-07):** the "reviewed legal documents" condition is replaced
+  by "legal texts published as permanently labelled drafts" (ADR 0016). The rest of the gate —
+  moderation, the takedown register, blocking consent — stands.
 - Anything not required by the current version's SRS is deferred, including ideas that
   appear mid-sprint. They go to the backlog, not into the sprint.
 

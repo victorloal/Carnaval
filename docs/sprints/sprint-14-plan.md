@@ -41,7 +41,7 @@
 
 | Deferred | Why it waits |
 |---|---|
-| Public submissions | v3; the gate (ADR 0008 vs 0016) must be settled first |
+| Public submissions | v3; the gate was settled by ADR 0018 (2026-10-07) |
 
 ## Risks
 

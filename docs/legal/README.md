@@ -15,11 +15,11 @@
 > and nobody should rely on it. Colombian data-protection law applies to this site whether or
 > not anyone reviewed these words — that exposure is accepted knowingly.
 
-- **Status:** Drafts, permanently unreviewed by decision (ADR 0016)
-- **Date:** 2026-10-03 (drafted), 2026-10-04 (status fixed)
+- **Status:** Drafts, permanently unreviewed by decision (ADR 0016); v3 ships under them (ADR 0018)
+- **Date:** 2026-10-03 (drafted), 2026-10-04 (status fixed), 2026-10-07 (v3 gate resolved, ADR 0018)
 - **Relates to:** brief §10 (public submissions and consent), §11 (legal and ethical
   considerations), §20 (open items); `docs/00-acta-proyecto.md` §4.2, §5, §9; ADR 0004,
-  ADR 0006, ADR 0007, ADR 0008, ADR 0010, **ADR 0016**; `docs/02-diseno/modelo-datos.md`
+  ADR 0006, ADR 0007, ADR 0008, ADR 0010, **ADR 0016**, **ADR 0018**; `docs/02-diseno/modelo-datos.md`
   §6.3–§6.6, §8; `docs/fuentes-y-atribucion.md`
 
 ## 1. What is in this directory
@@ -59,15 +59,22 @@ agreement is required from any provider, the legal basis for each processing act
 retention periods, the limitation-of-liability clause, and the jurisdiction clause. **None of
 these is now verified, and none of them will be.**
 
-### 2.1 The unresolved consequence for v3
+### 2.1 The consequence for v3 — resolved
 
 ADR 0008 placed public submissions last *because* they are gated behind working moderation
-**and reviewed legal documents**. Review has been declined, so **that gate is unsatisfied**.
-Shipping anonymous public uploads under permanently unreviewed drafts would contradict the
-reasoning of ADR 0008.
+**and reviewed legal documents**. Review was declined (ADR 0016), which left that gate
+unsatisfied. On 2026-10-07 the maintainer settled it: **v3 ships under these labelled drafts**
+(ADR 0018). The "reviewed legal documents" condition becomes "legal texts published as
+permanently labelled drafts"; the rest of the gate — moderation, the takedown register,
+blocking consent bound to a `legal_documents` version — stands.
 
-This is deliberately left undecided. It must be settled before v3 begins, by someone who can
-see the conflict — not at the moment someone starts writing the upload form.
+Consequences a builder must honour:
+
+- The submission consent states that the accepted text is an **unreviewed draft** (ADR 0016
+  §2). A visitor is entitled to know what they are accepting.
+- Retention and takedown deadlines are the maintainer's operational defaults (ADR 0018), not
+  counsel's. They are revisable, and this decision is **conditional on scale**: before any
+  commercial use, or material growth, it must be revisited.
 
 ## 3. Versioning
 
@@ -139,20 +146,26 @@ close it. The distinction matters for the implementer: a `[PENDIENTE]` is not an
 fix silently, and *no* deadline in this directory may be invented to make a feature
 complete.
 
+> **Exception, 2026-10-07.** The **operational** parameters that v3 needs to ship — retention
+> periods and takedown deadlines — were set by the maintainer as revisable defaults (ADR
+> 0018), because they are engineering choices rather than legal analysis. The items that *are*
+> legal analysis (legal basis, authority registration, liability/jurisdiction wording) remain
+> unresolved above and below.
+
 | Placeholder | Lives in | Status |
 |---|---|---|
 | ~~Identity and contact details of the project and its maintainer~~ | all four documents | **Resolved** — `victorloal513@gmail.com`, 2026-10-04. The maintainer's name is stated; a verifiable postal address is still absent |
 | ~~Named contact channel for takedown requests~~ | terms, content policy, privacy, takedown | **Resolved** — the same address, published in `README.md` and in the scraper's `User-Agent` |
-| Retention periods, in days, per data category | privacy | **Unresolved by decision** — needs legal judgement (ADR 0016) |
+| Retention periods, in days, per data category | privacy | **Resolved** — operational defaults set by the maintainer (ADR 0018): consent 24 months, contact email 12 months after a decision, takedown email 24 months after `responded_at`, rejected files deleted on rejection, `raw_documents` 30 days, `audit_logs` 24 months, `ingestion_runs` 12 months |
 | Formal data-subject request procedure and its response deadline | privacy | **Unresolved by decision** — needs legal judgement |
 | Legal basis per processing activity | privacy | **Unresolved by decision** — this one was going to be settled by review; it now will not be |
 | Whether a registration with a supervisory authority is required | privacy | **Unresolved by decision** |
-| Acknowledgement and resolution deadlines for takedown requests | takedown | **Unresolved by decision.** Consequence, stated rather than implied: **the takedown procedure has no deadline**, which means no claim is ever refused for being late |
+| Acknowledgement and resolution deadlines for takedown requests | takedown | **Resolved** by ADR 0018 — acknowledge 7 days, resolve 30 days; minors prioritised at 48 h; unlawful content escalated immediately |
 | Authorities and hotlines to escalate illegal content to | takedown | **Unresolved by decision** |
 | Liability cap wording and jurisdiction clause | terms | **Unresolved by decision** |
 | Ingestion command for loading documents into `legal_documents` | this file | Open — engineering work, belongs to v1/v2 tooling |
 | Consent-to-locale binding rule | this file | Open — engineering decision, belongs to v3 |
-| ADR 0008's "reviewed legal documents" gate for v3 | ADR 0008, `docs/legal/README.md` §2.1 | **Open conflict**, deliberately not resolved here |
+| ADR 0008's "reviewed legal documents" gate for v3 | ADR 0008, `docs/legal/README.md` §2.1 | **Resolved** by ADR 0018 — v3 ships under these labelled drafts |
 
 ## 6. Related documents
 
@@ -162,7 +175,9 @@ complete.
 - ADR 0004 — MIT covers code only; `rights_status = unknown` is never published.
 - ADR 0006 — quarantine and public tiers; EXIF/GPS stripped before storage.
 - ADR 0007 — videos are external embeds; takedown of a video means contacting the provider.
-- ADR 0008 — public submissions are gated behind moderation and reviewed legal documents.
-  **Its "reviewed" half is unsatisfiable now** — see §2.1.
+- ADR 0008 — public submissions are gated behind moderation and legal documents. **Its
+  "reviewed" half is amended by ADR 0018** — see §2.1.
 - ADR 0010 — bilingual `es`/`en`; legal documents are not machine-translated.
 - ADR 0016 — these texts ship as permanently labelled drafts; no professional review.
+- ADR 0018 — **v3 ships under these drafts**; retention and takedown defaults are the
+  maintainer's, revisable, and conditional on scale.

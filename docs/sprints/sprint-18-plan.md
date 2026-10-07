@@ -62,7 +62,7 @@ browsers send imperfect content types and a rule that reddens on that would be t
 | The news transform (FR-E-02/03) | Needs a chosen news source |
 | Per-locale slugs (FR-H-07/09), verbatim citations with a translation | Its own unit |
 | PII purge (PRV-03/07) | Needs the retention window PRV-06 blocks |
-| The submission form | v3 legal gate (ADR 0008 vs 0016), still undecided |
+| The submission form | Gate settled by ADR 0018 (2026-10-07); buildable as Sprint 19 |
 | Browser E2E, Lighthouse, axe | Need a browser environment |
 
 ## Risks

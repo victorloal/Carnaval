@@ -7,24 +7,24 @@
 > **ADR 0016**. It states no Colombian legal conclusions, no statute or decree references,
 > and no case law — in particular **no authority names and no hotline numbers**, because
 > inventing or mis-transcribing one in an escalation document is worse than leaving a marked
-> gap. Bracketed `[PENDIENTE: …]` items are **unresolved by decision, not by oversight**,
-> including every deadline. No implementer may fill one with a plausible value.
+> gap. Bracketed `[PENDIENTE: …]` items are **unresolved by decision, not by oversight**. The
+> **deadlines are the exception**: they were set as revisable operational defaults by the
+> maintainer (**ADR 0018**).
 > **Do not rely on it.**
 >
-> **The consequence worth stating plainly: this procedure has no deadline.** Acknowledgement
-> and resolution times are `[PENDIENTE]` and will stay that way. In practice that means no
-> claim is ever refused for arriving late, and no claim is ever closed on a timer — which is
-> the safer default, but it is a default, not a designed process. Brief §20 also lists
-> *"definir el procedimiento de moderación y de denuncia de contenido ilegal"* as a separate
-> open item — this file is a draft of that procedure, not its resolution.
+> **Deadlines (ADR 0018):** acknowledge within **7 days**, resolve within **30 days**,
+> guardian requests about minors prioritised at **48 hours**, and unlawful content escalated
+> **immediately** and never closed by a note. No claim is ever refused for arriving late.
+> Brief §20 also lists *"definir el procedimiento de moderación y de denuncia de contenido
+> ilegal"* as a separate open item — this file is a draft of that procedure.
 
-- **Status:** Draft, permanently unreviewed (ADR 0016)
+- **Status:** Draft, permanently unreviewed (ADR 0016); deadlines set operationally (ADR 0018)
 - **Version in database:** `legal_documents` row to be created. `is_current = true` is
   permitted and the row records that the text was never professionally reviewed (ADR 0016
   §1).
 - **Audience:** the moderator (the sole maintainer, `admin` + `editor` roles)
 - **Relates to:** brief §10, §11, §14; `docs/00-acta-proyecto.md` §4.2, §8; ADR 0004,
-  ADR 0006, ADR 0007, ADR 0008, **ADR 0016**; `docs/02-diseno/modelo-datos.md` §2, §6.5,
+  ADR 0006, ADR 0007, ADR 0008, **ADR 0016**, **ADR 0018**; `docs/02-diseno/modelo-datos.md` §2, §6.5,
   §6.6, §8
 
 ## 1. Purpose and scope
@@ -81,19 +81,21 @@ refuse it.
 
 ## 4. Deadlines
 
-**Both deadlines below are unresolved and must be set before v3 launches.** They are written
-into the published procedure so a rights holder knows what to expect.
+**These deadlines are the maintainer's operational defaults (ADR 0018)**, not legal advice.
+They are written into the published procedure so a rights holder knows what to expect, and
+they are deliberately short because the remedy — removing a link or an image — is cheap.
 
 | Step | Deadline |
 |---|---|
-| Acknowledge receipt | `[PENDIENTE: N days from received_at]` |
-| Resolve — `actioned`, `rejected`, or `escalated` | `[PENDIENTE: N days from received_at]` |
-| Guardian requests about minors (`privacy` + `minor_subject`) | `[PENDIENTE: shorter deadline]` |
-| Unlawful content (`illegal_content`) | `[PENDIENTE: immediate escalation obligation]` |
-| Responding to the organisers if they ask for material to be removed | `[PENDIENTE: N days]` |
+| Acknowledge receipt | **7 days from `received_at`** |
+| Resolve — `actioned`, `rejected`, or `escalated` | **30 days from `received_at`** |
+| Guardian requests about minors (`privacy` + `minor_subject`) | **prioritised: acknowledge within 48 hours** |
+| Unlawful content (`illegal_content`) | **escalated immediately** — never closed by a note (the model enforces this) |
+| Responding to the organisers if they ask for material to be removed | **7 days** |
+| Retention of `requester_email` | **24 months after `responded_at`** (ADR 0018) |
 
-Setting a deadline the maintainer cannot keep is worse than publishing none. These must be
-chosen against the reality of a single part-time operator.
+Setting a deadline the maintainer cannot keep is worse than publishing none. These are chosen
+against the reality of a single part-time operator: 7 days to acknowledge, 30 to resolve.
 
 ## 5. Triage procedure
 
@@ -277,7 +279,7 @@ Per request, in order:
 
 - [ ] `takedown_requests` row created with `subject_type`, `subject_id`, `requester_email`,
       `claim_type`, `received_at`; `status = received`
-- [ ] Acknowledgement sent within `[PENDIENTE: N days]`
+- [ ] Acknowledgement sent within **7 days**
 - [ ] Is this `illegal_content`? → stop visibility first, then escalate; **never** publish,
       redistribute, or serve it while pending
 - [ ] Is a minor the focal subject and no guardian authorisation on file? → withdraw,
@@ -294,8 +296,8 @@ Per request, in order:
 - [ ] `action_taken` written in plain language, naming what was done
 - [ ] `responded_at` set **after** the reply was actually sent
 - [ ] `notes` added if the reasoning is not obvious from the above
-- [ ] Retention deadlines for `requester_email` noted (`[PENDIENTE: N days after
-      responded_at]`)
+- [ ] Retention deadlines for `requester_email` noted (**24 months after
+      responded_at**)
 - [ ] Repeat-infringer pattern checked against `moderation_actions`
 
 ## 11. Contacts

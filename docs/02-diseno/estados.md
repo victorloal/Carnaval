@@ -190,7 +190,8 @@ writes the same `moderation_actions` and `audit_logs` rows as an approval.
 ## 5. Lifecycle of a public submission
 
 v3 only (ADR 0008): public submissions are deliberately last, gated behind working
-moderation and reviewed legal documents. This is intake plus moderation, and it is the only
+moderation and legal documents published as **labelled drafts** (ADR 0018, amending ADR
+0008). This is intake plus moderation, and it is the only
 path in the project where anonymous, untrusted input reaches the database. A submission
 follows the same moderation path as everything else and enters as `pending` (FR-F-22).
 

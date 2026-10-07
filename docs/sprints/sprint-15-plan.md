@@ -4,17 +4,18 @@
 - **Sprint goal:** A visitor can submit an **image** or a **video link** with no account.
   Every upload is validated by content, re-encoded, stripped of metadata, stored in
   quarantine and tied to a consented legal-text version. Abuse is bounded. Nothing is public.
-- **Starts:** after Sprint 14 closes **and** the v3 gate below is settled; nominal 2 weeks.
+- **Starts:** after Sprint 14 closes; the v3 gate was settled by ADR 0018 on 2026-10-07; nominal 2 weeks.
 - **WIP limit:** 2 items (ADR 0001)
 - **Status:** the submission **backend** is delivered (models, validation, endpoints, quotas);
   the declared/detected mismatch (FR-F-04) and **duplicate detection** (FR-F-21) landed in
   Sprint 18. The **signed-URL transfer** (SEC-13) is carried, and the Turnstile provider
   itself is unverified.
 
-> **Gate before any code.** `ADR 0008` gated public submissions behind *reviewed* legal
-> documents; `ADR 0016` permanently declined professional review. This is settled **before the
-> form exists** — either the gate is amended by a new ADR, or submissions ship under labelled
-> drafts with the risk accepted and stated. If it is not settled, this sprint does not start.
+> **Gate — settled 2026-10-07.** `ADR 0008` gated public submissions behind *reviewed* legal
+> documents; `ADR 0016` permanently declined professional review. **`ADR 0018` amends the
+> gate**: v3 ships under the labelled drafts, with retention and takedown deadlines set as the
+> maintainer's operational defaults. The form may be built; its consent copy must state that
+> the accepted text is an unreviewed draft.
 
 ## Sprint backlog
 

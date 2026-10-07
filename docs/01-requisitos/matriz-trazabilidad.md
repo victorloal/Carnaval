@@ -243,7 +243,7 @@ no requirement should be deleted.
 | PRV-03 | US-30 | legal/privacidad | 0008 | T | **SEC-33** | Open |
 | PRV-04 | US-22 | modelo-datos §8 | 0006 | T | **SEC-21** | Done |
 | PRV-05 | US-23 | modelo-datos §6.3 | 0006 | T | **SEC-28** | Done |
-| PRV-06 | US-27 | legal/privacidad | 0008 | I | inspection | **Blocked — ADR 0016.** Retention periods need legal judgement that will not be obtained. The requirement is left intact rather than weakened; do not fill it with a plausible value |
+| PRV-06 | US-27 | legal/privacidad | 0008 | I | inspection: policy names periods | Done — ADR 0018 |
 | PRV-07 | US-30 | legal/privacidad | 0008 | A | inspection: procedure | Open |
 | PRV-08 | US-27 | legal/privacidad | 0007 | T | E2E: consent gate | Open |
 | PRV-09 | US-22 | plan-pruebas | 0005 | T | **SEC-49** | Done |
@@ -272,14 +272,14 @@ no requirement should be deleted.
 | FR-A … FR-I (functional) | 114 | 96 | 18 | 0 |
 | NFR | 21 | 14 | 7 | 0 |
 | SEC | 16 | 11 | 5 | 0 |
-| PRV | 9 | 5 | 3 | 1 |
+| PRV | 9 | 6 | 2 | 0 |
 | LEG | 10 | 5 | 5 | 0 |
-| **Total** | **170** | **131** | **38** | **1** |
+| **Total** | **170** | **132** | **37** | **0** |
 
 **Done** means the row's verification was performed and recorded. **Open** is the honest
 default for a row whose verification has not run — most of them need a deployment, a
-browser or a bucket, not new code. **Blocked** is PRV-06, which ADR 0016 left without the
-legal judgement its retention periods require.
+browser or a bucket, not new code. There is no **Blocked** row: PRV-06 was unblocked by
+ADR 0018, which set the retention periods as the maintainer's operational defaults.
 
 The four backend versions (MVP, v1, v2, v3) are delivered and their tests pass; the Open
 rows are dominated by frontend, deployment/E2E and storage-dependent verification. This

@@ -6,9 +6,11 @@
 > 2026-10-04 and is recorded in **ADR 0016**. It describes data handling in engineering
 > terms and reaches **no legal conclusions** about Colombian law: no statute articles, no
 > decrees, no case law, no verification of any obligation. Bracketed `[PENDIENTE: …]` items
-> are **unresolved by decision, not by oversight** — including every retention period and the
-> entire data-subject request procedure, which is exactly what professional review would have
-> settled. No implementer may fill one with a plausible value.
+> are **unresolved by decision, not by oversight**. The retention periods and takedown
+> deadlines are the exception: they were set as revisable operational defaults by the
+> maintainer (**ADR 0018**). The items that are legal analysis — legal basis per activity,
+> supervisory-authority registration — stay unresolved, and no implementer may fill one with a
+> plausible value.
 > **Do not rely on it.** Ley 1581 de 2012 applies to this site's processing whether or not
 > anyone reviewed this notice.
 >
@@ -16,12 +18,12 @@
 > notice is expected to be Spanish; this English draft is provided for readability. ADR 0016
 > keeps the draft rather than replacing it with a reviewed version.
 
-- **Status:** Draft, permanently unreviewed (ADR 0016)
+- **Status:** Draft, permanently unreviewed (ADR 0016); retention set operationally (ADR 0018)
 - **Version in database:** `legal_documents` row to be created. `is_current = true` is
   permitted and the row records that the text was never professionally reviewed (ADR 0016
   §1).
 - **Relates to:** brief §10, §11, §14; `docs/00-acta-proyecto.md` §4.2, §6; ADR 0005,
-  ADR 0006, ADR 0007, **ADR 0016**; `docs/02-diseno/modelo-datos.md` §5, §6.3, §8
+  ADR 0006, ADR 0007, **ADR 0016**, **ADR 0018**; `docs/02-diseno/modelo-datos.md` §5, §6.3, §8
 
 ## 1. Who handles your data
 
@@ -112,19 +114,20 @@ personales de la autoridad de control competente, y con qué periodicidad]`
 
 ## 5. Retention and deletion
 
-**Every period below is unresolved.** No period may be invented by an implementer, and no
-feature may ship with an indefinite default.
+**Every period below is set** as a revisable operational default by the maintainer (**ADR
+0018**), not as legal advice. The number is the decision; the mechanism that enforces it is
+listed beside it, because naming a period without a purge job enforces nothing.
 
 | Category | Period | Note |
 |---|---|---|
-| `consent_records` (with its `ip_hash`) | `[PENDIENTE: N days from acceptance]` | Must outlive moderation of the submission; must not outlive its justification |
-| `submissions.contact_email` | `[PENDIENTE: N days after the submission is decided]` | Modelo-datos §8 says this field carries a deletion deadline once the matter is closed |
-| `takedown_requests.requester_email` | `[PENDIENTE: N days after `responded_at`]` | Same rule: a reply is required, indefinite storage is not |
-| Rejected upload files in quarantine | `[PENDIENTE: N days from rejection]` | ADR 0006: rejection deletes the file or retains it per the retention policy |
-| `raw_documents` (ingested payloads) | `[PENDIENTE: N documents per source / N days]` | Open question 3 in modelo-datos §10; also bounds free-tier storage |
-| `audit_logs` | `[PENDIENTE: N days]` | Tension: the audit trail is evidence in a dispute, so shortening it can destroy the proof a rights holder needs. Decide deliberately, per event class |
-| `django_session` rows | `[PENDIENTE: N days after expiry]` | Expired sessions are among the few things that may be hard-deleted (modelo-datos §1) |
-| `ingestion_runs` | `[PENDIENTE: N days]` | Operational, contains no personal data beyond a hashed IP |
+| `consent_records` (with its `ip_hash`) | **24 months from acceptance** | Must outlive moderation of the submission; must not outlive its justification. Purged by the PII job (PRV-03, not yet built) |
+| `submissions.contact_email` | **12 months after the submission is decided** | Modelo-datos §8 says this field carries a deletion deadline once the matter is closed. Purged by the PII job |
+| `takedown_requests.requester_email` | **24 months after `responded_at`** | Same rule: a reply is required, indefinite storage is not |
+| Rejected upload files in quarantine | **deleted immediately on rejection** | Implemented (FR-C-10, ADR 0006) |
+| `raw_documents` (ingested payloads) | **30 days, plus a per-source byte cap** | Implemented (`prune_raw_documents`, ADR 0013) |
+| `audit_logs` | **24 months** | Tension: the audit trail is evidence in a dispute, so shortening it can destroy the proof a rights holder needs. 24 months is a deliberate balance, revisable per event class |
+| `django_session` rows | **removed once expired** | Django `clearsessions`, scheduled |
+| `ingestion_runs` | **12 months** | Operational, contains no personal data beyond a hashed IP |
 
 Deletion means **hard deletion of the row or the object**, not anonymisation by default.
 Where a record must be kept as evidence, keep the evidence and drop the personal data, and
@@ -151,10 +154,13 @@ have accounts** (brief §4). There is therefore no account identifier to look up
 most cases the site cannot even confirm whether a given person submitted anything. That does
 not excuse ignoring a request — it defines what the response will often be.
 
-`[PENDIENTE: procedimiento formal de atención de derechos — canal, plazo de respuesta,
-identificación del solicitante, y forma de respuesta]`
-
-`[PENDIENTE: plazo máximo de respuesta a una solicitud de derechos]`
+**Procedure (operational default, ADR 0018).** A data-subject request arrives at
+**victorloal513@gmail.com** and is answered within **15 business days**. Because contributors
+have no accounts, the request should identify the item (for example its status token, the
+approximate date, or the submission itself); the response is best-effort, and where the site
+cannot confirm whether the person submitted anything, it says so plainly. Rectification or
+deletion of a personal field is a **hard delete** where no overriding reason to keep it
+exists, and the action is recorded in the request's `notes`.
 
 ## 7. Minors
 
@@ -164,16 +170,16 @@ identificación del solicitante, y forma de respuesta]`
   (`minor_subject` + `guardian_consent_on_file`, and the contributor's
   `declaration_minor_subject`). See `politica-de-contenido-y-publicacion.md` §5.
 - A guardian who wants an image removed should use the takedown procedure. Such a request
-  is treated as a `privacy` claim and is prioritised. `[PENDIENTE: plazo de respuesta
-  prioritario para solicitudes de menores]`
+  is treated as a `privacy` claim and is prioritised — **acknowledged within 48 hours**
+  (ADR 0018).
 
 ## 8. Cookies
 
 | Cookie | Set by | Purpose | Lifetime |
 |---|---|---|---|
-| Session cookie | Django | Authenticates an **admin** session. Carries only a session key — **no token of any kind** — in `httpOnly`, `Secure`, `SameSite=Lax` (ADR 0005) | `[PENDIENTE: N days idle / absolute]` |
+| Session cookie | Django | Authenticates an **admin** session. Carries only a session key — **no token of any kind** — in `httpOnly`, `Secure`, `SameSite=Lax` (ADR 0005) | **12 h idle / 72 h absolute** (ADR 0005, ADR 0013) |
 | CSRF cookie | Django | Protects mutating requests | Session |
-| Locale preference | Frontend | Remembers the visitor's `es`/`en` choice, per ADR 0010. **Necessary for the choice to work; requires no account** | `[PENDIENTE: N days]` |
+| Locale preference | Frontend | Remembers the visitor's `es`/`en` choice, per ADR 0010. **Necessary for the choice to work; requires no account** | **12 months** |
 
 **No third-party tracking, analytics, advertising, or profiling cookies are used.** The site
 has no ad tech, no analytics, and no social embeds. This is a deliberate constraint from
@@ -228,7 +234,7 @@ tracking occurs during normal reading.
 ## 11. Contact, requests, and complaints
 
 - Personal data requests: **victorloal513@gmail.com**
-- Rights or complaints about this notice: `[PENDIENTE: procedimiento y plazo de respuesta]`
+- Rights or complaints about this notice: the procedure in §6 — **15 business days**
 - Takedown and removal requests: `procedimiento-retiro-y-takedown.md`
 - **A complaint may be escalated to the competent Colombian data-protection authority**
   (*derecho de reclamo*). `[PENDIENTE: confirmar el nombre y el canal de la autoridad

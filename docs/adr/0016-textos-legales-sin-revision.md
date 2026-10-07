@@ -77,6 +77,12 @@ options are visibly: v3 never ships, v3 ships under drafts with the exposure sta
 form, or a reviewer is found. Choosing is the maintainer's; this ADR only makes sure the
 choice is made with the conflict visible.
 
+> **Resolved by ADR 0018 (2026-10-07).** The maintainer chose the second option: v3 ships
+> under the labelled drafts, with the exposure stated on the form, and with operational
+> retention and takedown defaults set by the maintainer. The paragraphs above are kept as the
+> record of why the conflict was left open for three days; they are no longer the current
+> state.
+
 ## Consequences
 
 **Positive**
@@ -130,4 +136,6 @@ choice is made with the conflict visible.
   obligation instead of a professional review.
 - The consent checkbox copy in the v3 design states that the accepted text is an unreviewed
   draft. (Not buildable until v3 is decided — carried in the sprint that starts it.)
-- The unresolved v3 conflict in ADR 0008 is visible wherever v3 is described.
+- The unresolved v3 conflict in ADR 0008 is visible wherever v3 is described. **Resolved by
+  ADR 0018 (2026-10-07):** v3 ships under these drafts, so the conflict is now a decision, not
+  a gap.
