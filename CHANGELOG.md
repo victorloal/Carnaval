@@ -144,6 +144,21 @@ Phase 0 (documentation) is **closed**. No deployed version yet — see the statu
 - HTTP is mocked; the `wp_posts` and `wp_posts_empty` fixtures drive the transform and the
   zero-extraction alarm. No test touches the network (NFR-16).
 
+### Added — Sprint 05: the public read API (2026-10-06)
+
+- A new `carnaval.api` app: read-only endpoints for **editions, days, events and venues**
+  (FR-A-07). Every queryset starts from `status = published`, so a `pending` or `rejected`
+  row is a 404 (FR-A-06, SEC-47); the viewsets opt in to `AllowAny` explicitly and expose no
+  non-GET route (NFR-18).
+- Filtering by edition (year) and by date range, and page-number pagination (FR-A-11).
+- Anonymous requests are rate-limited per IP (NFR-17); public reads carry
+  `Cache-Control: public, max-age=300` (NFR-02).
+- `/health` reports application and database reachability and discloses nothing else
+  (FR-D-11).
+- The generated schema now covers the catalogue and drift is checked in CI (NFR-12, ADR 0011).
+- `django-filter==26.2` added; `rest_framework`/`django_filters` joined the mypy
+  missing-import override because neither ships `py.typed`.
+
 ### Added — forward sprint plans (2026-10-06)
 
 - `docs/sprints/sprint-03-plan.md` … `sprint-17-plan.md` — the planned path from the extractor

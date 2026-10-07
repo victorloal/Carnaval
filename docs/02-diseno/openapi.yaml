@@ -3,5 +3,458 @@ info:
   title: Carnaval de Pasto API
   version: 1.0.0
   description: API for Carnaval de Pasto project
-paths: {}
-components: {}
+paths:
+  /api/days/:
+    get:
+      operationId: days_list
+      parameters:
+      - in: query
+        name: edition
+        schema:
+          type: integer
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - days
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedDayList'
+          description: ''
+  /api/days/{id}/:
+    get:
+      operationId: days_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this day.
+        required: true
+      tags:
+      - days
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Day'
+          description: ''
+  /api/editions/:
+    get:
+      operationId: editions_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - in: query
+        name: year
+        schema:
+          type: integer
+      tags:
+      - editions
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedEditionList'
+          description: ''
+  /api/editions/{id}/:
+    get:
+      operationId: editions_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this edition.
+        required: true
+      tags:
+      - editions
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Edition'
+          description: ''
+  /api/events/:
+    get:
+      operationId: events_list
+      parameters:
+      - in: query
+        name: date_from
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: date_to
+        schema:
+          type: string
+          format: date
+      - in: query
+        name: edition
+        schema:
+          type: integer
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - events
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedEventList'
+          description: ''
+  /api/events/{id}/:
+    get:
+      operationId: events_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this event.
+        required: true
+      tags:
+      - events
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+          description: ''
+  /api/venues/:
+    get:
+      operationId: venues_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - venues
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedVenueList'
+          description: ''
+  /api/venues/{id}/:
+    get:
+      operationId: venues_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this venue.
+        required: true
+      tags:
+      - venues
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Venue'
+          description: ''
+components:
+  schemas:
+    Day:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        edition:
+          type: string
+          format: uuid
+        date:
+          type: string
+          format: date
+        slug:
+          type: string
+          maxLength: 200
+          pattern: ^[-a-zA-Z0-9_]+$
+        label_es:
+          type: string
+          maxLength: 200
+        label_en:
+          type: string
+          maxLength: 200
+      required:
+      - date
+      - edition
+      - id
+      - label_es
+      - slug
+    Edition:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        year:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        slug:
+          type: string
+          maxLength: 200
+          pattern: ^[-a-zA-Z0-9_]+$
+        title_es:
+          type: string
+          maxLength: 200
+        title_en:
+          type: string
+          maxLength: 200
+        starts_on:
+          type: string
+          format: date
+          nullable: true
+        ends_on:
+          type: string
+          format: date
+          nullable: true
+        summary_es:
+          type: string
+        summary_en:
+          type: string
+      required:
+      - id
+      - slug
+      - title_es
+      - year
+    Event:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        day:
+          type: string
+          format: uuid
+        venue:
+          type: string
+          format: uuid
+          nullable: true
+        starts_at:
+          type: string
+          format: date-time
+          nullable: true
+        ends_at:
+          type: string
+          format: date-time
+          nullable: true
+        title_es:
+          type: string
+          maxLength: 200
+        title_en:
+          type: string
+          maxLength: 200
+        description_es:
+          type: string
+        description_en:
+          type: string
+        sort_order:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        source_url:
+          oneOf:
+          - type: string
+            format: uri
+            maxLength: 2000
+          - type: string
+            maxLength: 0
+      required:
+      - day
+      - id
+      - title_es
+    PaginatedDayList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Day'
+    PaginatedEditionList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Edition'
+    PaginatedEventList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Event'
+    PaginatedVenueList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Venue'
+    Venue:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name_es:
+          type: string
+          maxLength: 200
+        name_en:
+          type: string
+          maxLength: 200
+        address:
+          type: string
+        city:
+          type: string
+          maxLength: 200
+        latitude:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,6})?$
+          nullable: true
+        longitude:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,6})?$
+          nullable: true
+        capacity:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+          nullable: true
+      required:
+      - id
+      - name_es
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid

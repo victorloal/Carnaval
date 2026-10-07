@@ -100,3 +100,13 @@ def _clear_robots_cache() -> Generator[None, None, None]:
     robots.clear_cache()
     yield
     robots.clear_cache()
+
+
+@pytest.fixture(autouse=True)
+def _clear_throttle_cache() -> Generator[None, None, None]:
+    """DRF throttling is cached; a test must not inherit another's counters."""
+    from django.core.cache import cache
+
+    cache.clear()
+    yield
+    cache.clear()

@@ -37,12 +37,12 @@ no requirement should be deleted.
 | FR-A-03 | US-02, US-03 | modelo-datos §3.3–3.4 | 0002 | T | unit: event model | Done |
 | FR-A-04 | US-02 | modelo-datos §3.2 | 0002 | T | seed_demo: 2–6 Jan milestones | Done |
 | FR-A-05 | US-03 | modelo-datos §3.3 | 0002 | T | API: venues | Open |
-| FR-A-06 | US-04 | modelo-datos §2 | 0002 | T | **SEC-47** | Open |
-| FR-A-07 | US-02 | arquitectura-c4 (L2) | 0009 | T | API: schema endpoints | Open |
+| FR-A-06 | US-04 | modelo-datos §2 | 0002 | T | **SEC-47** | Done |
+| FR-A-07 | US-02 | arquitectura-c4 (L2) | 0009 | T | API: schema endpoints | Done |
 | FR-A-08 | US-02 | — | 0009 | D | E2E: programme rendering | Open |
 | FR-A-09 | US-04 | fuentes-y-atribucion | 0004 | T | E2E: disclaimer on all pages | Open |
 | FR-A-10 | US-01 | modelo-datos §3.1 | 0008 | T | **SEC-47** (unpublished 404) | Open |
-| FR-A-11 | — | modelo-datos §3.1 | 0009 | T | API: filters | Open — no story (see gaps) |
+| FR-A-11 | — | modelo-datos §3.1 | 0009 | T | API: filters | Done — no story (see gaps) |
 | FR-A-12 | US-04 | modelo-datos §3.5 | 0004 | T | E2E: source link present | Open |
 | FR-A-13 | US-05 | arquitectura-c4 (L2) | 0009 | T | E2E 360 px + axe | Open |
 
@@ -100,7 +100,7 @@ no requirement should be deleted.
 | FR-D-08 | US-11 | modelo-datos §5.1 | 0005 | T | **SEC-17**, **SEC-18** | Open |
 | FR-D-09 | US-11 | modelo-datos §5.1 | 0005 | T | **SEC-16** | Open |
 | FR-D-10 | US-11 | autenticacion (throttling) | 0005 | T | **SEC-18** | Open |
-| FR-D-11 | US-31 | arquitectura-c4, despliegue | 0009 | T | integration: /health | Open |
+| FR-D-11 | US-31 | arquitectura-c4, despliegue | 0009 | T | integration: /health | Done |
 | FR-D-12 | US-12 | modelo-datos §3.5 | 0002 | T | admin: source status | Open |
 | FR-D-13 | US-10 | autenticacion (provisioning) | 0005 | T | **SEC-12** | Open |
 | FR-D-14 | US-10 | autenticacion (provisioning) | 0005 | I | inspection: seed command | Open |
@@ -207,8 +207,8 @@ no requirement should be deleted.
 | NFR-14 | — | plan-pruebas §2 | 0009 | T | ruff + mypy | Done — no story |
 | NFR-15 | — | plan-pruebas §3.1 | 0001 | T | coverage gate | In Progress — no story |
 | NFR-16 | — | plan-pruebas §1 | 0002 | T | CI: no egress | Done — no story |
-| NFR-17 | — | despliegue | 0004 | T | **SEC-45** | Open — no story |
-| NFR-18 | US-04 | modelo-datos §6.1 | 0005 | T | **SEC-15** | Open |
+| NFR-17 | — | despliegue | 0004 | T | **SEC-45** | Done — no story |
+| NFR-18 | US-04 | modelo-datos §6.1 | 0005 | T | **SEC-15** | Done |
 | NFR-19 | — | plan-pruebas | 0005 | T | log scan | Open — no story |
 | NFR-20 | US-32 | despliegue (backup) | 0009 | D | rehearsal | Open |
 | NFR-21 | US-10 | despliegue | 0005 | T | robots + header check | Open |

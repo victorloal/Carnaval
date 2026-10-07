@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     "carnaval.core",
     "carnaval.programme",
     "carnaval.ingestion",
+    "carnaval.api",
 ]
 
 MIDDLEWARE = [
@@ -183,6 +184,12 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework.authentication.SessionAuthentication"
     ],
+    "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 50,
+    # NFR-17: the anonymous public API is rate-limited per IP.
+    "DEFAULT_THROTTLE_CLASSES": ["rest_framework.throttling.AnonRateThrottle"],
+    "DEFAULT_THROTTLE_RATES": {"anon": "120/min"},
 }
 
 # Spectacular

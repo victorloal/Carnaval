@@ -7,6 +7,7 @@
   with a `/health` probe.
 - **Starts:** after Sprint 04 closes; nominal 1 week.
 - **WIP limit:** 2 items (ADR 0001)
+- **Status:** implemented and verified locally; `Done` is set once CI is green (ADR 0001).
 
 > The anonymous surface is **read-only** (NFR-18). There is no write endpoint, no admin API
 > and no token; the only mutation paths are the pipeline and, later, the admin.
@@ -15,13 +16,13 @@
 
 | # | Item | Requirement | Verification | Status |
 |---|---|---|---|---|
-| 1 | New `carnaval.api` app; read-only serializers for editions, days, events, venues | FR-A-07 | tests | Open |
-| 2 | A shared published-only queryset mixin; every endpoint starts filtered to `status = published` | FR-A-06 | SEC-47 | Open |
-| 3 | Filtering by edition and date range; pagination | FR-A-11 | tests | Open |
-| 4 | Per-IP throttling; anonymous read-only, no non-GET route reachable | NFR-17, NFR-18 | tests | Open |
-| 5 | `/health` reporting application and database reachability, disclosing no configuration | FR-D-11 | test | Open |
-| 6 | OpenAPI regenerated and committed; `--fail-on-warn` clean; drift fails CI | NFR-12 | CI | Open |
-| 7 | Response caching policy for public reads | NFR-02 | analysis | Open |
+| 1 | New `carnaval.api` app; read-only serializers for editions, days, events, venues | FR-A-07 | tests | Implemented |
+| 2 | A shared published-only queryset mixin; every endpoint starts filtered to `status = published` | FR-A-06 | SEC-47 | Implemented |
+| 3 | Filtering by edition and date range; pagination | FR-A-11 | tests | Implemented |
+| 4 | Per-IP throttling; anonymous read-only, no non-GET route reachable | NFR-17, NFR-18 | tests | Implemented |
+| 5 | `/health` reporting application and database reachability, disclosing no configuration | FR-D-11 | test | Implemented |
+| 6 | OpenAPI regenerated and committed; `--fail-on-warn` clean; drift fails CI | NFR-12 | CI | Implemented |
+| 7 | Response caching policy for public reads | NFR-02 | analysis | Implemented |
 
 ## What must be true when it ends
 
