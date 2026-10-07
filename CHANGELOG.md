@@ -12,6 +12,31 @@ are versioned per `legal_documents` and never edited after publication.
 Phase 0 (documentation) is **closed**. No deployed version yet — see the status table in
 `README.md`. Implementation begins with Sprint 01, `docs/sprints/sprint-01-plan.md`.
 
+### Fixed — the admin console was unreachable (2026-10-07)
+
+- **SEC-04:** `/admin/` could not be entered by anyone. Sprint 08a replaced
+  `admin.site.login_form` with `OTPAdminAuthenticationForm` but left `admin.site.login_template`
+  pointing at Django's stock `admin/login.html`, which renders only username and password. The
+  form therefore demanded a TOTP token that had **no input field**: every login failed with
+  "enter your OTP token". `AccountsConfig.ready()` now sets
+  `admin.site.login_template = "otp/admin111/login.html"` (django-otp ships it, and its `es`
+  catalog keeps the console Spanish per FR-H-08).
+- **`LOGIN_REDIRECT_URL`** is now `/admin/`. Django's default, `/accounts/profile/`, does not
+  exist here, so a login that carried no `next` — a direct visit to `/admin/login/` — dead-ended
+  on a 404.
+- **Tests:** the regression that slipped through was an assertion on
+  `admin.site.login_form`, an implementation detail, not the rendered page. `test_totp.py` now
+  renders `/admin/login/` and asserts the token field is present (it fails without the fix),
+  logs in end-to-end with password + a generated TOTP code, checks the bare login lands on the
+  console, and confirms an account with no device is refused with a form error. **147 backend
+  tests** (was 143).
+- **Docs:** `autenticacion.md` §2/§9 claimed a first-login, forced, in-console enrolment with
+  generated recovery codes and a guard against deleting the last device — none of which exist.
+  Corrected, and the deviations are stated: enrolment is `manage.py enrol_totp`, there are no
+  recovery codes (SEC-05, Open), and the login form in fact demands a second factor from every
+  staff account, not only the `admin` group. `casos-seguridad.md` SEC-04's expected result now
+  describes what happens; `README.md` gains the operator bootstrap.
+
 ### Added — public site pages, dependency audit and the PostgreSQL CI job (2026-10-07)
 
 - The public site navigates between the **programme**, **news** and **search** pages per

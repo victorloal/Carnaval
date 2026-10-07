@@ -55,10 +55,15 @@
 
 ### SEC-04 — TOTP is mandatory for the administrator role
 - **Threat:** Elevation of privilege
-- **Preconditions:** an `admin` user with password but no TOTP device enrolled.
-- **Steps:** 1. Authenticate with the correct password. 2. Attempt to reach any admin view.
-- **Expected:** access is refused with a redirect to enrolment; the account cannot perform
-  any privileged action until a device is confirmed.
+- **Preconditions:** a user with a valid password but no TOTP device enrolled.
+- **Steps:** 1. Open `/admin/login/`. 2. Confirm the page renders an OTP field. 3.
+  Authenticate with the correct password and no usable device. 4. Enrol with `manage.py
+  enrol_totp` and retry with a current code.
+- **Expected:** the password alone is not enough, and the refusal is a **form error, never a
+  server error**. There is no in-console enrolment and no recovery codes, so an account with
+  no device cannot enter the console at all until `enrol_totp` is run from the shell. Once a
+  device is enrolled, password + a current TOTP code authenticates, and an `admin`-group user
+  who is logged in but unverified is redirected to `/accounts/step-up/` before any view.
 - **Verification:** Automated · **Priority:** Critical
 - **Protects:** `otp_totpdevice`, `auth_group` · **Maps to:** SEC-04
 

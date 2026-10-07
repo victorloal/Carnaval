@@ -56,14 +56,11 @@ sequenceDiagram
         AV ->> AU: action login_failed, actor_kind human, ip_hash, request_id
         AV -->> BR: re-render the form, generic error, no user enumeration
     else password accepted
-        AV ->> OT: the account is in the admin group, so a second factor is required
+        AV ->> OT: the login form demands a second factor for every staff account
         alt TOTP code supplied
             OT -->> AV: verify_token accepts or rejects, replay inside a used step is refused
         else no usable TOTP device
-            AV -->> BR: offer single-use recovery codes
-            BR ->> AV: POST one recovery code
-            AV ->> OT: hash and compare, then delete the row so it cannot be reused
-            OT -->> AV: consumed
+            AV -->> BR: re-render the form, asking for a token there is no device to check
         end
         alt second factor rejected
             AV ->> TH: count the attempt as a failure
@@ -88,8 +85,12 @@ Points that are decisions rather than mechanics:
 - **Every** attempt writes `audit_logs` — `login` on success, `login_failed` on failure —
   with `ip_hash` set (FR-D-10, FR-D-08). The IP is a SHA-256 salted with a server secret,
   never the address itself (`modelo-datos.md` §8; PRV-01, PRV-02).
-- TOTP is required for accounts in the `admin` group (SRS SEC-04). `editor` and `viewer`
-  accounts may enrol optionally; brief §9 requires MFA for administrators and no more.
+- TOTP is required for accounts in the `admin` group (SRS SEC-04). **In practice the login
+  form demands a token from every staff account**, not only the `admin` group: the form is
+  replaced site-wide, so an `editor` or `viewer` with no device cannot log in either. That is
+  stricter than the design — brief §9 requires MFA for administrators and no more — which is
+  safe but is a known deviation. The `admin` group is what additionally triggers the step-up
+  redirect on later requests.
 
 ## 3. An authenticated request
 
@@ -476,22 +477,31 @@ in `docs/02-diseno/`; the latter is satisfied by `modelo-amenazas.md`.
 - **TOTP via `django-otp`**, required for accounts in the `admin` group (SRS SEC-04), optional
   for the others. Devices are `otp_totpdevice` rows with `confirmed`. Brief §9 requires MFA for
   administrators and no more, so `editor` and `viewer` are not forced (FR-D-02 defines the
-  three groups; FR-H-08 makes the console Spanish-only, which is why no MFA localisation
-  surface exists).
-- Enrolment happens on first login for an admin account and is **forced**: the admin cannot
-  reach any admin view until a device is confirmed. Recovery codes are generated at that
-  moment.
-- **Recovery codes are single-use and hashed at rest** (SRS SEC-05). They are `otp_staticdevice`
-  / `otp_statictoken` records; django-otp stores the code as a hash in `token_hash`, never in
-  cleartext, and the row is deleted the moment the code is consumed. They are shown once and
-  are stored offline by the operator. **Undecided:** how many codes (proposed 10) and their
-  storage guidance for the maintainer, which belongs in `CONTRIBUTING.md` or `SECURITY.md`.
-  Both now exist; neither carries the recovery-code guidance yet, so it still has no home.
+  three groups). FR-H-08 makes the console Spanish-only; django-otp ships its own `es`
+  catalog, so reusing its login template keeps the second-factor labels in Spanish.
+- **Enrolment is a management command, not a first-login wizard.** `manage.py enrol_totp
+  <username>` creates a **confirmed** `otp_totpdevice` and prints its provisioning URL
+  (`otpauth://…`); the operator adds it to an authenticator app and keeps the URL offline.
+  There is no enrolment flow inside the console: an `admin`-group user with no device cannot
+  log in at all, and onboarding one needs shell access. A known gap, not a design choice.
+- **The login form and its template move together.** `AccountsConfig.ready()` sets both
+  `admin.site.login_form = OTPAdminAuthenticationForm` and `admin.site.login_template =
+  "otp/admin111/login.html"`. Replacing only the form leaves the console unreachable: the form
+  demands a token that Django's stock `admin/login.html` never renders, so every login fails
+  with "enter your OTP token" and there is no field to type it into. A regression test renders
+  the login page and asserts the field is present.
+- **Recovery codes are not implemented** (SRS SEC-05, Open). `enrol_totp` creates an empty
+  `otp_staticdevice`, so there are no codes to show, hash or consume — django-otp's
+  `otp_static` stores them hashed, but nothing populates them. The operator's only recovery
+  path is the provisioning URL. **Undecided:** how many codes (proposed 10) and their storage
+  guidance for the maintainer.
 - Verification rejects a code outside the tolerance window and refuses to accept a code from
   a step counter already used, so a shoulder-surfed code cannot be replayed inside its
   window (SEC-06 test case).
-- Deleting the last TOTP device of the last active `admin` account is blocked in the admin
-  hooks, because locking the sole operator out of their own site is a real operational risk.
+- **Deleting the last TOTP device is not blocked.** django-otp's `TOTPDeviceAdmin` allows the
+  delete and no project hook prevents it, so the sole operator can lock themselves out from
+  inside the console; with no recovery codes (above) that is unrecoverable without shell
+  access. Carried as a gap.
 
 ## 10. Login throttling and authentication audit
 

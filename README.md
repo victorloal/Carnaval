@@ -42,7 +42,7 @@ deployed.** The requirements, design set, test plan, threat model and ADRs are c
 all four versions of ADR 0008 are implemented: the **backend** (ingestion, published-only API,
 Django admin with roles/TOTP and the review queue, editorial content, submissions and legal)
 and the **React site** (programme, news, gallery, search and the submission form), in two
-locales. **143 backend + 33 frontend tests**; the matrix is at **136 Done / 33 Open / 0
+locales. **147 backend + 33 frontend tests**; the matrix is at **136 Done / 33 Open / 0
 blocked**, and every Open row needs a **deployment, a browser or object storage — not new
 code**. The one remaining act is the deployment, which needs the maintainer's accounts (ADR
 0015 is Proposed); the project closes with `docs/sprints/proyecto-retrospectiva.md`.
@@ -91,6 +91,29 @@ Settings read **only** from environment variables and fail loudly when `SECRET_K
 is absent (SEC-46); a gitignored `.env` supplies development values. With no `DB_*`
 variables set, development falls back to SQLite — `DB_*` is what enables PostgreSQL 16
 (ADR 0009), the deployment database.
+
+## The admin console (the only login surface)
+
+The console has no public signup (FR-D-13) and **no enrolment inside it**: a second factor is
+required at login, so an account without a device cannot enter at all. Bootstrap once, from the
+shell:
+
+```bash
+cd backend
+venv/bin/python manage.py seed_roles                     # the three role groups
+venv/bin/python manage.py seed_admin <user> --password '<pw>'   # staff in `admin`, never a superuser
+venv/bin/python manage.py enrol_totp <user>              # prints an otpauth:// provisioning URL
+```
+
+- `seed_admin` deliberately creates a **staff user in the `admin` group, never a superuser**:
+  `is_superuser` bypasses every row of `roles-permisos.md`.
+- `enrol_totp` prints the `otpauth://` URL. Add it to an authenticator app and **keep it
+  offline**: there are **no recovery codes** (SEC-05 is Open), so losing the URL means losing
+  the console, and no hook stops the last device from being deleted.
+- Every login needs password **and** a current TOTP code, and an `admin`-group user is sent to
+  `/accounts/step-up/` before any console view. Onboarding a second reviewer needs shell access
+  to run `enrol_totp`; there is no first-login wizard yet. See `docs/02-diseno/autenticacion.md`
+  §9.
 
 ## Running the frontend
 

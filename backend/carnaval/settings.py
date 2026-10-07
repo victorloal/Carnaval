@@ -193,6 +193,9 @@ CORS_ALLOWED_ORIGINS = [
 AUTHENTICATION_BACKENDS = ["carnaval.accounts.backends.ThrottledModelBackend"]
 # The only login surface is the admin's; there is no public signup (FR-D-13).
 LOGIN_URL = "/admin/login/"
+# Same reasoning for the destination: Django's default (`/accounts/profile/`)
+# is a 404 here, so a login that does not carry a `next` would dead-end.
+LOGIN_REDIRECT_URL = "/admin/"
 # 12 h idle window, sliding because the session is saved on every request.
 SESSION_COOKIE_AGE = 12 * 60 * 60
 SESSION_SAVE_EVERY_REQUEST = True
