@@ -7,8 +7,11 @@ what is not `published` is not in the queryset at all.
 
 from __future__ import annotations
 
+from typing import Any
+
 from rest_framework import serializers
 
+from carnaval.editorial.models import MediaAsset, NewsItem
 from carnaval.programme.models import Day, Edition, Event, Venue
 
 
@@ -65,3 +68,53 @@ class EventSerializer(serializers.ModelSerializer):
             "sort_order",
             "source_url",
         ]
+
+
+class NewsItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = NewsItem
+        fields = [
+            "id",
+            "headline",
+            "url",
+            "outlet",
+            "published_on",
+            "summary_es",
+            "summary_en",
+        ]
+
+
+class MediaAssetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MediaAsset
+        fields = [
+            "id",
+            "edition",
+            "title_es",
+            "title_en",
+            "description_es",
+            "description_en",
+            "year_approx",
+            "author",
+            "source_ref",
+            "license",
+            "citation_text",
+            "featured",
+        ]
+
+
+class SearchEventSerializer(serializers.Serializer[Any]):
+    id = serializers.UUIDField()
+    title_es = serializers.CharField()
+    title_en = serializers.CharField()
+
+
+class SearchNewsSerializer(serializers.Serializer[Any]):
+    id = serializers.UUIDField()
+    headline = serializers.CharField()
+
+
+class SearchResponseSerializer(serializers.Serializer[Any]):
+    query = serializers.CharField()
+    events = SearchEventSerializer(many=True)
+    news = SearchNewsSerializer(many=True)

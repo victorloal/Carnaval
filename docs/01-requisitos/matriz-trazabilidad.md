@@ -111,18 +111,18 @@ no requirement should be deleted.
 
 | Req | Story | Design | ADR | Verif. | Test | Status |
 |---|---|---|---|---|---|---|
-| FR-E-01 | US-18 | modelo-datos §4.1 | 0009 | T | API: news endpoint | Open |
-| FR-E-02 | US-18 | modelo-datos §4.1 | 0004 | T | **SEC-34** | Open |
-| FR-E-03 | US-18 | estados | 0002 | T | integration: news pending | Open |
-| FR-E-04 | US-19 | modelo-datos §4.2 | 0004 | T | API: gallery | Open |
-| FR-E-05 | US-19 | modelo-datos §4.2 | 0004 | T | **SEC-30** | Open |
-| FR-E-06 | US-19 | modelo-datos §4.2 | 0004 | D | E2E: citation visible | Open |
-| FR-E-07 | US-19 | modelo-datos §4.2 | 0006 | T | **SEC-23** | Open |
-| FR-E-08 | US-19 | modelo-datos §4.2 | 0006 | T | **SEC-21** | Open |
-| FR-E-09 | US-19 | modelo-datos §4.2 | 0009 | T | admin: feature toggle | Open |
-| FR-E-10 | US-20 | modelo-datos §4.4 | 0009 | T | admin: settings CRUD | Open |
-| FR-E-11 | US-20 | modelo-datos §4.4 | 0005 | T | **SEC-46** | Open |
-| FR-E-12 | US-11, US-20 | modelo-datos §4.4 | 0005 | T | **SEC-17** | Open |
+| FR-E-01 | US-18 | modelo-datos §4.1 | 0009 | T | API: news endpoint | Done |
+| FR-E-02 | US-18 | modelo-datos §4.1 | 0004 | T | **SEC-34** | Done |
+| FR-E-03 | US-18 | estados | 0002 | T | integration: news pending | Open — news pipeline carried |
+| FR-E-04 | US-19 | modelo-datos §4.2 | 0004 | T | API: gallery | Done |
+| FR-E-05 | US-19 | modelo-datos §4.2 | 0004 | T | **SEC-30** | Done |
+| FR-E-06 | US-19 | modelo-datos §4.2 | 0004 | D | E2E: citation visible | Open — frontend |
+| FR-E-07 | US-19 | modelo-datos §4.2 | 0006 | T | **SEC-23** | Open — duplicate refusal carried |
+| FR-E-08 | US-19 | modelo-datos §4.2 | 0006 | T | **SEC-21** | Done |
+| FR-E-09 | US-19 | modelo-datos §4.2 | 0009 | T | admin: feature toggle | Done |
+| FR-E-10 | US-20 | modelo-datos §4.4 | 0009 | T | admin: settings CRUD | Done |
+| FR-E-11 | US-20 | modelo-datos §4.4 | 0005 | T | **SEC-46** | Done |
+| FR-E-12 | US-11, US-20 | modelo-datos §4.4 | 0005 | T | **SEC-17** | Done |
 
 ## FR-F — Public submissions
 
@@ -183,9 +183,9 @@ no requirement should be deleted.
 
 | Req | Story | Design | ADR | Verif. | Test | Status |
 |---|---|---|---|---|---|---|
-| FR-I-01 | US-21 | SRS §9 Q4 | 0009 | T | API: search | Open |
-| FR-I-02 | US-21 | modelo-datos §2 | 0002 | T | unit: published scope | Open |
-| FR-I-03 | US-21 | SRS §9 Q4 | 0009 | A | analysis: no paid service | Open |
+| FR-I-01 | US-21 | SRS §9 Q4 | 0009 | T | API: search | Done |
+| FR-I-02 | US-21 | modelo-datos §2 | 0002 | T | unit: published scope | Done |
+| FR-I-03 | US-21 | SRS §9 Q4 | 0009 | A | analysis: no paid service | Open — Postgres branch unverified |
 
 ## NFR — Non-functional
 
@@ -252,14 +252,14 @@ no requirement should be deleted.
 | Req | Story | Design | ADR | Verif. | Test | Status |
 |---|---|---|---|---|---|---|
 | LEG-01 | US-07 | estados | 0002 | T | **SEC-47** | Open |
-| LEG-02 | US-19 | modelo-datos §4.2 | 0004 | T | **SEC-30** | Open |
-| LEG-03 | US-19 | modelo-datos §4.2 | 0004 | D | E2E: citation | Open |
-| LEG-04 | US-18 | modelo-datos §4.1 | 0004 | T | **SEC-34** | Open |
+| LEG-02 | US-19 | modelo-datos §4.2 | 0004 | T | **SEC-30** | Done |
+| LEG-03 | US-19 | modelo-datos §4.2 | 0004 | D | E2E: citation | Open — frontend |
+| LEG-04 | US-18 | modelo-datos §4.1 | 0004 | T | **SEC-34** | Done |
 | LEG-05 | US-14 | `.gitignore`, ADR 0004 | 0004 | T | **SEC-35** | Open |
 | LEG-06 | US-04 | `LICENSE`, ADR 0004 | 0004 | I | inspection | **Done** — LICENSE is MIT with the carve-out |
 | LEG-07 | US-16 | fuentes-y-atribucion | 0004 | T | **SEC-41**, **SEC-42** | Open |
 | LEG-08 | US-04 | fuentes-y-atribucion | 0004 | T | E2E: disclaimer | Open |
-| LEG-09 | US-19 | modelo-datos §4.2 | 0004 | T | **SEC-31** | Open |
+| LEG-09 | US-19 | modelo-datos §4.2 | 0004 | T | **SEC-31** | Done |
 | LEG-10 | US-04 | fuentes-y-atribucion | 0004 | D | inspection: sources | Open |
 
 ---

@@ -7,6 +7,13 @@ No raw model instantiation in tests: every model gets a factory
 from datetime import date, timedelta
 
 import factory
+from carnaval.editorial.models import (
+    MediaAsset,
+    NewsItem,
+    SiteSetting,
+    Source,
+    SourceKind,
+)
 from carnaval.ingestion.models import (
     IngestionRun,
     IngestionStatus,
@@ -86,3 +93,35 @@ class IngestionRunFactory(factory.django.DjangoModelFactory):
     trigger = IngestionTrigger.MANUAL
     status = IngestionStatus.RUNNING
     started_at = factory.LazyFunction(timezone.now)
+
+
+class SourceFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Source
+
+    name = factory.Sequence(lambda n: f"source-{n}")
+    kind = SourceKind.NEWS_OUTLET
+
+
+class NewsItemFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = NewsItem
+
+    headline = factory.Sequence(lambda n: f"News {n}")
+    url = factory.Sequence(lambda n: f"https://example.org/news/{n}")
+    outlet = "Example"
+
+
+class MediaAssetFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = MediaAsset
+
+    title_es = factory.Sequence(lambda n: f"Foto {n}")
+
+
+class SiteSettingFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = SiteSetting
+
+    key = factory.Sequence(lambda n: f"setting.{n}")
+    value = "value"

@@ -10,6 +10,7 @@ from django.contrib.auth.models import Permission
 
 CONTENT_MODELS: dict[str, list[str]] = {
     "programme": ["edition", "day", "venue", "event"],
+    "editorial": ["newsitem", "mediaasset"],
 }
 PUBLIC_SUBMISSION_MODELS: dict[str, list[str]] = {
     "submissions": ["submission", "submissionfile", "consentrecord"],

@@ -73,6 +73,13 @@ def _pending_children(obj: Any) -> list[Any]:
 @transaction.atomic
 def approve(obj: Any, *, actor: Any, request: Any = None) -> list[Any]:
     _require(actor, f"{obj._meta.app_label}.publish_{obj._meta.model_name}")
+    blockers = getattr(obj, "publish_blockers", None)
+    if callable(blockers):
+        reasons = blockers()
+        if reasons:
+            from django.core.exceptions import ValidationError
+
+            raise ValidationError("; ".join(reasons))
     targets = [obj, *_pending_children(obj)]
     now = timezone.now()
     for target in targets:

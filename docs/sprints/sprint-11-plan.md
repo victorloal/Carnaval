@@ -6,6 +6,8 @@
   or its images. News is moderated like everything else.
 - **Starts:** after Sprint 10 closes; nominal 1 week.
 - **WIP limit:** 2 items (ADR 0001)
+- **Status:** backend delivered (models, admin, published-only API); the **news transform** is
+  carried — news is entered by hand as `pending`.
 
 > v2 opens. The first content type beyond the programme is the one with the most obvious
 > copyright trap: a news item is a citation, never a copy.
@@ -14,12 +16,12 @@
 
 | # | Item | Requirement | Verification | Status |
 |---|---|---|---|---|
-| 1 | `Source` registry (`name`, `kind`, `url`, `is_official`, `notes`) | `modelo-datos.md` §4.3 | tests | Open |
-| 2 | `NewsItem` (`source`, `headline`, `url`, `outlet`, `published_on`, bilingual summary, mixin) | FR-E-01 | migration review | Open |
-| 3 | News transform: store headline, link, outlet, date and an own-words summary only | FR-E-02, LEG-04 | unit | Open |
-| 4 | News enters `pending` with `origin = scraped` | FR-E-03 | test | Open |
-| 5 | Published news exposed read-only on the public API, published-only | FR-E-01, FR-A-06 | test | Open |
-| 6 | `is_official` drives the disclaimer wording | LEG-08 | test | Open |
+| 1 | `Source` registry (`name`, `kind`, `url`, `is_official`, `notes`) | `modelo-datos.md` §4.3 | tests | Done |
+| 2 | `NewsItem` (`source`, `headline`, `url`, `outlet`, `published_on`, bilingual summary, mixin) | FR-E-01 | migration review | Done |
+| 3 | News transform: store headline, link, outlet, date and an own-words summary only | FR-E-02, LEG-04 | unit | Open — carried |
+| 4 | News enters `pending` with `origin = scraped` | FR-E-03 | test | Open — news pipeline carried |
+| 5 | Published news exposed read-only on the public API, published-only | FR-E-01, FR-A-06 | test | Done |
+| 6 | `is_official` drives the disclaimer wording | LEG-08 | test | Done |
 
 ### Never the article body
 

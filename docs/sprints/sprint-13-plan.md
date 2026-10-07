@@ -6,6 +6,9 @@
   events and news using `pg_trgm` + `unaccent`.
 - **Starts:** after Sprint 12 closes; nominal 1 week.
 - **WIP limit:** 2 items (ADR 0001)
+- **Status:** **settings and search delivered**; **per-locale slugs** (FR-H-07) and **verbatim
+  citations with a translation** (FR-H-09) are carried. Search uses PostgreSQL full text on
+  Postgres and an `icontains` fallback on SQLite.
 
 > Search is a filter over the public catalogue, never a way around its visibility rules. No
 > external search service is introduced (FR-I-03, NFR-05).
@@ -14,12 +17,12 @@
 
 | # | Item | Requirement | Verification | Status |
 |---|---|---|---|---|
-| 1 | `SiteSetting` (`key`, `value` jsonb, `value_type`, `description`, `updated_by`, `updated_at`) with typed accessors | FR-E-10 | tests | Open |
-| 2 | Every settings change written to `audit_logs` with before/after | FR-E-12 | test | Open |
-| 3 | Secrets are never stored in `site_settings` (env only) | FR-E-11 | test | Open |
-| 4 | Per-locale slugs with fallback and redirect | FR-H-07 | test | Open |
-| 5 | Citations, source URLs and legal bodies reproduced verbatim with a translation alongside | FR-H-09 | test | Open |
-| 6 | Full-text search over **published** events and news; `pg_trgm` + `unaccent` | FR-I-01/02/03 | tests | Open |
+| 1 | `SiteSetting` (`key`, `value` jsonb, `value_type`, `description`, `updated_by`, `updated_at`) with typed accessors | FR-E-10 | tests | Done |
+| 2 | Every settings change written to `audit_logs` with before/after | FR-E-12 | test | Done |
+| 3 | Secrets are never stored in `site_settings` (env only) | FR-E-11 | test | Done |
+| 4 | Per-locale slugs with fallback and redirect | FR-H-07 | test | Open — carried |
+| 5 | Citations, source URLs and legal bodies reproduced verbatim with a translation alongside | FR-H-09 | test | Open — carried |
+| 6 | Full-text search over **published** events and news; `pg_trgm` + `unaccent` | FR-I-01/02/03 | tests | Done (Postgres branch unverified) |
 
 ## What must be true when it ends
 

@@ -228,6 +228,24 @@ Phase 0 (documentation) is **closed**. No deployed version yet — see the statu
   already-published row instead of skipping it, and a reviewer applies it. `apply_proposal` is
   the only code path that writes a published content field (FR-B-07/09, §5.1, SEC-38).
 
+### Added — v2 backend: editorial, media, settings and search (Sprints 11–13, 2026-10-06)
+
+- A `carnaval.editorial` app: `Source` (the citation registry), `NewsItem` (headline, URL,
+  outlet, date and a short **own-words** summary; no article body), `MediaAsset` and
+  `SiteSetting`.
+- `MediaAsset`'s publication gate is a pair of database `CHECK` constraints plus a
+  `publish_blockers()` hook the moderation service consults: `rights_status = unknown`, a
+  missing author/source/citation, un-stripped EXIF, or a minor without guardian consent all
+  block publication (FR-E-05, LEG-02/09). EXIF is required at approval (FR-E-08).
+- Typed `site_settings` with Python accessors, a refusal to store secret-shaped keys (FR-E-11)
+  and before/after audit on every change (FR-E-10/12).
+- Read-only, published-only API endpoints for **news** and **media** (FR-E-01), and `/api/search/`
+  over published events and news — PostgreSQL full text on Postgres, an `icontains` fallback on
+  SQLite (FR-I-01/02).
+- Carried and named: the news transform, the gallery UI, duplicate refusal, per-locale slugs,
+  verbatim citations with a translation, the quarantine-key guarantee and the Postgres
+  full-text verification.
+
 ### Added — forward sprint plans (2026-10-06)
 
 - `docs/sprints/sprint-03-plan.md` … `sprint-17-plan.md` — the planned path from the extractor

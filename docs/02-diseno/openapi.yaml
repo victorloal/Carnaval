@@ -161,6 +161,111 @@ paths:
               schema:
                 $ref: '#/components/schemas/Event'
           description: ''
+  /api/media/:
+    get:
+      operationId: media_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - media
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedMediaAssetList'
+          description: ''
+  /api/media/{id}/:
+    get:
+      operationId: media_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this media asset.
+        required: true
+      tags:
+      - media
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MediaAsset'
+          description: ''
+  /api/news/:
+    get:
+      operationId: news_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - news
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedNewsItemList'
+          description: ''
+  /api/news/{id}/:
+    get:
+      operationId: news_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this news item.
+        required: true
+      tags:
+      - news
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewsItem'
+          description: ''
+  /api/search/:
+    get:
+      operationId: search_retrieve
+      tags:
+      - search
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResponse'
+          description: ''
   /api/venues/:
     get:
       operationId: venues_list
@@ -324,6 +429,78 @@ components:
       - day
       - id
       - title_es
+    MediaAsset:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        edition:
+          type: string
+          format: uuid
+          nullable: true
+        title_es:
+          type: string
+          maxLength: 300
+        title_en:
+          type: string
+          maxLength: 300
+        description_es:
+          type: string
+        description_en:
+          type: string
+        year_approx:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+          nullable: true
+        author:
+          type: string
+          maxLength: 300
+        source_ref:
+          type: string
+          maxLength: 300
+        license:
+          type: string
+          maxLength: 200
+        citation_text:
+          type: string
+        featured:
+          type: boolean
+      required:
+      - id
+      - title_es
+    NewsItem:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        headline:
+          type: string
+          maxLength: 300
+        url:
+          type: string
+          format: uri
+          maxLength: 2000
+        outlet:
+          type: string
+          maxLength: 200
+        published_on:
+          type: string
+          format: date
+          nullable: true
+        summary_es:
+          type: string
+        summary_en:
+          type: string
+      required:
+      - headline
+      - id
+      - url
     PaginatedDayList:
       type: object
       required:
@@ -393,6 +570,52 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Event'
+    PaginatedMediaAssetList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/MediaAsset'
+    PaginatedNewsItemList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/NewsItem'
     PaginatedVenueList:
       type: object
       required:
@@ -416,6 +639,48 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Venue'
+    SearchEvent:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title_es:
+          type: string
+        title_en:
+          type: string
+      required:
+      - id
+      - title_en
+      - title_es
+    SearchNews:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        headline:
+          type: string
+      required:
+      - headline
+      - id
+    SearchResponse:
+      type: object
+      properties:
+        query:
+          type: string
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/SearchEvent'
+        news:
+          type: array
+          items:
+            $ref: '#/components/schemas/SearchNews'
+      required:
+      - events
+      - news
+      - query
     Venue:
       type: object
       properties:

@@ -17,6 +17,7 @@ from rest_framework.viewsets import ReadOnlyModelViewSet
 
 from carnaval.api import filters, serializers
 from carnaval.core.models import ModerationStatus
+from carnaval.editorial.models import MediaAsset, NewsItem
 from carnaval.programme.models import Day, Edition, Event, Venue
 
 
@@ -51,6 +52,16 @@ class EventViewSet(PublishedReadOnlyViewSet):
 class VenueViewSet(PublishedReadOnlyViewSet):
     queryset = Venue.objects.all()
     serializer_class = serializers.VenueSerializer
+
+
+class NewsItemViewSet(PublishedReadOnlyViewSet):
+    queryset = NewsItem.objects.all()
+    serializer_class = serializers.NewsItemSerializer
+
+
+class MediaAssetViewSet(PublishedReadOnlyViewSet):
+    queryset = MediaAsset.objects.all()
+    serializer_class = serializers.MediaAssetSerializer
 
 
 class PublicAPIRootView(routers.APIRootView):
