@@ -1,15 +1,16 @@
 # Security policy
 
-## Read this first: there is nothing running yet
+## Read this first: the code is built, but nothing is running
 
-**No version of this software has been released. Nothing is deployed. There is no public
-site, no API, and no admin panel.** The backend, frontend and test directories are empty.
+**No version of this software has been released, and nothing is deployed. There is no public
+site, no API and no admin panel reachable by anyone.** The backend and the public site are
+fully implemented and tested in CI (`backend/` and `frontend/`), but the **deployment is
+carried**: it needs the maintainer's accounts and a host (ADR 0015 is Proposed).
 
-This file therefore describes the security posture the project has **decided on** — the
-threat model, the authentication design, and the ADRs — and commits to how vulnerabilities
-in the future will be handled. It is a design-stage security policy, not a claim about a
-running system. Anything stated here as a control is a decision to be implemented in Sprint
-01, not an implemented feature.
+This file therefore describes two things and keeps them apart: the posture the project has
+**implemented** (the controls have tests), and the part that is a **decision to be exercised at
+deployment** (HTTPS, backups, the production scheduler). Where a control is implemented, the
+test is the evidence; where it is not, this file says so rather than implying a running system.
 
 If you are looking for the reasoning rather than the summary:
 
@@ -91,9 +92,11 @@ worth saying.
 to receive reports is not a mechanism — it is published because a security contact that
 nobody can find is not a security contact.
 
-## The security model, as decided
+## The security model, as implemented
 
-All of this is **decided and not yet implemented**. Each row names the source of truth.
+Each control below is **implemented and tested in code**; the ones that need a running system
+(HTTPS, backups, the scheduler) are exercised at deployment, not here. Each row names the
+source of truth.
 
 | Area | Decision | Source |
 |---|---|---|
@@ -126,15 +129,17 @@ data-protection and copyright lawyer will not review them — that was decided o
 and recorded in **ADR 0016**. Every legal page carries a DRAFT notice saying so.
 
 The consequence is not abstract. The privacy notice may be wrong in ways nobody has checked.
-Retention periods, the legal basis for each processing activity, and whether a supervisory
-registration is required are **unresolved by decision**. Ley 1581 de 2012 applies to this
-site's processing whether or not anyone reviewed the words describing it. Do not rely on
-those documents. If you need to know what this project does with your data, read the code and
-the data model — both are public.
+Retention periods and takedown deadlines were set as the maintainer's **operational defaults**
+(ADR 0018), not legal advice; the **legal basis for each processing activity** and whether a
+supervisory registration is required remain **unresolved by decision**. Ley 1581 de 2012
+applies to this site's processing whether or not anyone reviewed the words describing it. Do
+not rely on those documents. If you need to know what this project does with your data, read
+the code and the data model — both are public.
 
-Two related gaps, stated rather than left implied: the **takedown procedure has no
-deadline**, and public submissions (v3) are gated behind reviewed legal documents that will
-never exist, so **that gate is currently unsatisfied and undecided**.
+The v3 gate that ADR 0008 placed on public submissions (**reviewed** legal documents) was
+**amended by ADR 0018**: submissions ship under the labelled drafts, with moderation, blocking
+consent bound to a `legal_documents` version, the takedown register and the DRAFT notices as
+the controls that remain.
 
 ### Structural risks
 

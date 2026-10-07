@@ -6,9 +6,11 @@
   retrospective and a final reconciliation of documentation against reality.
 - **Starts:** after Sprint 16 closes; nominal 1–2 weeks.
 - **WIP limit:** 2 items (ADR 0001)
-- **Status:** the v3 **backend** is delivered; this launch sprint — the deployed security sweep,
-  the rehearsed privacy procedures, the backup rehearsal and the DNS/launch acts — is carried
-  and needs an environment and the maintainer's accounts.
+- **Status:** the v3 **backend** and the public site are delivered; this launch sprint ran the
+  half that needs no environment (CSP check, logs inspection, privacy procedure, documentation
+  sweep, retrospectives) and **carried the launch** — the deployed security sweep, the backup
+  rehearsal, the browser budgets and the DNS/launch acts need the maintainer's accounts. See
+  `sprint-17-retrospectiva.md`.
 
 > This is the defensive pass before and after launch. No new features.
 
@@ -16,16 +18,16 @@
 
 | # | Item | Requirement | Verification | Status |
 |---|---|---|---|---|
-| 1 | Full security-case sweep on the deployed system | SRS §5 | security suite | Open |
-| 2 | CSP with consent-gated embeds; no `unsafe-inline` for scripts | SEC-15 | header analysis | Open |
-| 3 | Data-subject access / rectification / deletion procedure documented and rehearsed | PRV-07 | demonstration | Open |
-| 4 | Rate limits and quotas tuned against real traffic; egress within free tier | NFR-05, NFR-17 | analysis | Open |
-| 5 | Backup/restore re-rehearsed after the v3 tables exist | NFR-20 | demonstration | Open |
-| 6 | Accessibility and Lighthouse budgets re-run over submissions and gallery | NFR-01/03/04 | CI | Open |
-| 7 | Logs and analytics re-checked for raw IPs and secrets | NFR-19, PRV-01 | inspection | Open |
-| 8 | Documentation sweep: SRS, matrix, design, legal drafts, ADRs | ADR 0001 | inspection | Open |
-| 9 | **Launch**: DNS, disclaimer, takedown channel and labelled legal drafts linked | LEG-08, FR-G-03 | demonstration | Open |
-| 10 | **Retrospective** for v3 and the project | ADR 0001 | inspection | Open |
+| 1 | Full security-case sweep on the deployed system | SRS §5 | security suite | Carried — no deployment |
+| 2 | CSP with consent-gated embeds; no `unsafe-inline` for scripts | SEC-15 | header analysis | CSP done and tested; embeds carried |
+| 3 | Data-subject access / rectification / deletion procedure documented and rehearsed | PRV-07 | demonstration | Done — Sprint 20 |
+| 4 | Rate limits and quotas tuned against real traffic; egress within free tier | NFR-05, NFR-17 | analysis | Carried — no deployment |
+| 5 | Backup/restore re-rehearsed after the v3 tables exist | NFR-20 | demonstration | Carried — needs the deployed database |
+| 6 | Accessibility and Lighthouse budgets re-run over submissions and gallery | NFR-01/03/04 | CI | Carried — needs a browser |
+| 7 | Logs and analytics re-checked for raw IPs and secrets | NFR-19, PRV-01 | inspection | Done — `REMOTE_ADDR` only reaches `hash_ip`; logging is console-only |
+| 8 | Documentation sweep: SRS, matrix, design, legal drafts, ADRs | ADR 0001 | inspection | Done |
+| 9 | **Launch**: DNS, disclaimer, takedown channel and labelled legal drafts linked | LEG-08, FR-G-03 | demonstration | Carried — human act, needs accounts |
+| 10 | **Retrospective** for v3 and the project | ADR 0001 | inspection | Done — `sprint-17-retrospectiva.md`, `proyecto-retrospectiva.md` |
 
 ## What must be true when it ends
 

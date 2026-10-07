@@ -37,29 +37,33 @@ can reach.
 
 ## Status
 
-**Phase 0 — documentation — closed 2026-10-04.** The requirements, design set, test plan,
-threat model and ADRs are complete. The **backend for all four versions is delivered** and
-its tests pass (127 pytest). The React site serves the **programme, news and search** pages
-in two locales (24 vitest tests). **Nothing is deployed** — that needs the maintainer's
-accounts and is carried (ADR 0015 is Proposed).
+**Phase 0 — documentation — closed 2026-10-04. The project is complete in code; it is not
+deployed.** The requirements, design set, test plan, threat model and ADRs are complete, and
+all four versions of ADR 0008 are implemented: the **backend** (ingestion, published-only API,
+Django admin with roles/TOTP and the review queue, editorial content, submissions and legal)
+and the **React site** (programme, news, gallery, search and the submission form), in two
+locales. **143 backend + 33 frontend tests**; the matrix is at **136 Done / 33 Open / 0
+blocked**, and every Open row needs a **deployment, a browser or object storage — not new
+code**. The one remaining act is the deployment, which needs the maintainer's accounts (ADR
+0015 is Proposed); the project closes with `docs/sprints/proyecto-retrospectiva.md`.
 
 | Version | Contents | State |
 |---|---|---|
-| MVP | Ingestion pipeline, database, public API, frontend | Backend done; programme UI done; deployment carried |
-| v1 | Django admin, roles, review queue, audit log | Backend done |
-| v2 | News, historical gallery with citations, site settings | Backend done; news + search UI done; gallery UI carried |
-| v3 | Public submissions, moderation, legal documents | Backend done; gate resolved (ADR 0018); submission form buildable |
+| MVP | Ingestion pipeline, database, public API, frontend | Delivered (deployment carried) |
+| v1 | Django admin, roles, review queue, audit log | Delivered |
+| v2 | News, historical gallery with citations, site settings | Delivered |
+| v3 | Public submissions, moderation, legal documents | Delivered; gate resolved (ADR 0018) |
 
 CI runs the suite on SQLite and on **PostgreSQL 16**, audits dependencies with `pip-audit`,
 and checks the frontend (`tsc`, eslint, vitest, build). The browser stages — Playwright E2E,
-Lighthouse and axe — are carried; they need a browser environment.
+Lighthouse and axe — are carried; they need a browser environment and are not claimed green.
 
-Known gaps that block a public launch, not the next sprint: Corpocarnaval was asked in
+Known gaps that block a public launch, not the next unit of work: Corpocarnaval was asked in
 writing (`comunicacion@carnavaldepasto.org`, 2026-10-04) and **has not replied** — silence is
 not permission — and the site's terms of use were never found. The contact email is
 `victorloal513@gmail.com`. The legal texts are **permanently unreviewed drafts** — there will
-be no professional review, so every legal page carries a DRAFT notice instead (ADR 0016).
-See `docs/00-acta-proyecto.md` §12.2.
+be no professional review, so every legal page carries a DRAFT notice instead (ADR 0016); the
+v3 gate they used to block was resolved by ADR 0018. See `docs/00-acta-proyecto.md` §12.2.
 
 ## Repository layout
 

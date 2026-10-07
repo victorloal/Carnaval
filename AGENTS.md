@@ -2,25 +2,24 @@
 
 ## Read this first
 
-**Phase 0 is closed and Sprint 01 is delivered.** `backend/` holds a Django 5.2 LTS skeleton:
-environment-only settings, the programme spine (`editions`, `days`, `venues`) with its first
-migrations, DRF + `drf-spectacular`, and a pytest suite whose no-egress guard is real. The
-backend/docs stages of `plan-pruebas.md` §7 run in `.github/workflows/ci.yml`, and
-`docs/02-diseno/openapi.yaml` is committed and CI-enforced (ADR 0011). `frontend/` and the
-root `tests/` are still **empty** directories; the public site and the remaining data model
-are the next units of work (`docs/sprints/sprint-01-plan.md`, "Carried into the next sprint").
+**The project is complete in code; it is not deployed.** All four versions of ADR 0008 are
+implemented: `backend/` holds a Django 5.2 LTS project (ingestion pipeline, published-only read
+API, Django admin with roles/TOTP and the review queue, editorial content, public submissions
+and the legal register) and `frontend/` holds the React + TypeScript public site (programme,
+news, gallery, search and the submission form). The traceability matrix is at **136 Done /
+33 Open / 0 blocked**; the Open rows need a **deployment, a browser or object storage — not new
+code**. `docs/sprints/proyecto-retrospectiva.md` closes the project.
 
-Sprint 01's exit criteria cover only the stages that can run without a frontend. Stages 3–5
-and 10–14 of `plan-pruebas.md` §7 (frontend `tsc`/eslint/vitest/build, docker-compose E2E,
-Lighthouse, axe, dependency audit) are **not wired** and wait on those components. Do not
-claim them green.
+The deployment is the one remaining act and it needs the maintainer's accounts (ADR 0015 is
+Proposed). Stages 12–14 of `plan-pruebas.md` §7 (docker compose E2E, Lighthouse, axe) are
+**not wired** — do not claim them green. The backend and docs stages run in
+`.github/workflows/ci.yml`, which also runs the suite on PostgreSQL 16 and audits dependencies;
+`docs/02-diseno/openapi.yaml` is committed and CI-enforced (ADR 0011).
 
-The executable artefacts are `scripts/check-diagrams.cjs`, which validates every fenced
-diagram in the repository (ADR 0014), and the `backend/` Python project. The diagram check
-runs with `npm ci && npm run check:diagrams` and is wired into CI (Sprint 01 item 9). The root
-`package.json` exists **for that script alone** — the backend is Python and the public site
-gets its own package under `frontend/`, so do not grow the root manifest into an application
-manifest.
+`AGENTS.md` is the durable context and `MEMORY.md` is the capped session state. The root
+`package.json` exists **for the diagram check alone** — the backend is Python and the public
+site has its own package under `frontend/`, so do not grow the root manifest into an
+application manifest.
 
 The stack is **decided** — do not re-litigate it, and do not substitute a framework:
 
@@ -46,21 +45,22 @@ file wins.
 
 - `docs/00-acta-proyecto.md` — charter: stakeholders, constraints, success criteria, deviations
 - `docs/00-contexto-proyecto.md` — the original brief (Spanish, pending translation, partly superseded)
-- `SECURITY.md` — vulnerability reporting; the security posture as **decided, not implemented**
+- `SECURITY.md` — vulnerability reporting; the security posture (implemented in code, not deployed)
 - `docs/01-requisitos/` — `srs.md`, `historias-de-usuario.md`, `matriz-trazabilidad.md`
 - `docs/02-diseno/` — C4, data model, data flow, threat model, roles, states, auth, deployment
 - `docs/03-pruebas/` — `plan-pruebas.md`, `casos-seguridad.md`
 - `docs/adr/` — `000N-kebab-title.md`
 - `docs/legal/` — **draft** legal texts, not legal advice
-- `docs/sprints/` — sprint plans and retrospectives
+- `docs/sprints/` — sprint plans, retrospectives, and the project close
 - `docs/fuentes-y-atribucion.md` — source register and scraping etiquette
 - `scripts/check-diagrams.cjs` — the diagram validator; run it with `npm run check:diagrams`
 - `package.json` / `package-lock.json` — **documentation tooling only**; `node_modules/` is ignored
-- `backend/` — Django project: `carnaval/` settings and apps, `core/` + `programme/` models and
-  migrations, and `backend/tests/` (pytest suite, factories, no-egress guard). Run
+- `backend/` — Django project: `carnaval/` settings and the apps (`core`, `programme`,
+  `ingestion`, `api`, `accounts`, `audit`, `moderation`, `editorial`, `submissions`, `legal`,
+  `privacy`), and `backend/tests/` (pytest suite, factories, no-egress guard). Run
   `python backend/manage.py check` (see `README.md` for the full local run guide)
-- `.github/` — `workflows/ci.yml` (backend/docs CI) and `dependabot.yml`
-- `frontend/` — reserved, still empty (React public site)
+- `.github/` — `workflows/ci.yml` (backend, frontend, PostgreSQL and docs CI) and `dependabot.yml`
+- `frontend/` — the React + TypeScript public site (programme, news, gallery, search, submit)
 - `tests/` — reserved, still empty at the root; backend tests live under `backend/tests/`
 
 Docs use an `NN-` prefix for ordering. ADRs are the exception: `000N-`, no prefix.
@@ -115,7 +115,8 @@ are not negotiable.
 - Idempotent: running it twice must not duplicate. Gate on `raw_documents.content_hash`.
 - Respect `robots.txt` and the source's terms. Send an identifiable `User-Agent` with
   contact info. Rate-limit requests.
-- Prefer the WordPress REST API over HTML scraping if it responds (still unverified, §5).
+- Prefer the WordPress REST API over HTML scraping; the spike found it live and the `wp_api`
+  transform uses it.
 
 **Copyright and data**
 - Never commit third-party PDFs, photos, or full article text. Store headline, source URL,
