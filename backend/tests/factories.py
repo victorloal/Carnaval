@@ -22,7 +22,9 @@ from carnaval.ingestion.models import (
     ScrapeSource,
     SourceType,
 )
+from carnaval.legal.models import ClaimType, TakedownRequest
 from carnaval.programme.models import Day, Edition, Event, Venue
+from carnaval.submissions.models import ConsentRecord, Submission
 from django.utils import timezone
 
 
@@ -125,3 +127,26 @@ class SiteSettingFactory(factory.django.DjangoModelFactory):
 
     key = factory.Sequence(lambda n: f"setting.{n}")
     value = "value"
+
+
+class SubmissionFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Submission
+
+    kind = "image"
+    contact_email = factory.Sequence(lambda n: f"person{n}@example.org")
+
+
+class ConsentRecordFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = ConsentRecord
+
+    submission = factory.SubFactory(SubmissionFactory)
+
+
+class TakedownRequestFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = TakedownRequest
+
+    requester_email = factory.Sequence(lambda n: f"claimant{n}@example.org")
+    claim_type = ClaimType.COPYRIGHT

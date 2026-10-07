@@ -240,11 +240,11 @@ no requirement should be deleted.
 |---|---|---|---|---|---|---|
 | PRV-01 | US-26 | modelo-datos §8 | 0006 | T | **SEC-32** | Done |
 | PRV-02 | US-22 | modelo-datos §8 | 0006 | T | **SEC-32** | Done |
-| PRV-03 | US-30 | legal/privacidad | 0008 | T | **SEC-33** | Open |
+| PRV-03 | US-30 | legal/privacidad | 0008 | T | **SEC-33** | Done |
 | PRV-04 | US-22 | modelo-datos §8 | 0006 | T | **SEC-21** | Done |
 | PRV-05 | US-23 | modelo-datos §6.3 | 0006 | T | **SEC-28** | Done |
 | PRV-06 | US-27 | legal/privacidad | 0008 | I | inspection: policy names periods | Done — ADR 0018 |
-| PRV-07 | US-30 | legal/privacidad | 0008 | A | inspection: procedure | Open |
+| PRV-07 | US-30 | legal/privacidad | 0008 | A | inspection: procedure | Done — documented (privacy §6) and deletion rehearsed by `purge_personal_data` tests |
 | PRV-08 | US-27 | legal/privacidad | 0007 | T | E2E: consent gate | Open |
 | PRV-09 | US-22 | plan-pruebas | 0005 | T | **SEC-49** | Done |
 
@@ -272,9 +272,9 @@ no requirement should be deleted.
 | FR-A … FR-I (functional) | 114 | 97 | 17 | 0 |
 | NFR | 21 | 14 | 7 | 0 |
 | SEC | 16 | 11 | 5 | 0 |
-| PRV | 9 | 6 | 2 | 0 |
+| PRV | 9 | 8 | 0 | 0 |
 | LEG | 10 | 5 | 5 | 0 |
-| **Total** | **170** | **133** | **36** | **0** |
+| **Total** | **170** | **135** | **34** | **0** |
 
 **Done** means the row's verification was performed and recorded. **Open** is the honest
 default for a row whose verification has not run — most of them need a deployment, a

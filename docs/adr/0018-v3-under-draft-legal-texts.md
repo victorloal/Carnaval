@@ -44,10 +44,15 @@ posture is defensible, buildable, and does not mislead a visitor".
    | `takedown_requests.requester_email` | 24 months after `responded_at` | purge job |
    | Rejected upload files | deleted immediately on rejection | implemented (FR-C-10) |
    | `raw_documents` | 30 days and a per-source byte cap | implemented (`prune_raw_documents`, ADR 0013) |
-   | `audit_logs` | 24 months | purge job |
+   | `audit_logs` | **not purged — append-only evidence** | FR-D-09 forbids deletion and the trail holds only salted hashes, so the evidence value outweighs the period (`purge_personal_data` never touches it) |
    | `ingestion_runs` | 12 months | purge job |
    | `django_session` rows | removed once expired | Django `clearsessions`, scheduled |
    | Locale preference cookie | 12 months | frontend `max-age` (already set) |
+
+   The `audit_logs` row is the one exception: the append-only guarantee (ADR 0005,
+   FR-D-09) is a hard constraint, and a purge that deleted the trail would destroy the
+   evidence a rights holder may need. The command enforces the rest; the exception is
+   stated rather than silently applied.
 
    These resolve the retention placeholders that ADR 0016 left open and that **PRV-06** needed.
 4. **Takedown deadlines are set operationally.** The acknowledgement-within and

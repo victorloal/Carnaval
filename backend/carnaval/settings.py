@@ -67,6 +67,7 @@ INSTALLED_APPS = [
     "carnaval.editorial",
     "carnaval.submissions",
     "carnaval.legal",
+    "carnaval.privacy",
 ]
 
 MIDDLEWARE = [

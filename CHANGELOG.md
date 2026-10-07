@@ -91,6 +91,23 @@ Phase 0 (documentation) is **closed**. No deployed version yet — see the statu
   the honeypot and quotas still apply), signed-URL transfer (SEC-13) and consent-gated video
   embeds (PRV-08), both needing their own feature.
 
+### Added — Sprint 20: retention enforcement and the data-subject procedure (2026-10-07)
+
+- A new `carnaval.privacy` app with `purge_personal_data`, which **enforces the ADR 0018
+  periods**: a submission's contact email is cleared 12 months after the submission is
+  decided, `consent_records` are deleted after 24 months, a takedown requester's email is
+  cleared 24 months after `responded_at`, and `ingestion_runs` are pruned after a year. A
+  still-`pending` submission keeps its email — its clock has not started. `--dry-run` reports
+  without changing anything; a real run is atomic.
+- **`audit_logs` is never purged**: it is append-only (FR-D-09) and holds only salted hashes,
+  so the evidence value outweighs the period. The exception is stated in the privacy policy
+  and ADR 0018, not silently applied.
+- The data-subject procedure is documented (privacy policy §6: channel, 15 business-day
+  response, best-effort identification) and the deletion path is rehearsed by the command's
+  tests. **PRV-03 and PRV-07 → Done**; matrix at **135 Done / 34 Open / 0 blocked**.
+- 141 backend tests (was 135); factories for `Submission`, `ConsentRecord` and
+  `TakedownRequest`.
+
 
 
 ### Added — project scaffolding

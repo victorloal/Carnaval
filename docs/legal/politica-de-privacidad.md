@@ -125,7 +125,7 @@ listed beside it, because naming a period without a purge job enforces nothing.
 | `takedown_requests.requester_email` | **24 months after `responded_at`** | Same rule: a reply is required, indefinite storage is not |
 | Rejected upload files in quarantine | **deleted immediately on rejection** | Implemented (FR-C-10, ADR 0006) |
 | `raw_documents` (ingested payloads) | **30 days, plus a per-source byte cap** | Implemented (`prune_raw_documents`, ADR 0013) |
-| `audit_logs` | **24 months** | Tension: the audit trail is evidence in a dispute, so shortening it can destroy the proof a rights holder needs. 24 months is a deliberate balance, revisable per event class |
+| `audit_logs` | **not purged — append-only evidence** | FR-D-09 forbids deletion and the trail holds only salted hashes, so the evidence value outweighs the period. The purge job never touches it |
 | `django_session` rows | **removed once expired** | Django `clearsessions`, scheduled |
 | `ingestion_runs` | **12 months** | Operational, contains no personal data beyond a hashed IP |
 
