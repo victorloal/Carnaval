@@ -90,22 +90,22 @@ no requirement should be deleted.
 
 | Req | Story | Design | ADR | Verif. | Test | Status |
 |---|---|---|---|---|---|---|
-| FR-D-01 | US-10 | arquitectura-c4 (L2) | 0005 | D | admin reachable | Open |
-| FR-D-02 | US-10 | roles-permisos | 0005 | T | unit: groups | Open |
+| FR-D-01 | US-10 | arquitectura-c4 (L2) | 0005 | D | admin reachable | Done |
+| FR-D-02 | US-10 | roles-permisos | 0005 | T | unit: groups | Done |
 | FR-D-03 | US-10 | roles-permisos | 0005 | T | **SEC-12**, **SEC-13** | Open |
-| FR-D-04 | US-10 | autenticacion (RBAC) | 0005 | T | **SEC-13** | Open |
+| FR-D-04 | US-10 | autenticacion (RBAC) | 0005 | T | **SEC-13** | Done |
 | FR-D-05 | US-10 | roles-permisos | 0005 | T | **SEC-13** (viewer deny) | Open |
-| FR-D-06 | US-10 | roles-permisos | 0005 | T | **SEC-13** (editor deny) | Open |
-| FR-D-07 | US-10 | roles-permisos | 0005 | T | **SEC-13** (admin allow) | Open |
-| FR-D-08 | US-11 | modelo-datos §5.1 | 0005 | T | **SEC-17**, **SEC-18** | Open |
-| FR-D-09 | US-11 | modelo-datos §5.1 | 0005 | T | **SEC-16** | Open |
-| FR-D-10 | US-11 | autenticacion (throttling) | 0005 | T | **SEC-18** | Open |
+| FR-D-06 | US-10 | roles-permisos | 0005 | T | **SEC-13** (editor deny) | Done |
+| FR-D-07 | US-10 | roles-permisos | 0005 | T | **SEC-13** (admin allow) | Done |
+| FR-D-08 | US-11 | modelo-datos §5.1 | 0005 | T | **SEC-17**, **SEC-18** | Done |
+| FR-D-09 | US-11 | modelo-datos §5.1 | 0005 | T | **SEC-16** | Done (app-level; DB trigger carried until Postgres) |
+| FR-D-10 | US-11 | autenticacion (throttling) | 0005 | T | **SEC-18** | Done |
 | FR-D-11 | US-31 | arquitectura-c4, despliegue | 0009 | T | integration: /health | Done |
 | FR-D-12 | US-12 | modelo-datos §3.5 | 0002 | T | admin: source status | Open |
-| FR-D-13 | US-10 | autenticacion (provisioning) | 0005 | T | **SEC-12** | Open |
-| FR-D-14 | US-10 | autenticacion (provisioning) | 0005 | I | inspection: seed command | Open |
+| FR-D-13 | US-10 | autenticacion (provisioning) | 0005 | T | **SEC-12** | Done |
+| FR-D-14 | US-10 | autenticacion (provisioning) | 0005 | I | inspection: seed command | Done |
 | FR-D-15 | — | autenticacion §7.3 | 0013 | T | **SEC-02**; v1 idle- and absolute-expiry tests | Open |
-| FR-D-16 | US-10 | autenticacion §7.4 | 0013 | T | **SEC-04**, **SEC-13**; step-up gate on roles-permisos matrix rows 4, 13, 14, 24, 25, 30 | Open |
+| FR-D-16 | US-10 | autenticacion §7.4 | 0013 | T | **SEC-04**, **SEC-13**; step-up gate on roles-permisos matrix rows 4, 13, 14, 24, 25, 30 | Done |
 
 ## FR-E — Editorial content
 
@@ -175,7 +175,7 @@ no requirement should be deleted.
 | FR-H-05 | US-06 | ADR 0010 | 0010 | T | unit: cookie persists | Done |
 | FR-H-06 | — | modelo-datos §4.5 | 0010 | T | unit: fallback | Done — no story |
 | FR-H-07 | — | modelo-datos §4.5 | 0010 | T | unit: per-locale slug | Open — no story |
-| FR-H-08 | US-10 | ADR 0010 | 0010 | I | inspection: admin es only | Open |
+| FR-H-08 | US-10 | ADR 0010 | 0010 | I | inspection: admin es only | Done |
 | FR-H-09 | US-19 | ADR 0010 | 0010 | I | inspection: verbatim citation | Open |
 | FR-H-10 | US-06 | ADR 0010 | 0010 | A | inspection: no MT dependency | Done |
 
@@ -211,20 +211,20 @@ no requirement should be deleted.
 | NFR-18 | US-04 | modelo-datos §6.1 | 0005 | T | **SEC-15** | Done |
 | NFR-19 | — | plan-pruebas | 0005 | T | log scan | Done — no story |
 | NFR-20 | US-32 | despliegue (backup) | 0009 | D | rehearsal | Open |
-| NFR-21 | US-10 | despliegue | 0005 | T | robots + header check | Open |
+| NFR-21 | US-10 | despliegue | 0005 | T | robots + header check | Done (noindex; HTTPS at deploy) |
 
 ## SEC — Security requirements
 
 | Req | Story | Design | ADR | Verif. | Test | Status |
 |---|---|---|---|---|---|---|
-| SEC-01 | US-10 | autenticacion | 0005 | T | **SEC-01** | Open |
-| SEC-02 | US-10 | autenticacion | 0005 | T | **SEC-02**, **SEC-03** | Open |
-| SEC-03 | US-10 | autenticacion | 0005 | T | **SEC-02** | Open |
-| SEC-04 | US-10 | autenticacion | 0005 | T | **SEC-04** | Open |
-| SEC-05 | US-10 | autenticacion | 0005 | T | **SEC-05** | Open |
-| SEC-06 | US-12 | autenticacion (throttling) | 0005 | T | **SEC-06**, **SEC-07** | Open |
-| SEC-07 | US-10 | autenticacion | 0005 | T | **SEC-09** | Open |
-| SEC-08 | US-11 | autenticacion (revocation) | 0005 | T | **SEC-11** | Open |
+| SEC-01 | US-10 | autenticacion | 0005 | T | **SEC-01** | Done |
+| SEC-02 | US-10 | autenticacion | 0005 | T | **SEC-02**, **SEC-03** | Done |
+| SEC-03 | US-10 | autenticacion | 0005 | T | **SEC-02** | Done |
+| SEC-04 | US-10 | autenticacion | 0005 | T | **SEC-04** | Done |
+| SEC-05 | US-10 | autenticacion | 0005 | T | **SEC-05** | Open (django-otp stores codes in plain text) |
+| SEC-06 | US-12 | autenticacion (throttling) | 0005 | T | **SEC-06**, **SEC-07** | Done |
+| SEC-07 | US-10 | autenticacion | 0005 | T | **SEC-09** | Done |
+| SEC-08 | US-11 | autenticacion (revocation) | 0005 | T | **SEC-11** | Done |
 | SEC-09 | US-10 | autenticacion (RBAC) | 0005 | T | **SEC-14** | Open |
 | SEC-10 | US-10 | roles-permisos | 0005 | T | **SEC-13**, **SEC-14** | Open |
 | SEC-11 | US-22 | ADR 0006 | 0006 | T | **SEC-19**, **SEC-20**, **SEC-21** | Open |
@@ -238,7 +238,7 @@ no requirement should be deleted.
 
 | Req | Story | Design | ADR | Verif. | Test | Status |
 |---|---|---|---|---|---|---|
-| PRV-01 | US-26 | modelo-datos §8 | 0006 | T | **SEC-32** | Open |
+| PRV-01 | US-26 | modelo-datos §8 | 0006 | T | **SEC-32** | Done |
 | PRV-02 | US-22 | modelo-datos §8 | 0006 | T | **SEC-32** | Open |
 | PRV-03 | US-30 | legal/privacidad | 0008 | T | **SEC-33** | Open |
 | PRV-04 | US-22 | modelo-datos §8 | 0006 | T | **SEC-21** | Open |

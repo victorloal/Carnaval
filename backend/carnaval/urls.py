@@ -12,6 +12,7 @@ from carnaval.api.health import health
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("accounts/", include("carnaval.accounts.urls")),
     path("api/", include("carnaval.api.urls")),
     path("health", health),
     path("health/", health),

@@ -7,6 +7,9 @@
   safe to open.
 - **Starts:** after Sprint 07 closes; nominal 1 week.
 - **WIP limit:** 2 items (ADR 0001)
+- **Split:** this sprint was split into **08a** (identity and audit — delivered) and **08b**
+  (the admin surface: FR-D-03, object-level authorization, the source dashboard — carried).
+  See `sprint-08a-retrospectiva.md`.
 
 > Every capability in `roles-permisos.md` §3 is enforced **server-side** and denied by
 > default. Hiding a control is never the enforcement.
@@ -15,16 +18,16 @@
 
 | # | Item | Requirement | Verification | Status |
 |---|---|---|---|---|
-| 1 | Customized Django admin; groups `admin`, `editor`, `viewer` | FR-D-01, FR-D-02 | tests | Open |
-| 2 | A fresh install exposes no `pending` content until roles are configured | FR-D-03 | SEC-13 | Open |
-| 3 | TOTP enforced for `admin`; single-use hashed recovery codes | SEC-04, SEC-05 | tests | Open |
-| 4 | Server-side sessions only, `httpOnly`/`Secure`/`SameSite`; no token anywhere; central revocation | SEC-02, SEC-03, SEC-08 | tests | Open |
-| 5 | Login lockout with exponential backoff; successful and failed logins audited | SEC-06, FR-D-10 | tests | Open |
-| 6 | Step-up re-auth before publish, role change, `site_settings` edit, legal action | FR-D-16, ADR 0013 | tests | Open |
-| 7 | Object-level authorization; `viewer` can never transition state | SEC-09, SEC-10, FR-D-05 | SEC tests | Open |
-| 8 | Append-only `audit_logs`, undeletable by any role including `admin` | FR-D-08, FR-D-09 | SEC-16 | Open |
-| 9 | Admin Spanish only; HTTPS only; `noindex` | FR-H-08, NFR-21 | inspection | Open |
-| 10 | First administrator created by a management command, never through the API | FR-D-14 | test | Open |
+| 1 | Customized Django admin; groups `admin`, `editor`, `viewer` | FR-D-01, FR-D-02 | tests | Done (08a) |
+| 2 | A fresh install exposes no `pending` content until roles are configured | FR-D-03 | SEC-13 | Open — 08b |
+| 3 | TOTP enforced for `admin`; single-use hashed recovery codes | SEC-04, SEC-05 | tests | TOTP Done (08a); hashed codes carried (SEC-05) |
+| 4 | Server-side sessions only, `httpOnly`/`Secure`/`SameSite`; no token anywhere; central revocation | SEC-02, SEC-03, SEC-08 | tests | Done (08a) |
+| 5 | Login lockout with exponential backoff; successful and failed logins audited | SEC-06, FR-D-10 | tests | Done (08a) |
+| 6 | Step-up re-auth before publish, role change, `site_settings` edit, legal action | FR-D-16, ADR 0013 | tests | Done (08a) |
+| 7 | Object-level authorization; `viewer` can never transition state | SEC-09, SEC-10, FR-D-05 | SEC tests | Open — 08b |
+| 8 | Append-only `audit_logs`, undeletable by any role including `admin` | FR-D-08, FR-D-09 | SEC-16 | Done (08a, app-level); DB trigger carried |
+| 9 | Admin Spanish only; HTTPS only; `noindex` | FR-H-08, NFR-21 | inspection | Done (08a) except HTTPS at deploy |
+| 10 | First administrator created by a management command, never through the API | FR-D-14 | test | Done (08a) |
 
 ### Why the seed administrator is not a superuser
 

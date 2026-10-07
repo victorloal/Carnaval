@@ -58,12 +58,15 @@ INSTALLED_APPS = [
     "carnaval.programme",
     "carnaval.ingestion",
     "carnaval.api",
+    "carnaval.accounts",
+    "carnaval.audit",
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     # CORS must run early; the strict CSP is applied by our own middleware.
     "corsheaders.middleware.CorsMiddleware",
+    "carnaval.accounts.middleware.RequestContextMiddleware",
     "carnaval.core.middleware.ContentSecurityPolicyMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -71,6 +74,10 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     # ADR 0005: must follow AuthenticationMiddleware (django-otp docs).
     "django_otp.middleware.OTPMiddleware",
+    "carnaval.accounts.middleware.AbsoluteSessionMiddleware",
+    "carnaval.accounts.middleware.AdminTOTPRequiredMiddleware",
+    "carnaval.accounts.middleware.AdminLocaleMiddleware",
+    "carnaval.accounts.middleware.NoIndexAdminMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
@@ -174,6 +181,23 @@ CORS_ALLOWED_ORIGINS = [
     origin.strip() for origin in _cors_origins.split(",") if origin.strip()
 ]
 
+# Accounts, sessions and second factors (ADR 0005, 0013; FR-D-15/16).
+AUTHENTICATION_BACKENDS = ["carnaval.accounts.backends.ThrottledModelBackend"]
+# 12 h idle window, sliding because the session is saved on every request.
+SESSION_COOKIE_AGE = 12 * 60 * 60
+SESSION_SAVE_EVERY_REQUEST = True
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+# The 72 h absolute cap is enforced by AbsoluteSessionMiddleware.
+SESSION_ABSOLUTE_AGE = 72 * 60 * 60
+STEPUP_AGE_SECONDS = 15 * 60
+OTP_TOTP_ISSUER = "Carnaval de Pasto"
+# The salt that makes an IP hash non-brute-forceable (PRV-01/02). Falls back to
+# SECRET_KEY, which is itself a server-side secret and never in the tree.
+PRIVACY_IP_SALT = os.environ.get("PRIVACY_IP_SALT", SECRET_KEY)
+LOGIN_THROTTLE_THRESHOLD = int(os.environ.get("LOGIN_THROTTLE_THRESHOLD", "5"))
+LOGIN_THROTTLE_BASE_SECONDS = int(os.environ.get("LOGIN_THROTTLE_BASE_SECONDS", "60"))
+LOGIN_THROTTLE_MAX_SECONDS = int(os.environ.get("LOGIN_THROTTLE_MAX_SECONDS", "3600"))
+
 # Logging (NFR-19): console only. Nothing that carries a secret, a raw IP or a
 # session identifier is ever handed to it.
 LOGGING = {
@@ -187,7 +211,8 @@ LOGGING = {
 }
 
 
-# Internationalization
+# Internationalization. The **API surface stays English** (AGENTS.md); the admin
+# is Spanish only (FR-H-08), which AdminLocaleMiddleware forces for `/admin/`.
 LANGUAGE_CODE = "en-us"
 TIME_ZONE = "UTC"
 USE_I18N = True

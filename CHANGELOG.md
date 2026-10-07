@@ -193,6 +193,25 @@ Phase 0 (documentation) is **closed**. No deployed version yet — see the statu
   stages (docker compose + Playwright, Lighthouse, axe, dependency audit) and the
   dependency-triage process. See `docs/sprints/sprint-07-retrospectiva.md`.
 
+### Added — Sprint 08a: identity and audit (2026-10-06)
+
+- A `carnaval.accounts` app: the `admin`/`editor`/`viewer` groups with their permissions
+  (`seed_roles`), `seed_admin` creating a staff user in `admin` and **never** a superuser
+  (FR-D-01/02/06/07/14, FR-D-13), TOTP for administrators (`enrol_totp`, an OTP-aware admin
+  login form and an enforcement middleware), central session revocation, a step-up page and
+  gate (FR-D-16), and a login throttle with exponential backoff behind a custom auth backend
+  (SEC-06, FR-D-10). Sessions use a 12 h idle window and a 72 h absolute cap enforced in
+  middleware (SEC-02/03/08).
+- A `carnaval.audit` app: an append-only `AuditLog` (app-level `save`/`delete` guards, an
+  append-only manager and no add/change/delete permission) with `login`/`login_failed`
+  signals and a read-only admin (FR-D-08/09/10).
+- Middleware adds a correlation id and a **salted IP hash** (PRV-01), forces Spanish on the
+  admin while the API surface stays English (FR-H-08), and sets `noindex` on the console
+  (NFR-21).
+- Carried and named: **08b** (FR-D-03, object-level authorization), hashed recovery codes
+  (SEC-05 — `django-otp` stores them in plain text), the PostgreSQL append-only trigger, and
+  the explicit session-expiry test (FR-D-15).
+
 ### Added — forward sprint plans (2026-10-06)
 
 - `docs/sprints/sprint-03-plan.md` … `sprint-17-plan.md` — the planned path from the extractor
