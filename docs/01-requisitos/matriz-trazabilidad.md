@@ -140,7 +140,7 @@ no requirement should be deleted.
 | FR-F-10 | US-22 | modelo-datos §6.3 | 0006 | T | **SEC-29** | Done |
 | FR-F-11 | US-23 | modelo-datos §6.3 | 0006 | T | **SEC-28** | Done |
 | FR-F-12 | US-22 | modelo-datos §8 | 0006 | T | **SEC-32** | Done |
-| FR-F-13 | US-23 | modelo-datos §6.1 | 0006 | T | form: declaration fields | Open |
+| FR-F-13 | US-23 | modelo-datos §6.1 | 0006 | T | form: declaration fields | Done |
 | FR-F-14 | US-23 | modelo-datos §6.3 | 0006 | T | form: consent declaration | Done |
 | FR-F-15 | US-26 | modelo-datos §4.2 | 0004 | T | **SEC-31** | Done |
 | FR-F-16 | US-22 | modelo-datos §6.2 | 0006 | T | **SEC-22** | Done |
@@ -269,12 +269,12 @@ no requirement should be deleted.
 
 | Group | Count | Done | Open | Blocked |
 |---|---|---|---|---|
-| FR-A … FR-I (functional) | 114 | 96 | 18 | 0 |
+| FR-A … FR-I (functional) | 114 | 97 | 17 | 0 |
 | NFR | 21 | 14 | 7 | 0 |
 | SEC | 16 | 11 | 5 | 0 |
 | PRV | 9 | 6 | 2 | 0 |
 | LEG | 10 | 5 | 5 | 0 |
-| **Total** | **170** | **132** | **37** | **0** |
+| **Total** | **170** | **133** | **36** | **0** |
 
 **Done** means the row's verification was performed and recorded. **Open** is the honest
 default for a row whose verification has not run — most of them need a deployment, a

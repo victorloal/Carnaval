@@ -86,6 +86,18 @@ export interface SearchResponse {
   news: SearchNews[];
 }
 
+export type SubmissionKind = "image" | "video_link";
+
+export interface SubmissionCreated {
+  token: string;
+  status: string;
+}
+
+export interface SubmissionStatus {
+  status: string;
+  rejection_reason: string;
+}
+
 export interface Paginated<T> {
   count: number;
   next: string | null;

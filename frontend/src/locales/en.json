@@ -10,6 +10,7 @@
     "news": "News",
     "gallery": "Gallery",
     "search": "Search",
+    "submit": "Submit",
     "locale": {
       "es": "Español",
       "en": "English"
@@ -38,5 +39,39 @@
     "empty": "No results.",
     "events": "Events",
     "news": "News"
+  },
+  "submit": {
+    "heading": "Submit a photo or a video",
+    "intro": "Your submission is reviewed before it is published. An image stays private until it is approved.",
+    "kind": "Kind",
+    "image": "Image",
+    "video": "Video link",
+    "file": "File (JPEG, PNG or WebP, up to 5 MB)",
+    "videoUrl": "YouTube or Vimeo link",
+    "author": "Author",
+    "year": "Approximate year",
+    "place": "Place",
+    "description": "Description",
+    "minor": "The image features a minor as its main subject",
+    "rights": "I declare that I am the author or that I have permission to share this.",
+    "consent": "I have read the notice and accept that the text is a draft not reviewed by a lawyer.",
+    "submit": "Submit",
+    "submitting": "Submitting…",
+    "created": "Submission received. Keep this token:",
+    "checkStatus": "Check the status",
+    "declarationsRequired": "Tick both declarations to continue.",
+    "error": "The submission could not be sent. Check the details and try again."
+  },
+  "status": {
+    "heading": "Submission status",
+    "prompt": "Open this page with your submission token.",
+    "loading": "Checking…",
+    "notFound": "That token was not found.",
+    "reason": "Reason",
+    "states": {
+      "pending": "Awaiting review",
+      "published": "Approved",
+      "rejected": "Rejected"
+    }
   }
 }

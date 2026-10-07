@@ -811,6 +811,11 @@ components:
             maxLength: 0
         author:
           type: string
+        year:
+          type: integer
+          nullable: true
+        place:
+          type: string
         description:
           type: string
         minor_subject:

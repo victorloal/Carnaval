@@ -12,6 +12,8 @@ class SubmissionSubmitSerializer(serializers.Serializer[object]):
     rights = serializers.BooleanField()
     video_url = serializers.URLField(required=False, allow_blank=True)
     author = serializers.CharField(required=False, allow_blank=True)
+    year = serializers.IntegerField(required=False, allow_null=True)
+    place = serializers.CharField(required=False, allow_blank=True)
     description = serializers.CharField(required=False, allow_blank=True)
     minor_subject = serializers.BooleanField(required=False)
     captcha = serializers.CharField(required=False, allow_blank=True)

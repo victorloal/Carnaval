@@ -106,6 +106,46 @@ body {
   font-style: italic;
 }
 
+.submission-form {
+  display: grid;
+  gap: 0.75rem;
+  max-width: 40rem;
+}
+
+.submission-form label {
+  display: block;
+}
+
+.submission-form input[type="text"],
+.submission-form input[type="url"],
+.submission-form input[type="number"],
+.submission-form textarea {
+  display: block;
+  width: 100%;
+}
+
+.submission-form .checkbox {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+}
+
+.honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.form-error {
+  color: #b00020;
+}
+
+.status-value {
+  font-weight: 600;
+}
+
 .disclaimer {
   margin-top: 2rem;
   border-top: 1px solid currentColor;

@@ -33,6 +33,10 @@ describe("SiteNav", () => {
       "href",
       "/es/search",
     );
+    expect(screen.getByRole("link", { name: "Enviar" })).toHaveAttribute(
+      "href",
+      "/es/submit",
+    );
   });
 
   it("switches locale without dropping the page", () => {

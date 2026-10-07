@@ -10,6 +10,7 @@
     "news": "Noticias",
     "gallery": "Galería",
     "search": "Buscar",
+    "submit": "Enviar",
     "locale": {
       "es": "Español",
       "en": "English"
@@ -38,5 +39,39 @@
     "empty": "Sin resultados.",
     "events": "Eventos",
     "news": "Noticias"
+  },
+  "submit": {
+    "heading": "Enviar una foto o un vídeo",
+    "intro": "Tu envío se revisa antes de publicarse. La imagen se guarda en privado hasta que se apruebe.",
+    "kind": "Tipo",
+    "image": "Imagen",
+    "video": "Enlace de vídeo",
+    "file": "Archivo (JPEG, PNG o WebP, máximo 5 MB)",
+    "videoUrl": "Enlace de YouTube o Vimeo",
+    "author": "Autoría",
+    "year": "Año aproximado",
+    "place": "Lugar",
+    "description": "Descripción",
+    "minor": "En la imagen hay un menor como sujeto principal",
+    "rights": "Declaro que soy el autor o tengo permiso para compartir esto.",
+    "consent": "He leído el aviso y acepto que el texto es un borrador sin revisar por un abogado.",
+    "submit": "Enviar",
+    "submitting": "Enviando…",
+    "created": "Envío recibido. Guarda este testigo:",
+    "checkStatus": "Comprobar el estado",
+    "declarationsRequired": "Marca las dos declaraciones para continuar.",
+    "error": "No se pudo enviar. Revisa los datos e inténtalo de nuevo."
+  },
+  "status": {
+    "heading": "Estado del envío",
+    "prompt": "Abre esta página con el testigo de tu envío.",
+    "loading": "Comprobando…",
+    "notFound": "No se encontró ese testigo.",
+    "reason": "Motivo",
+    "states": {
+      "pending": "Pendiente de revisión",
+      "published": "Aprobado",
+      "rejected": "Rechazado"
+    }
   }
 }

@@ -32,6 +32,9 @@ export function SiteNav({
         <li>
           <Link to={localePath(locale, "search")}>{t("nav.search")}</Link>
         </li>
+        <li>
+          <Link to={localePath(locale, "submit")}>{t("nav.submit")}</Link>
+        </li>
       </ul>
       <ul className="locale-switcher">
         {SUPPORTED_LOCALES.map((candidate) => (

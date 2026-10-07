@@ -75,6 +75,22 @@ Phase 0 (documentation) is **closed**. No deployed version yet — see the statu
 - The matrix's **Blocked** row disappears: **132 Done / 37 Open / 0 blocked**. This decision is
   conditional on scale and must be revisited before any commercial use.
 
+### Added — Sprint 19: the public submission form (2026-10-07)
+
+- The anonymous submission form: an **image** or a **video link**, no account (FR-F-01/02).
+  The rights and consent declarations are **unchecked by default and blocking** (FR-F-10/14),
+  and the consent label states that the accepted text is an unreviewed draft (ADR 0016/0018).
+- Declaration fields are collected and stored — author, year, place, description (FR-F-13).
+  **`POST /api/submissions/` was ignoring `year` and `place`**; the view now reads them (a
+  non-numeric year is stored as absent, never guessed) and the serializer documents them.
+- A **honeypot** field mirrors the server's silent no-op (FR-F-17), and the token returned can
+  be used to look the submission up (FR-F-18).
+- 135 backend tests (was 133) and 33 frontend tests (was 27). FR-F-13 → Done; matrix at
+  **133 Done / 36 Open / 0 blocked**.
+- Carried, with reasons: the Turnstile provider (needs keys; the CAPTCHA is off by default and
+  the honeypot and quotas still apply), signed-URL transfer (SEC-13) and consent-gated video
+  embeds (PRV-08), both needing their own feature.
+
 
 
 ### Added — project scaffolding

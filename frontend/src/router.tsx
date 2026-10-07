@@ -5,6 +5,8 @@ import { GalleryPage } from "./pages/GalleryPage";
 import { NewsPage } from "./pages/NewsPage";
 import { ProgrammePage } from "./pages/ProgrammePage";
 import { SearchPage } from "./pages/SearchPage";
+import { StatusPage } from "./pages/StatusPage";
+import { SubmitPage } from "./pages/SubmitPage";
 import { redirectTarget } from "./lib/locale";
 
 /** The unprefixed root redirects to the negotiated locale (FR-H-04). */
@@ -24,6 +26,8 @@ export const router = createBrowserRouter([
       { path: "news", element: <NewsPage /> },
       { path: "gallery", element: <GalleryPage /> },
       { path: "search", element: <SearchPage /> },
+      { path: "submit", element: <SubmitPage /> },
+      { path: "status", element: <StatusPage /> },
     ],
   },
 ]);

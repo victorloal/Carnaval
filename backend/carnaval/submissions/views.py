@@ -51,6 +51,15 @@ def _bad(detail: str, code: int = status.HTTP_400_BAD_REQUEST) -> Response:
     return Response({"detail": detail}, status=code)
 
 
+def _optional_year(value: object) -> int | None:
+    """The declared year, if it parses to a plausible value (FR-F-13)."""
+    try:
+        year = int(str(value))
+    except (TypeError, ValueError):
+        return None
+    return year if 1800 <= year <= 2200 else None
+
+
 @extend_schema(
     request=SubmissionSubmitSerializer,
     responses={201: SubmissionCreatedSerializer},
@@ -89,6 +98,8 @@ def submit(request: Request) -> Response:
             video_provider=provider,
             video_id=video_id,
             declared_author=str(request.data.get("author", "")),
+            declared_year=_optional_year(request.data.get("year")),
+            declared_place=str(request.data.get("place", "")),
             description_es=str(request.data.get("description", "")),
         )
     elif kind == SubmissionKind.IMAGE:
@@ -116,6 +127,8 @@ def submit(request: Request) -> Response:
         submission = Submission.objects.create(
             kind=SubmissionKind.IMAGE,
             declared_author=str(request.data.get("author", "")),
+            declared_year=_optional_year(request.data.get("year")),
+            declared_place=str(request.data.get("place", "")),
             description_es=str(request.data.get("description", "")),
         )
         SubmissionFile.objects.create(

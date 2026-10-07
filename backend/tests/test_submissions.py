@@ -322,3 +322,49 @@ def test_personal_submission_data_is_not_cacheable() -> None:
     cache_control = found.headers["Cache-Control"]
     assert "no-store" in cache_control  # noqa: S101
     assert "private" in cache_control  # noqa: S101
+
+
+def test_the_form_declaration_fields_are_stored() -> None:
+    created = (
+        APIClient()
+        .post(
+            "/api/submissions/",
+            {
+                "kind": "video_link",
+                "video_url": "https://vimeo.com/1",
+                "rights": True,
+                "author": "A. Photographer",
+                "year": "1975",
+                "place": "Pasto",
+                "description": "Desfile",
+            },
+            format="json",
+        )
+        .json()
+    )
+    submission = Submission.objects.get(public_token=created["token"])
+
+    assert submission.declared_author == "A. Photographer"  # noqa: S101
+    assert submission.declared_year == 1975  # noqa: S101
+    assert submission.declared_place == "Pasto"  # noqa: S101
+    assert submission.description_es == "Desfile"  # noqa: S101
+
+
+def test_a_nonsense_year_is_ignored_rather_than_stored() -> None:
+    created = (
+        APIClient()
+        .post(
+            "/api/submissions/",
+            {
+                "kind": "video_link",
+                "video_url": "https://vimeo.com/1",
+                "rights": True,
+                "year": "not a year",
+            },
+            format="json",
+        )
+        .json()
+    )
+    submission = Submission.objects.get(public_token=created["token"])
+
+    assert submission.declared_year is None  # noqa: S101
